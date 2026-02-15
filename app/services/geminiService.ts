@@ -107,8 +107,8 @@ export const generateStoryForPage = async (
   language: string
 ): Promise<string> => {
   const ai = getClient();
-  // Using flash for text is faster and cheaper
-  const model = 'gemini-2.5-flash'; 
+  // Using gemini-3-flash-preview for basic text tasks
+  const model = 'gemini-3-flash-preview'; 
   
   const prompt = `Write a single, very short, simple, and engaging sentence for a children's book.
   Theme: ${theme}
@@ -147,8 +147,4 @@ export const sendMessageToChat = async (chat: Chat, message: string): Promise<st
     console.error("Chat error:", error);
     return "Sorry, I had trouble connecting to the creative center. Please try again.";
   }
-};
-export const setCustomApiKey = (key: string | null) => {
-    // Deprecated/Removed functionality to comply with security guidelines
-    console.warn("Manual API key setting is deprecated.");
 };

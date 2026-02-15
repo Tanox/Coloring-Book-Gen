@@ -1,4 +1,4 @@
-/* App.tsx v0.2.2 */
+/* App.tsx v0.2.3 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GeneratedPage, GenerationConfig, ArtStyle, BookHistoryItem } from './app/types';
 import { generateColoringPage, checkApiKeySelection, promptApiKeySelection, generateStoryForPage } from './app/services/geminiService';
@@ -15,7 +15,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.2.2';
+const APP_VERSION = 'v0.2.3';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();
@@ -302,8 +302,6 @@ const App: React.FC = () => {
         onClose={() => setIsSettingsOpen(false)} 
         hasApiKey={hasApiKey}
         onSelectApiKey={handleApiKeySelection}
-        customKey={""} // deprecated
-        onCustomKeyChange={() => {}} // deprecated
       />
 
       {/* Coloring Canvas */}

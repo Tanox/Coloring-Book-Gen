@@ -1,4 +1,4 @@
-/* components/SettingsModal.tsx v1.1.1 */
+/* components/SettingsModal.tsx v1.1.2 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -9,17 +9,13 @@ interface SettingsModalProps {
   onClose: () => void;
   hasApiKey: boolean;
   onSelectApiKey: () => void;
-  customKey: string;
-  onCustomKeyChange: (key: string) => void;
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ 
   isOpen, 
   onClose, 
   hasApiKey, 
-  onSelectApiKey,
-  customKey, // Deprecated prop
-  onCustomKeyChange // Deprecated prop
+  onSelectApiKey
 }) => {
   const { t, language, setLanguage, dir } = useLanguage();
   const { theme, toggleTheme } = useTheme();
