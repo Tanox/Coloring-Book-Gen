@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ColorMyWorld - AI Coloring Book Generator</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="A creative tool to generate personalized children's coloring books using AI. Enter a theme and a child's name to create unique, printable pages." />
+    <meta name="keywords" content="coloring book, ai generator, children, kids, activities, printable, creative, art, gemini ai, personalized book" />
+    <meta name="author" content="Sut" />
+    <meta name="theme-color" content="#4f46e5">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://github.com/sutchan/colormyworld" />
+    <meta property="og:title" content="ColorMyWorld - AI Coloring Book Generator" />
+    <meta property="og:description" content="A creative tool to generate personalized children's coloring books using AI. Enter a theme and a child's name to create unique, printable pages." />
+    <meta property="og:image" content="https://raw.githubusercontent.com/sutchan/colormyworld/main/public/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://github.com/sutchan/colormyworld" />
+    <meta property="twitter:title" content="ColorMyWorld - AI Coloring Book Generator" />
+    <meta property="twitter:description" content="A creative tool to generate personalized children's coloring books using AI. Enter a theme and a child's name to create unique, printable pages." />
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/sutchan/colormyworld/main/public/og-image.png" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              comic: ['"Comic Neue"', 'cursive'],
+              sans: ['Inter', 'sans-serif'],
+            },
+            keyframes: {
+              'fade-in-up': {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              'slide-in-right': {
+                '0%': { transform: 'translateX(100%)' },
+                '100%': { transform: 'translateX(0)' },
+              },
+              'slide-in-up': {
+                '0%': { opacity: '0', transform: 'translateY(50px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              }
+            },
+            animation: {
+              'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+              'slide-in-right': 'slide-in-right 0.3s ease-out forwards',
+              'slide-in-up': 'slide-in-up 0.4s ease-out forwards',
+            }
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .font-comic {
+        font-family: 'Comic Neue', cursive;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "jspdf": "https://esm.sh/jspdf@^4.1.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-slate-50 text-slate-900 transition-colors duration-200 dark:bg-slate-900 dark:text-white">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

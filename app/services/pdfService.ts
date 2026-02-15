@@ -1,0 +1,120 @@
+/* services/pdfService.ts v1.1.1 */
+import { jsPDF } from "jspdf";
+import { GeneratedPage } from "../types";
+import { getCachedFont, cacheFont } from "./storageService";
+
+// Using Noto Sans SC via JsDelivr for better global CDN performance
+const FONT_URL = "https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.0.18/files/noto-sans-sc-latin-400-normal.woff";
+const FONT_NAME = "CustomFont.ttf";
+
+export const generateBookPDF = async (
+  pages: GeneratedPage[], 
+  title: string, 
+  author: string,
+  footerTemplate: string = "Page {page} - {theme} for {name}"
+): Promise<void> => {
+  const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4"
+  });
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margin = 10;
+  const contentWidth = pageWidth - (margin * 2);
+  const contentHeight = pageHeight - (margin * 2);
+
+  // 1. Load Font (Cache Strategy)
+  try {
+    let fontBase64 = await getCachedFont(FONT_NAME);
+    
+    if (!fontBase64) {
+      console.log("Downloading font...");
+      const response = await fetch(FONT_URL);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const blob = await response.blob();
+      
+      const reader = new FileReader();
+      fontBase64 = await new Promise((resolve, reject) => {
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+      });
+
+      if (fontBase64) {
+          // Remove data:application/font-woff;base64, prefix if present for proper storage if desired,
+          // but jsPDF addFileToVFS expects clean base64 string usually (after comma).
+          // Reader result includes prefix.
+          await cacheFont(FONT_NAME, fontBase64 as string);
+      }
+    } else {
+        console.log("Using cached font.");
+    }
+
+    if (fontBase64) {
+        const cleanBase64 = (fontBase64 as string).split(',')[1];
+        doc.addFileToVFS(FONT_NAME, cleanBase64);
+        doc.addFont(FONT_NAME, "CustomFont", "normal");
+        doc.setFont("CustomFont");
+    }
+  } catch (e) {
+    console.warn("Failed to load custom font. Fallback to standard.", e);
+  }
+
+  const safeTitle = title.replace(/[^\w\s\u4e00-\u9fa5]/gi, '').replace(/\s+/g, '_');
+
+  pages.forEach((page, index) => {
+    if (index > 0) {
+      doc.addPage();
+    }
+
+    if (index === 0) {
+      // --- COVER PAGE ---
+      doc.setFontSize(28); 
+      doc.setTextColor(0, 0, 0);
+      const splitTitle = doc.splitTextToSize(title, contentWidth);
+      doc.text(splitTitle, pageWidth / 2, 40, { align: "center" });
+
+      const titleHeight = splitTitle.length * 12; 
+      const imageStartY = 45 + titleHeight;
+      const availableHeight = pageHeight - imageStartY - 40; 
+
+      doc.addImage(page.imageUrl, "PNG", margin, imageStartY, contentWidth, availableHeight, undefined, 'FAST');
+
+      doc.setFontSize(16);
+      doc.setTextColor(60, 60, 60); 
+      doc.text(`For ${author}`, pageWidth / 2, pageHeight - 20, { align: "center" });
+
+    } else {
+      // --- CONTENT PAGE ---
+      // Image
+      // If story text exists, reserve space at bottom
+      const storyHeight = page.storyText ? 30 : 0;
+      const displayHeight = contentHeight - storyHeight;
+
+      doc.addImage(page.imageUrl, "PNG", margin, margin, contentWidth, displayHeight, undefined, 'FAST');
+      
+      // Story Text
+      if (page.storyText) {
+          doc.setFontSize(14);
+          doc.setTextColor(0, 0, 0);
+          const splitStory = doc.splitTextToSize(page.storyText, contentWidth - 20);
+          const storyY = margin + displayHeight + 10;
+          doc.text(splitStory, pageWidth / 2, storyY, { align: "center" });
+      }
+
+      // Footer (Page Number)
+      const footerText = footerTemplate
+        .replace('{page}', String(index)) 
+        .replace('{theme}', title)
+        .replace('{name}', author);
+
+      doc.setFontSize(9);
+      doc.setTextColor(150);
+      doc.text(footerText, pageWidth / 2, pageHeight - 5, { align: "center" });
+    }
+  });
+
+  doc.save(`${safeTitle || 'Coloring_Book'}.pdf`);
+};
