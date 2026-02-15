@@ -1,4 +1,4 @@
-/* App.tsx v0.2.3 */
+/* App.tsx v0.2.4 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GeneratedPage, GenerationConfig, ArtStyle, BookHistoryItem } from './app/types';
 import { generateColoringPage, checkApiKeySelection, promptApiKeySelection, generateStoryForPage } from './app/services/geminiService';
@@ -15,7 +15,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.2.3';
+const APP_VERSION = 'v0.2.4';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();
@@ -36,6 +36,7 @@ const App: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [hasApiKey, setHasApiKey] = useState(false);
+  const [customKey, setCustomKey] = useState('');
   const [currentBookId, setCurrentBookId] = useState<string | null>(null);
   
   // History & Sidebar
@@ -47,8 +48,17 @@ const App: React.FC = () => {
 
   // Initial load
   useEffect(() => {
-    checkApiKeySelection().then(setHasApiKey);
-    loadHistory();
+    const init = async () => {
+        // Check for injected env key OR local storage key
+        const envSelected = await checkApiKeySelection();
+        const localKey = localStorage.getItem('gemini_api_key');
+        
+        if (localKey) setCustomKey(localKey);
+        setHasApiKey(envSelected || !!localKey);
+        
+        loadHistory();
+    };
+    init();
   }, []);
 
   const loadHistory = async () => {
@@ -61,6 +71,18 @@ const App: React.FC = () => {
     // After selection, re-check
     const selected = await checkApiKeySelection();
     setHasApiKey(selected);
+  };
+
+  const handleCustomKeyChange = (key: string) => {
+    setCustomKey(key);
+    if (key.trim().length > 0) {
+      localStorage.setItem('gemini_api_key', key);
+      setHasApiKey(true);
+    } else {
+      localStorage.removeItem('gemini_api_key');
+      // Re-check env var availability
+      checkApiKeySelection().then(setHasApiKey);
+    }
   };
 
   // Helper to generate a single page (used for initial gen and regeneration)
@@ -204,7 +226,7 @@ const App: React.FC = () => {
       const msg = error?.message || "";
       if (msg.includes("429") || msg.includes("RESOURCE_EXHAUSTED")) {
          alert(t('errorRateLimit'));
-      } else if (msg.includes("403") || msg.includes("PERMISSION_DENIED")) {
+      } else if (msg.includes("403") || msg.includes("PERMISSION_DENIED") || msg.includes("API key not valid")) {
          alert(t('errorPermission'));
          setIsSettingsOpen(true); 
       } else {
@@ -302,6 +324,8 @@ const App: React.FC = () => {
         onClose={() => setIsSettingsOpen(false)} 
         hasApiKey={hasApiKey}
         onSelectApiKey={handleApiKeySelection}
+        customKey={customKey}
+        onCustomKeyChange={handleCustomKeyChange}
       />
 
       {/* Coloring Canvas */}

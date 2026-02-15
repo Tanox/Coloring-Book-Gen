@@ -44,8 +44,11 @@ const getClient = () => {
     envKey = localStorage.getItem('gemini_api_key') || '';
   }
 
+  // FIX: If no key is found, use a placeholder to prevent "ApiError: API key must be set" 
+  // which crashes the app on startup (e.g. ChatBot init).
+  // The actual API calls will fail gracefully with 403/Invalid Key later.
   if (!envKey) {
-      console.warn("No API Key found. API calls will fail unless configured.");
+      envKey = "PLACEHOLDER_KEY_TO_PREVENT_CRASH";
   }
 
   return new GoogleGenAI({ apiKey: envKey });

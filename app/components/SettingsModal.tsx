@@ -1,5 +1,5 @@
-/* components/SettingsModal.tsx v1.1.2 */
-import React from 'react';
+/* components/SettingsModal.tsx v1.2.0 */
+import React, { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { Language } from '../types';
@@ -9,16 +9,21 @@ interface SettingsModalProps {
   onClose: () => void;
   hasApiKey: boolean;
   onSelectApiKey: () => void;
+  customKey: string;
+  onCustomKeyChange: (key: string) => void;
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ 
   isOpen, 
   onClose, 
   hasApiKey, 
-  onSelectApiKey
+  onSelectApiKey,
+  customKey,
+  onCustomKeyChange
 }) => {
   const { t, language, setLanguage, dir } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const [showKey, setShowKey] = useState(false);
 
   if (!isOpen) return null;
 
@@ -29,9 +34,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
         onClick={onClose}
       />
       
-      <div className="relative bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden animate-fade-in-up transition-colors duration-200 border-4 border-white dark:border-slate-700">
+      <div className="relative bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden animate-fade-in-up transition-colors duration-200 border-4 border-white dark:border-slate-700 max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="bg-amber-100 dark:bg-slate-900 px-10 py-6 border-b border-amber-200 dark:border-slate-700 flex items-center justify-between">
+        <div className="bg-amber-100 dark:bg-slate-900 px-10 py-6 border-b border-amber-200 dark:border-slate-700 flex items-center justify-between sticky top-0 z-10">
           <h3 className="text-3xl font-extrabold text-amber-800 dark:text-amber-100 flex items-center gap-3">
             ⚙️ {t('settingsTitle')}
           </h3>
@@ -116,7 +121,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                </p>
 
                {/* Button Selection */}
-               <div className="flex gap-4 mb-2">
+               <div className="flex gap-4 mb-6">
                  <button
                     onClick={onSelectApiKey}
                     className="flex-1 bg-white dark:bg-slate-800 border-2 border-indigo-200 dark:border-indigo-900 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 py-4 px-4 rounded-2xl text-base font-bold transition-all shadow-sm active:translate-y-0.5"
@@ -135,11 +140,38 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                      </svg>
                  </a>
                </div>
+
+               {/* Divider */}
+               <div className="relative flex py-2 items-center mb-6">
+                    <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+                    <span className="flex-shrink-0 mx-4 text-slate-400 text-sm font-bold">{t('or')}</span>
+                    <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+               </div>
+
+               {/* Manual Input */}
+               <div>
+                  <label className="block text-sm font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase">{t('manualKeyTitle')}</label>
+                  <div className="relative">
+                      <input
+                        type={showKey ? "text" : "password"}
+                        value={customKey}
+                        onChange={(e) => onCustomKeyChange(e.target.value)}
+                        placeholder={t('manualKeyPlaceholder')}
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 focus:ring-4 focus:ring-indigo-100 dark:focus:ring-indigo-900 focus:border-indigo-400 outline-none transition-all pr-24"
+                      />
+                      <button
+                        onClick={() => setShowKey(!showKey)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-indigo-500 hover:text-indigo-700 dark:text-indigo-400"
+                      >
+                        {showKey ? t('hideKey') : t('showKey')}
+                      </button>
+                  </div>
+               </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="bg-slate-50 dark:bg-slate-900 px-10 py-6 border-t border-slate-200 dark:border-slate-700 flex justify-end">
+        <div className="bg-slate-50 dark:bg-slate-900 px-10 py-6 border-t border-slate-200 dark:border-slate-700 flex justify-end sticky bottom-0 z-10">
            <button 
              onClick={onClose}
              className="bg-indigo-600 text-white px-10 py-4 rounded-2xl text-lg font-bold hover:bg-indigo-700 transition-all shadow-[0_4px_0_rgb(55,48,163)] active:shadow-none active:translate-y-[4px]"
