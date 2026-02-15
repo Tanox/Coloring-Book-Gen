@@ -39,8 +39,8 @@
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/sutchan/colormyworld.git
-    cd colormyworld
+    git clone https://github.com/sutchan/Coloring-Book-Gen.git
+    cd Coloring-Book-Gen
     ```
 
 2.  **Configuration**
@@ -53,7 +53,7 @@
 
 ### 📄 License
 
-This project is open source.
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ---
 
@@ -86,8 +86,8 @@ This project is open source.
 
 1.  **克隆仓库**
     ```bash
-    git clone https://github.com/sutchan/colormyworld.git
-    cd colormyworld
+    git clone https://github.com/sutchan/Coloring-Book-Gen.git
+    cd Coloring-Book-Gen
     ```
 
 2.  **配置**
@@ -100,7 +100,7 @@ This project is open source.
 
 ### 📄 许可证
 
-本项目开源。
+本项目采用 [GNU General Public License v3.0](LICENSE) 许可证授权。
 
 ---
 

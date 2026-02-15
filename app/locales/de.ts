@@ -1,4 +1,4 @@
-/* app/locales/de.ts v1.0.0 */
+/* app/locales/de.ts v1.1.0 */
 export const de = {
   appTitle: "MalMeineWelt",
   selectKey: "API Key wählen",
@@ -31,6 +31,8 @@ export const de = {
   chatGreeting: "Hallo! Brauchst du Ideen?",
   chatPlaceholder: "Frag mich was...",
   chatThinking: "Nachdenken...",
+  chatErrorConn: "Entschuldigung, Verbindungsproblem. Prüfe den API-Key.",
+  chatResponseDefault: "Ich weiß nicht genau, was ich darauf antworten soll.",
   statusCover: "Cover für {name}...",
   statusPage: "Seite {current}/{total}: {theme}...",
   overlayTitle: "Magie...",
@@ -39,6 +41,7 @@ export const de = {
   errorPermission: "Zugriff verweigert. Prüfe den API-Key.",
   errorRateLimit: "Limit überschritten.",
   footerText: "Seite {page} - {theme} für {name}",
+  pdfFor: "Für {name}",
   settingsTitle: "Einstellungen",
   settingsLanguage: "Sprache",
   settingsTheme: "Aussehen",

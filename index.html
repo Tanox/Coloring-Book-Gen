@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GQWY647ZMG"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GQWY647ZMG');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ColorMyWorld - AI Coloring Book Generator</title>
@@ -13,17 +22,17 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://github.com/sutchan/colormyworld" />
+    <meta property="og:url" content="https://github.com/sutchan/Coloring-Book-Gen" />
     <meta property="og:title" content="ColorMyWorld - AI Coloring Book Generator" />
     <meta property="og:description" content="A creative tool to generate personalized children's coloring books using AI. Enter a theme and a child's name to create unique, printable pages." />
-    <meta property="og:image" content="https://raw.githubusercontent.com/sutchan/colormyworld/main/public/og-image.png" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/sutchan/Coloring-Book-Gen/main/public/og-image.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://github.com/sutchan/colormyworld" />
+    <meta property="twitter:url" content="https://github.com/sutchan/Coloring-Book-Gen" />
     <meta property="twitter:title" content="ColorMyWorld - AI Coloring Book Generator" />
     <meta property="twitter:description" content="A creative tool to generate personalized children's coloring books using AI. Enter a theme and a child's name to create unique, printable pages." />
-    <meta property="twitter:image" content="https://raw.githubusercontent.com/sutchan/colormyworld/main/public/og-image.png" />
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/sutchan/Coloring-Book-Gen/main/public/og-image.png" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -58,29 +67,6 @@
         }
       }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-      .font-comic {
-        font-family: 'Comic Neue', cursive;
-      }
-      #error-display {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: #ef4444;
-        color: white;
-        padding: 1rem;
-        z-index: 9999;
-        font-family: monospace;
-        font-size: 14px;
-        white-space: pre-wrap;
-      }
-    </style>
   <script type="importmap">
 {
   "imports": {

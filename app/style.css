@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.font-comic {
+  font-family: 'Comic Neue', cursive;
+}
+
+#error-display {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ef4444;
+  color: white;
+  padding: 1rem;
+  z-index: 9999;
+  font-family: monospace;
+  font-size: 14px;
+  white-space: pre-wrap;
+}

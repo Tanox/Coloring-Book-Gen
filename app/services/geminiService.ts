@@ -167,11 +167,7 @@ export const createChatSession = (systemInstruction?: string) => {
 };
 
 export const sendMessageToChat = async (chat: Chat, message: string): Promise<string> => {
-  try {
-    const response: GenerateContentResponse = await chat.sendMessage({ message });
-    return response.text || "I'm not sure how to respond to that.";
-  } catch (error) {
-    console.error("Chat error:", error);
-    return "Sorry, I had trouble connecting to the creative center. Please try again.";
-  }
+  // Let the component handle errors for localization
+  const response: GenerateContentResponse = await chat.sendMessage({ message });
+  return response.text || "";
 };

@@ -1,4 +1,4 @@
-/* app/locales/ru.ts v1.0.0 */
+/* app/locales/ru.ts v1.1.0 */
 export const ru = {
   appTitle: "ColorMyWorld",
   selectKey: "Выбрать API ключ",
@@ -31,6 +31,8 @@ export const ru = {
   chatGreeting: "Привет! Нужны идеи?",
   chatPlaceholder: "Спроси что угодно...",
   chatThinking: "Думаю...",
+  chatErrorConn: "Извините, ошибка подключения. Проверьте API ключ.",
+  chatResponseDefault: "Я не знаю, что ответить.",
   statusCover: "Обложка для {name}...",
   statusPage: "Стр {current}/{total}: {theme}...",
   overlayTitle: "Создание...",
@@ -39,6 +41,7 @@ export const ru = {
   errorPermission: "Доступ запрещен.",
   errorRateLimit: "Лимит исчерпан.",
   footerText: "Стр {page} - {theme} для {name}",
+  pdfFor: "Для {name}",
   settingsTitle: "Настройки",
   settingsLanguage: "Язык",
   settingsTheme: "Тема",

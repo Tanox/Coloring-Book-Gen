@@ -1,4 +1,4 @@
-/* app/locales/ko.ts v1.0.0 */
+/* app/locales/ko.ts v1.1.0 */
 export const ko = {
   appTitle: "ColorMyWorld",
   selectKey: "API 키 선택",
@@ -31,6 +31,8 @@ export const ko = {
   chatGreeting: "안녕하세요! 아이디어가 필요하신가요?",
   chatPlaceholder: "무엇이든 물어보세요...",
   chatThinking: "생각 중...",
+  chatErrorConn: "죄송합니다. 연결에 문제가 있습니다. API 키를 확인해 주세요.",
+  chatResponseDefault: "어떻게 대답해야 할지 모르겠어요.",
   statusCover: "{name} 표지...",
   statusPage: "{current}/{total} 페이지: {theme}...",
   overlayTitle: "마법 생성 중...",
@@ -39,6 +41,7 @@ export const ko = {
   errorPermission: "권한 거부됨.",
   errorRateLimit: "한도 초과.",
   footerText: "{page} 페이지 - {name} 어린이를 위한 {theme}",
+  pdfFor: "{name} 에게",
   settingsTitle: "설정",
   settingsLanguage: "언어",
   settingsTheme: "테마",

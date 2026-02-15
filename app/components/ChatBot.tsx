@@ -1,4 +1,4 @@
-/* components/ChatBot.tsx v2.2.0 */
+/* components/ChatBot.tsx v2.2.1 */
 import React, { useState, useEffect, useRef } from 'react';
 import { Chat } from "@google/genai";
 import { createChatSession, sendMessageToChat } from '../services/geminiService';
@@ -20,16 +20,20 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose }) => {
 
   // Reset chat when language changes to provide greeting in new language
   useEffect(() => {
-    chatSessionRef.current = createChatSession();
-    // Initial greeting in current language
-    setMessages([
-      {
-        id: 'init',
-        role: 'model',
-        text: t('chatGreeting'),
-        timestamp: Date.now()
-      }
-    ]);
+    try {
+      chatSessionRef.current = createChatSession();
+      // Initial greeting in current language
+      setMessages([
+        {
+          id: 'init',
+          role: 'model',
+          text: t('chatGreeting'),
+          timestamp: Date.now()
+        }
+      ]);
+    } catch (e) {
+      console.warn("Chat init failed (likely no key)", e);
+    }
   }, [language, t]);
 
   useEffect(() => {
@@ -37,7 +41,16 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose }) => {
   }, [messages]);
 
   const handleSend = async () => {
-    if (!input.trim() || !chatSessionRef.current) return;
+    if (!input.trim()) return;
+    
+    // If init failed earlier or lost, try recreate
+    if (!chatSessionRef.current) {
+        try {
+            chatSessionRef.current = createChatSession();
+        } catch (e) {
+            // will fail below
+        }
+    }
 
     const userMsg: ChatMessage = {
       id: Date.now().toString(),
@@ -51,16 +64,26 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose }) => {
     setIsLoading(true);
 
     try {
+      if (!chatSessionRef.current) throw new Error("No session");
       const responseText = await sendMessageToChat(chatSessionRef.current, userMsg.text);
+      const textToUse = responseText || t('chatResponseDefault');
+      
       const modelMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        text: responseText,
+        text: textToUse,
         timestamp: Date.now()
       };
       setMessages(prev => [...prev, modelMsg]);
     } catch (error) {
         console.error("Failed to send message", error);
+        const errorMsg: ChatMessage = {
+            id: (Date.now() + 1).toString(),
+            role: 'model',
+            text: t('chatErrorConn'),
+            timestamp: Date.now()
+        };
+        setMessages(prev => [...prev, errorMsg]);
     } finally {
       setIsLoading(false);
     }

@@ -1,4 +1,4 @@
-/* services/pdfService.ts v1.1.1 */
+/* services/pdfService.ts v1.2.1 */
 import { jsPDF } from "jspdf";
 import { GeneratedPage } from "../types";
 import { getCachedFont, cacheFont } from "./storageService";
@@ -10,8 +10,9 @@ const FONT_NAME = "CustomFont.ttf";
 export const generateBookPDF = async (
   pages: GeneratedPage[], 
   title: string, 
-  author: string,
-  footerTemplate: string = "Page {page} - {theme} for {name}"
+  authorName: string,
+  coverSubtitle: string,
+  footerTemplate: string
 ): Promise<void> => {
   const doc = new jsPDF({
     orientation: "portrait",
@@ -25,52 +26,40 @@ export const generateBookPDF = async (
   const contentWidth = pageWidth - (margin * 2);
   const contentHeight = pageHeight - (margin * 2);
 
-  // 1. Load Font (Cache Strategy)
+  // 1. Load Font
   try {
     let fontBase64 = await getCachedFont(FONT_NAME);
-    
     if (!fontBase64) {
-      console.log("Downloading font...");
       const response = await fetch(FONT_URL);
-      if (!response.ok) throw new Error("Network response was not ok");
-      const blob = await response.blob();
-      
-      const reader = new FileReader();
-      fontBase64 = await new Promise((resolve, reject) => {
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
-      });
-
-      if (fontBase64) {
-          // Remove data:application/font-woff;base64, prefix if present for proper storage if desired,
-          // but jsPDF addFileToVFS expects clean base64 string usually (after comma).
-          // Reader result includes prefix.
-          await cacheFont(FONT_NAME, fontBase64 as string);
+      if (response.ok) {
+        const blob = await response.blob();
+        const reader = new FileReader();
+        fontBase64 = await new Promise((resolve, reject) => {
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+        });
+        if (fontBase64) await cacheFont(FONT_NAME, fontBase64 as string);
       }
-    } else {
-        console.log("Using cached font.");
     }
-
     if (fontBase64) {
-        const cleanBase64 = (fontBase64 as string).split(',')[1];
+        const parts = (fontBase64 as string).split(',');
+        const cleanBase64 = parts.length > 1 ? parts[1] : parts[0];
         doc.addFileToVFS(FONT_NAME, cleanBase64);
         doc.addFont(FONT_NAME, "CustomFont", "normal");
         doc.setFont("CustomFont");
     }
   } catch (e) {
-    console.warn("Failed to load custom font. Fallback to standard.", e);
+    console.warn("Font load failed", e);
   }
 
   const safeTitle = title.replace(/[^\w\s\u4e00-\u9fa5]/gi, '').replace(/\s+/g, '_');
 
   pages.forEach((page, index) => {
-    if (index > 0) {
-      doc.addPage();
-    }
+    if (index > 0) doc.addPage();
 
     if (index === 0) {
-      // --- COVER PAGE ---
+      // Cover
       doc.setFontSize(28); 
       doc.setTextColor(0, 0, 0);
       const splitTitle = doc.splitTextToSize(title, contentWidth);
@@ -84,18 +73,14 @@ export const generateBookPDF = async (
 
       doc.setFontSize(16);
       doc.setTextColor(60, 60, 60); 
-      doc.text(`For ${author}`, pageWidth / 2, pageHeight - 20, { align: "center" });
-
+      doc.text(coverSubtitle, pageWidth / 2, pageHeight - 20, { align: "center" });
     } else {
-      // --- CONTENT PAGE ---
-      // Image
-      // If story text exists, reserve space at bottom
+      // Page
       const storyHeight = page.storyText ? 30 : 0;
       const displayHeight = contentHeight - storyHeight;
 
       doc.addImage(page.imageUrl, "PNG", margin, margin, contentWidth, displayHeight, undefined, 'FAST');
       
-      // Story Text
       if (page.storyText) {
           doc.setFontSize(14);
           doc.setTextColor(0, 0, 0);
@@ -104,11 +89,10 @@ export const generateBookPDF = async (
           doc.text(splitStory, pageWidth / 2, storyY, { align: "center" });
       }
 
-      // Footer (Page Number)
       const footerText = footerTemplate
         .replace('{page}', String(index)) 
         .replace('{theme}', title)
-        .replace('{name}', author);
+        .replace('{name}', authorName);
 
       doc.setFontSize(9);
       doc.setTextColor(150);

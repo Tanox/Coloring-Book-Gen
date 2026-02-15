@@ -1,4 +1,4 @@
-/* App.tsx v0.2.4 */
+/* App.tsx v0.2.5 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GeneratedPage, GenerationConfig, ArtStyle, BookHistoryItem } from './app/types';
 import { generateColoringPage, checkApiKeySelection, promptApiKeySelection, generateStoryForPage } from './app/services/geminiService';
@@ -15,7 +15,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.2.4';
+const APP_VERSION = 'v0.2.5';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();
@@ -238,7 +238,14 @@ const App: React.FC = () => {
     if (generatedPages.length === 0) return;
     setIsDownloading(true);
     try {
-      await generateBookPDF(generatedPages, config.theme, config.childName, t('footerText'));
+      const coverSubtitle = t('pdfFor', { name: config.childName });
+      await generateBookPDF(
+          generatedPages, 
+          config.theme, 
+          config.childName, 
+          coverSubtitle, 
+          t('footerText')
+      );
     } catch (error) {
       console.error("PDF Error", error);
       alert("PDF Generation Failed");

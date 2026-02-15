@@ -1,4 +1,4 @@
-/* app/locales/pt-BR.ts v1.0.0 */
+/* app/locales/pt-BR.ts v1.1.0 */
 export const ptBR = {
   appTitle: "PinteMeuMundo",
   selectKey: "Chave API",
@@ -31,6 +31,8 @@ export const ptBR = {
   chatGreeting: "Oi! Precisa de ideias?",
   chatPlaceholder: "Pergunte algo...",
   chatThinking: "Pensando...",
+  chatErrorConn: "Desculpe, erro de conexão. Verifique sua chave API.",
+  chatResponseDefault: "Não tenho certeza de como responder a isso.",
   statusCover: "Capa para {name}...",
   statusPage: "Página {current}/{total}: {theme}...",
   overlayTitle: "Criando Magia...",
@@ -39,6 +41,7 @@ export const ptBR = {
   errorPermission: "Permissão negada. Verifique a chave API.",
   errorRateLimit: "Limite excedido. Aguarde.",
   footerText: "Página {page} - {theme} para {name}",
+  pdfFor: "Para {name}",
   settingsTitle: "Configurações",
   settingsLanguage: "Idioma",
   settingsTheme: "Aparência",

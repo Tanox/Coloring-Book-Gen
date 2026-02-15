@@ -1,4 +1,4 @@
-/* app/locales/es.ts v1.0.0 */
+/* app/locales/es.ts v1.1.0 */
 export const es = {
   appTitle: "PintaMiMundo",
   selectKey: "Seleccionar Clave API",
@@ -31,6 +31,8 @@ export const es = {
   chatGreeting: "¡Hola! Soy tu ayudante creativo. ¿Necesitas ideas para temas o consejos de impresión?",
   chatPlaceholder: "Pregúntame lo que quieras...",
   chatThinking: "Pensando...",
+  chatErrorConn: "Lo siento, tuve problemas para conectar con el centro creativo. Revisa tu clave API.",
+  chatResponseDefault: "No estoy seguro de cómo responder a eso.",
   statusCover: "Diseñando una portada especial para {name}...",
   statusPage: "Dibujando página {current} de {total}: aventuras de {theme}...",
   overlayTitle: "Creando Magia...",
@@ -39,6 +41,7 @@ export const es = {
   errorPermission: "Permiso denegado. Por favor seleccione una clave API válida en Configuración.",
   errorRateLimit: "Límite de uso excedido. Espere un momento o verifique su cuota.",
   footerText: "Página {page} - {theme} para {name}",
+  pdfFor: "Para {name}",
   settingsTitle: "Configuración",
   settingsLanguage: "Idioma",
   settingsTheme: "Apariencia",

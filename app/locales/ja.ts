@@ -1,4 +1,4 @@
-/* app/locales/ja.ts v1.0.0 */
+/* app/locales/ja.ts v1.1.0 */
 export const ja = {
   appTitle: "ColorMyWorld",
   selectKey: "APIキー選択",
@@ -31,6 +31,8 @@ export const ja = {
   chatGreeting: "こんにちは！アイデアが必要ですか？",
   chatPlaceholder: "何でも聞いて...",
   chatThinking: "思考中...",
+  chatErrorConn: "申し訳ありません。接続できませんでした。APIキーを確認してください。",
+  chatResponseDefault: "どう答えればいいかわかりません。",
   statusCover: "{name} の表紙...",
   statusPage: "ページ {current}/{total}: {theme}...",
   overlayTitle: "魔法を作成中...",
@@ -39,6 +41,7 @@ export const ja = {
   errorPermission: "許可が拒否されました。",
   errorRateLimit: "制限を超えました。",
   footerText: "{page} ページ - {name} への {theme}",
+  pdfFor: "{name} へ",
   settingsTitle: "設定",
   settingsLanguage: "言語",
   settingsTheme: "外観",

@@ -1,9 +1,10 @@
-/* index.tsx v0.1.2 */
+/* index.tsx v0.1.3 */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { LanguageProvider } from './app/contexts/LanguageContext';
 import { ThemeProvider } from './app/contexts/ThemeContext';
+import './app/style.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

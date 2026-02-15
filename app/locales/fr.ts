@@ -1,4 +1,4 @@
-/* app/locales/fr.ts v1.0.0 */
+/* app/locales/fr.ts v1.1.0 */
 export const fr = {
   appTitle: "ColorieMonMonde",
   selectKey: "Clé API",
@@ -31,6 +31,8 @@ export const fr = {
   chatGreeting: "Bonjour ! Besoin d'idées ?",
   chatPlaceholder: "Posez une question...",
   chatThinking: "Réflexion...",
+  chatErrorConn: "Désolé, problème de connexion. Vérifiez votre clé API.",
+  chatResponseDefault: "Je ne suis pas sûr de savoir quoi répondre.",
   statusCover: "Couverture pour {name}...",
   statusPage: "Page {current}/{total}: {theme}...",
   overlayTitle: "Magie en cours...",
@@ -39,6 +41,7 @@ export const fr = {
   errorPermission: "Permission refusée. Vérifiez la clé API.",
   errorRateLimit: "Limite atteinte. Patientez.",
   footerText: "Page {page} - {theme} pour {name}",
+  pdfFor: "Pour {name}",
   settingsTitle: "Paramètres",
   settingsLanguage: "Langue",
   settingsTheme: "Apparence",

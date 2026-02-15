@@ -1,4 +1,4 @@
-/* app/locales/en.ts v1.0.0 */
+/* app/locales/en.ts v1.1.0 */
 export const en = {
   appTitle: "ColorMyWorld",
   selectKey: "Select API Key",
@@ -31,6 +31,8 @@ export const en = {
   chatGreeting: "Hi! I'm your creative helper. Need ideas for coloring book themes or tips on how to print?",
   chatPlaceholder: "Ask me anything...",
   chatThinking: "Thinking...",
+  chatErrorConn: "Sorry, I had trouble connecting to the creative center. Please check your API key settings or try again later.",
+  chatResponseDefault: "I'm not sure how to respond to that.",
   statusCover: "Designing a special cover for {name}...",
   statusPage: "Drawing page {current} of {total}: {theme} adventures...",
   overlayTitle: "Creating Magic...",
@@ -39,6 +41,7 @@ export const en = {
   errorPermission: "Permission denied. Please select a valid paid API Key in Settings.",
   errorRateLimit: "Usage limit exceeded. Please wait a moment or check your API quota.",
   footerText: "Page {page} - {theme} for {name}",
+  pdfFor: "For {name}",
   settingsTitle: "Settings",
   settingsLanguage: "Language",
   settingsTheme: "Appearance",

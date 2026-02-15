@@ -1,4 +1,4 @@
-/* app/locales/ar.ts v1.0.0 */
+/* app/locales/ar.ts v1.1.0 */
 export const ar = {
   appTitle: "لون عالمي",
   selectKey: "اختر مفتاح API",
@@ -31,6 +31,8 @@ export const ar = {
   chatGreeting: "مرحبًا! أنا مساعدك الإبداعي. هل تحتاج إلى أفكار؟",
   chatPlaceholder: "اسألني أي شيء...",
   chatThinking: "يفكر...",
+  chatErrorConn: "عذراً، حدثت مشكلة في الاتصال. يرجى التحقق من مفتاح API.",
+  chatResponseDefault: "لست متأكداً كيف أجيب على ذلك.",
   statusCover: "تصميم غلاف لـ {name}...",
   statusPage: "رسم الصفحة {current} من {total}: {theme}...",
   overlayTitle: "صنع السحر...",
@@ -39,6 +41,7 @@ export const ar = {
   errorPermission: "تم رفض الإذن. يرجى اختيار مفتاح API صالح.",
   errorRateLimit: "تم تجاوز الحد. يرجى الانتظار.",
   footerText: "صفحة {page} - {theme} لـ {name}",
+  pdfFor: "إلى {name}",
   settingsTitle: "الإعدادات",
   settingsLanguage: "اللغة",
   settingsTheme: "مظهر",

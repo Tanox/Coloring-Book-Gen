@@ -1,4 +1,4 @@
-/* app/locales/zh-CN.ts v1.0.0 */
+/* app/locales/zh-CN.ts v1.1.0 */
 export const zhCN = {
   appTitle: "绘梦世界",
   selectKey: "选择 API 密钥",
@@ -31,6 +31,8 @@ export const zhCN = {
   chatGreeting: "嗨！我是您的创意小助手。需要涂色书主题的灵感或打印建议吗？",
   chatPlaceholder: "随便问我什么...",
   chatThinking: "思考中...",
+  chatErrorConn: "抱歉，连接创意中心时出现问题。请检查您的 API 密钥设置或稍后再试。",
+  chatResponseDefault: "我不太确定如何回答这个问题。",
   statusCover: "正在为 {name} 设计特别封面...",
   statusPage: "正在绘制第 {current}/{total} 页：{theme} 大冒险...",
   overlayTitle: "正在创造魔法...",
@@ -39,6 +41,7 @@ export const zhCN = {
   errorPermission: "权限被拒绝。请在设置中选择有效的付费 API 密钥。",
   errorRateLimit: "使用限额已耗尽。请稍候再试或检查您的 API 配额。",
   footerText: "第 {page} 页 - {theme} (赠予 {name})",
+  pdfFor: "赠予 {name}",
   settingsTitle: "设置",
   settingsLanguage: "语言",
   settingsTheme: "外观",

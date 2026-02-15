@@ -1,4 +1,4 @@
-/* app/locales/zh-TW.ts v1.0.0 */
+/* app/locales/zh-TW.ts v1.1.0 */
 export const zhTW = {
   appTitle: "繪夢世界",
   selectKey: "選擇 API 金鑰",
@@ -31,6 +31,8 @@ export const zhTW = {
   chatGreeting: "嗨！我是您的創意小助手。需要著色本主題的靈感或列印建議嗎？",
   chatPlaceholder: "隨便問我什麼...",
   chatThinking: "思考中...",
+  chatErrorConn: "抱歉，連接創意中心時出現問題。請檢查您的 API 金鑰設定或稍後再試。",
+  chatResponseDefault: "我不太確定如何回答這個問題。",
   statusCover: "正在為 {name} 設計特別封面...",
   statusPage: "正在繪製第 {current}/{total} 頁：{theme} 大冒險...",
   overlayTitle: "正在創造魔法...",
@@ -39,6 +41,7 @@ export const zhTW = {
   errorPermission: "權限被拒絕。請在設定中選擇有效的付費 API 金鑰。",
   errorRateLimit: "使用限額已耗盡。請稍候再試或檢查您的 API 配額。",
   footerText: "第 {page} 頁 - {theme} (贈予 {name})",
+  pdfFor: "贈予 {name}",
   settingsTitle: "設定",
   settingsLanguage: "語言",
   settingsTheme: "外觀",
