@@ -66,21 +66,44 @@
       .font-comic {
         font-family: 'Comic Neue', cursive;
       }
+      #error-display {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #ef4444;
+        color: white;
+        padding: 1rem;
+        z-index: 9999;
+        font-family: monospace;
+        font-size: 14px;
+        white-space: pre-wrap;
+      }
     </style>
   <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
-    "jspdf": "https://esm.sh/jspdf@^4.1.0"
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/": "https://esm.sh/react-dom@18.2.0/",
+    "react/": "https://esm.sh/react@18.2.0/",
+    "@google/genai": "https://esm.sh/@google/genai",
+    "jspdf": "https://esm.sh/jspdf@2.5.1"
   }
 }
 </script>
 </head>
   <body class="bg-slate-50 text-slate-900 transition-colors duration-200 dark:bg-slate-900 dark:text-white">
+    <div id="error-display"></div>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        const div = document.getElementById('error-display');
+        div.style.display = 'block';
+        div.innerText = '⚠️ Application Error:\n' + msg + '\n\nFile: ' + url + ':' + line;
+        console.error(error);
+      };
+    </script>
+    <script type="module" src="./index.tsx"></script>
   </body>
 </html>

@@ -9,7 +9,12 @@ export const checkApiKeySelection = async (): Promise<boolean> => {
   }
   
   // Check if env var is present (injected by build or AI Studio wrapper)
-  return !!(typeof process !== 'undefined' && process.env && process.env.API_KEY);
+  // Safe check for process existence to avoid "ReferenceError: process is not defined"
+  try {
+    return !!(typeof process !== 'undefined' && process.env && process.env.API_KEY);
+  } catch (e) {
+    return false;
+  }
 };
 
 export const promptApiKeySelection = async (): Promise<void> => {
@@ -23,7 +28,26 @@ export const promptApiKeySelection = async (): Promise<void> => {
 
 const getClient = () => {
   // Always create a new instance to pick up the latest injected key
-  const envKey = (typeof process !== 'undefined' && process.env && process.env.API_KEY) ? process.env.API_KEY : '';
+  let envKey = '';
+  
+  // 1. Try process.env (Standard Build / AI Studio)
+  try {
+    if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
+      envKey = process.env.API_KEY;
+    }
+  } catch (e) {
+    // Ignore process error in strict browser envs
+  }
+  
+  // 2. Fallback: Try localStorage (From our manual SettingsModal)
+  if (!envKey && typeof localStorage !== 'undefined') {
+    envKey = localStorage.getItem('gemini_api_key') || '';
+  }
+
+  if (!envKey) {
+      console.warn("No API Key found. API calls will fail unless configured.");
+  }
+
   return new GoogleGenAI({ apiKey: envKey });
 };
 
