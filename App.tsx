@@ -1,8 +1,13 @@
-/* App.tsx v0.3.5 */
+/* App.tsx v0.4.0 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GeneratedPage, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider } from './app/types';
-import { generateColoringPage, generateStoryForPage, getAvailableProviders } from './app/services/aiService';
-import { checkApiKeySelection, promptApiKeySelection } from './app/services/geminiService';
+import { 
+  generateColoringPage, 
+  generateStoryForPage, 
+  getAvailableProviders,
+  checkApiKeySelection,
+  promptApiKeySelection
+} from './app/services/aiService';
 import { generateBookPDF } from './app/services/pdfService';
 import { saveBookToHistory, getHistory, deleteHistoryItem } from './app/services/storageService';
 import ChatBot from './app/components/ChatBot';
@@ -16,7 +21,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.3.5';
+const APP_VERSION = 'v0.4.0';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();
@@ -55,7 +60,11 @@ const App: React.FC = () => {
   }, []);
 
   const refreshProviderStatus = () => {
-    setReadyProviders(getAvailableProviders());
+    const available = getAvailableProviders();
+    setReadyProviders(available);
+    if (config.provider !== ModelProvider.Gemini && !available.includes(config.provider)) {
+        setConfig(prev => ({ ...prev, provider: ModelProvider.Gemini }));
+    }
   };
 
   const loadHistory = async () => {
@@ -85,7 +94,7 @@ const App: React.FC = () => {
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!readyProviders.includes(config.provider)) {
+    if (!readyProviders.includes(config.provider) && config.provider !== ModelProvider.Gemini) {
         alert(`${config.provider.toUpperCase()} API Key is missing. Please configure it in settings.`);
         setIsSettingsOpen(true);
         return;
@@ -130,7 +139,7 @@ const App: React.FC = () => {
 
   return (
     <div id="app-root" className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50 dark:from-slate-900 dark:to-indigo-950 font-comic pb-20 transition-colors duration-200">
-      <Header version={APP_VERSION} onOpenHistory={() => setIsHistoryOpen(true)} onOpenSettings={() => setIsSettingsOpen(true)} onToggleChat={() => setIsChatOpen(!isChatOpen)} isChatOpen={isChatOpen} />
+      <Header version={APP_VERSION} onOpenHistory={() => setIsHistoryOpen(true)} onOpenSettings={() => setIsSettingsOpen(true)} onToggleChat={() => onToggleChat()} isChatOpen={isChatOpen} />
       <main className="max-w-7xl mx-auto px-4 py-10">
         <GeneratorForm 
           config={config} 
@@ -151,7 +160,7 @@ const App: React.FC = () => {
       <Footer version={APP_VERSION} />
       <HistorySidebar isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} history={history} onLoadItem={(it) => { setConfig(it.config); setGeneratedPages(it.pages); setIsHistoryOpen(false); }} onDeleteItem={async (id) => { await deleteHistoryItem(id); loadHistory(); }} />
       {isGenerating && <LoadingOverlay currentStep={generationStep} totalSteps={7} statusMessage={statusMessage} />}
-      <ChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+      <ChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} provider={config.provider} />
       <SettingsModal 
         isOpen={isSettingsOpen} 
         onClose={() => { setIsSettingsOpen(false); refreshProviderStatus(); }} 
@@ -161,5 +170,9 @@ const App: React.FC = () => {
       <ColoringCanvas isOpen={!!canvasImage} onClose={() => setCanvasImage(null)} imageUrl={canvasImage || ''} />
     </div>
   );
+
+  function onToggleChat() {
+    setIsChatOpen(!isChatOpen);
+  }
 };
 export default App;

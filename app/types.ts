@@ -1,4 +1,4 @@
-/* app/types.ts v0.3.0 */
+/* app/types.ts v0.3.9 */
 export enum ImageSize {
   Size_1K = '1K',
   Size_2K = '2K',
@@ -17,7 +17,9 @@ export enum ModelProvider {
   Gemini = 'gemini',
   DeepSeek = 'deepseek',
   Qianwen = 'qianwen',
-  Doubao = 'doubao'
+  Doubao = 'doubao',
+  OpenAI = 'openai',
+  Claude = 'claude'
 }
 
 export interface GeneratedPage {

@@ -1,4 +1,4 @@
-/* app/components/LoadingOverlay.tsx v2.2.1 */
+/* app/components/LoadingOverlay.tsx v0.3.8 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -14,31 +14,28 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ currentStep, totalSteps
 
   return (
     <div id="loading-overlay" className="fixed inset-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md z-50 flex items-center justify-center font-comic">
-      <div className="max-w-xl w-full p-10 text-center relative">
-        {/* Decorative background elements */}
-        <div className="absolute top-0 left-10 w-32 h-32 bg-yellow-300 rounded-full blur-3xl opacity-30 animate-pulse"></div>
-        <div className="absolute bottom-0 right-10 w-36 h-36 bg-pink-300 rounded-full blur-3xl opacity-30 animate-pulse delay-700"></div>
+      <div className="max-w-3xl w-full p-14 text-center relative">
+        <div className="absolute top-0 left-10 w-48 h-48 bg-yellow-300 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+        <div className="absolute bottom-0 right-10 w-52 h-52 bg-pink-300 rounded-full blur-3xl opacity-30 animate-pulse delay-700"></div>
 
-        <div className="mb-10 relative z-10">
-           {/* Animated crayon or pencil icon */}
-           <div className="w-40 h-40 mx-auto bg-white dark:bg-slate-800 rounded-full flex items-center justify-center animate-bounce border-4 border-yellow-200 dark:border-slate-600 shadow-none">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="mb-14 relative z-10">
+           <div className="w-48 h-48 mx-auto bg-white dark:bg-slate-800 rounded-full flex items-center justify-center animate-bounce border-8 border-yellow-200 dark:border-slate-600 shadow-xl shadow-yellow-100">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
               </svg>
            </div>
         </div>
         
-        <h2 className="text-4xl md:text-5xl font-extrabold text-slate-800 dark:text-white mb-5">{t('overlayTitle')}</h2>
-        <p className="text-2xl text-slate-500 dark:text-slate-400 mb-10 font-medium animate-pulse">{statusMessage}</p>
+        <h2 className="text-5xl md:text-7xl font-black text-slate-800 dark:text-white mb-8 leading-tight">{t('overlayTitle')}</h2>
+        <p className="text-3xl md:text-4xl text-slate-500 dark:text-slate-400 mb-14 font-black animate-pulse tracking-wide">{statusMessage}</p>
 
-        {/* Rainbow Progress Bar */}
-        <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-8 mb-4 overflow-hidden border-2 border-slate-200 dark:border-slate-700 p-1 shadow-none">
+        <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-12 mb-6 overflow-hidden border-4 border-slate-200 dark:border-slate-700 p-1.5 shadow-inner">
           <div 
             className="h-full rounded-full transition-all duration-500 ease-out bg-gradient-to-r from-red-400 via-yellow-400 to-green-400" 
             style={{ width: `${percentage}%` }}
           />
         </div>
-        <div className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{percentage}% {t('overlayComplete')}</div>
+        <div className="text-3xl font-black text-indigo-600 dark:text-indigo-400 tracking-widest">{percentage}% {t('overlayComplete')}</div>
       </div>
     </div>
   );
