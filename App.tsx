@@ -1,7 +1,7 @@
-/* App.tsx v0.3.2 */
+/* App.tsx v0.3.5 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GeneratedPage, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider } from './app/types';
-import { generateColoringPage, generateStoryForPage } from './app/services/aiService';
+import { generateColoringPage, generateStoryForPage, getAvailableProviders } from './app/services/aiService';
 import { checkApiKeySelection, promptApiKeySelection } from './app/services/geminiService';
 import { generateBookPDF } from './app/services/pdfService';
 import { saveBookToHistory, getHistory, deleteHistoryItem } from './app/services/storageService';
@@ -16,7 +16,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.3.2';
+const APP_VERSION = 'v0.3.5';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();
@@ -41,6 +41,7 @@ const App: React.FC = () => {
   const [history, setHistory] = useState<BookHistoryItem[]>([]);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [canvasImage, setCanvasImage] = useState<string | null>(null);
+  const [readyProviders, setReadyProviders] = useState<ModelProvider[]>([]);
 
   useEffect(() => {
     const init = async () => {
@@ -48,18 +49,47 @@ const App: React.FC = () => {
         const geminiKey = localStorage.getItem('gemini_api_key');
         setHasApiKey(envSelected || !!geminiKey);
         loadHistory();
+        refreshProviderStatus();
     };
     init();
   }, []);
+
+  const refreshProviderStatus = () => {
+    setReadyProviders(getAvailableProviders());
+  };
 
   const loadHistory = async () => {
     const items = await getHistory();
     setHistory(items);
   };
 
+  const handleDownload = async () => {
+    if (generatedPages.length === 0) return;
+    setIsDownloading(true);
+    try {
+      await generateBookPDF(
+        generatedPages,
+        config.theme,
+        config.childName,
+        t('pdfFor', { name: config.childName }),
+        t('footerText')
+      );
+    } catch (error) {
+      console.error("PDF generation failed", error);
+      alert(t('errorGen'));
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!hasApiKey && config.provider === ModelProvider.Gemini) { setIsSettingsOpen(true); return; }
+    
+    if (!readyProviders.includes(config.provider)) {
+        alert(`${config.provider.toUpperCase()} API Key is missing. Please configure it in settings.`);
+        setIsSettingsOpen(true);
+        return;
+    }
 
     setIsGenerating(true);
     setGeneratedPages([]);
@@ -74,10 +104,10 @@ const App: React.FC = () => {
             ? t('statusCover', { name: config.childName }) 
             : t('statusPage', { current: i, total, theme: config.theme }));
 
-        const sceneDesc = i === 0 ? "Cover with Title" : `Adventure page ${i}`;
+        const sceneDesc = i === 0 ? "Coloring book cover" : `Page ${i}`;
         const prompt = i === 0 
-          ? `Children's coloring book cover, theme: ${config.theme}, title text "${config.theme}" integrated simply` 
-          : `Clean children's coloring book outline: ${config.theme}, ${sceneDesc}`;
+          ? `Children's coloring book cover for ${config.theme} with child name ${config.childName}` 
+          : `Coloring page: ${config.theme}, scene: ${sceneDesc}`;
 
         const imageUrl = await generateColoringPage(prompt, config.artStyle, config.imageSize, config.provider);
         let storyText = undefined;
@@ -98,30 +128,17 @@ const App: React.FC = () => {
     }
   };
 
-  const handleDownload = async () => {
-    if (generatedPages.length === 0) return;
-    setIsDownloading(true);
-    try {
-      const coverSubtitle = t('pdfFor', { name: config.childName });
-      await generateBookPDF(
-          generatedPages, 
-          config.theme, 
-          config.childName, 
-          coverSubtitle, 
-          t('footerText')
-      );
-    } catch (error) {
-      console.error("PDF Error", error);
-    } finally {
-      setIsDownloading(false);
-    }
-  };
-
   return (
     <div id="app-root" className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50 dark:from-slate-900 dark:to-indigo-950 font-comic pb-20 transition-colors duration-200">
       <Header version={APP_VERSION} onOpenHistory={() => setIsHistoryOpen(true)} onOpenSettings={() => setIsSettingsOpen(true)} onToggleChat={() => setIsChatOpen(!isChatOpen)} isChatOpen={isChatOpen} />
       <main className="max-w-7xl mx-auto px-4 py-10">
-        <GeneratorForm config={config} setConfig={setConfig} isGenerating={isGenerating} onGenerate={handleGenerate} />
+        <GeneratorForm 
+          config={config} 
+          setConfig={setConfig} 
+          isGenerating={isGenerating} 
+          onGenerate={handleGenerate} 
+          readyProviders={readyProviders}
+        />
         <ResultsGallery 
             pages={generatedPages} 
             config={config} 
@@ -137,11 +154,9 @@ const App: React.FC = () => {
       <ChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
       <SettingsModal 
         isOpen={isSettingsOpen} 
-        onClose={() => setIsSettingsOpen(false)} 
+        onClose={() => { setIsSettingsOpen(false); refreshProviderStatus(); }} 
         hasApiKey={hasApiKey} 
         onSelectApiKey={promptApiKeySelection} 
-        customKey={localStorage.getItem('gemini_api_key') || ''} 
-        onCustomKeyChange={(v) => { localStorage.setItem('gemini_api_key', v); setHasApiKey(!!v); }} 
       />
       <ColoringCanvas isOpen={!!canvasImage} onClose={() => setCanvasImage(null)} imageUrl={canvasImage || ''} />
     </div>

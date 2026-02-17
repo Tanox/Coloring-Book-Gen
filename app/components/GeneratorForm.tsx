@@ -1,4 +1,4 @@
-/* app/components/GeneratorForm.tsx v0.3.2 */
+/* app/components/GeneratorForm.tsx v0.3.3 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GenerationConfig, ArtStyle, ImageSize, ModelProvider } from '../types';
@@ -8,16 +8,17 @@ interface GeneratorFormProps {
   setConfig: (config: GenerationConfig) => void;
   isGenerating: boolean;
   onGenerate: (e: React.FormEvent) => void;
+  readyProviders: ModelProvider[];
 }
 
-const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGenerating, onGenerate }) => {
+const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGenerating, onGenerate, readyProviders }) => {
   const { t } = useLanguage();
 
   const providers = [
-    { id: ModelProvider.Gemini, name: 'Gemini', icon: '💎', color: 'indigo' },
-    { id: ModelProvider.DeepSeek, name: 'DeepSeek', icon: '🐳', color: 'blue' },
-    { id: ModelProvider.Qianwen, name: '通义千问', icon: '☁️', color: 'orange' },
-    { id: ModelProvider.Doubao, name: '豆包', icon: '📦', color: 'red' },
+    { id: ModelProvider.Gemini, name: 'Gemini', icon: '💎' },
+    { id: ModelProvider.DeepSeek, name: 'DeepSeek', icon: '🐳' },
+    { id: ModelProvider.Qianwen, name: '通义千问', icon: '☁️' },
+    { id: ModelProvider.Doubao, name: '豆包', icon: '📦' },
   ];
 
   const styles = [
@@ -48,28 +49,33 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
              <label className="text-2xl font-black text-slate-800 dark:text-white">选择魔法大脑</label>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {providers.map(p => (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => setConfig({...config, provider: p.id})}
-                className={`group relative flex flex-col items-center gap-3 p-5 rounded-3xl border-4 transition-all duration-300 ${
-                  config.provider === p.id 
-                  ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/40 scale-[1.05]' 
-                  : 'border-slate-50 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 hover:border-indigo-200'
-                }`}
-              >
-                <span className={`text-4xl transition-transform group-hover:scale-110`}>{p.icon}</span>
-                <span className="font-bold text-sm dark:text-slate-200">{p.name}</span>
-                {config.provider === p.id && (
-                    <div className="absolute -top-2 -right-2 bg-indigo-500 text-white p-1 rounded-full shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                    </div>
-                )}
-              </button>
-            ))}
+            {providers.map(p => {
+              const isReady = readyProviders.includes(p.id);
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setConfig({...config, provider: p.id})}
+                  className={`group relative flex flex-col items-center gap-3 p-5 rounded-3xl border-4 transition-all duration-300 ${
+                    config.provider === p.id 
+                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/40 scale-[1.05]' 
+                    : 'border-slate-50 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 hover:border-indigo-200'
+                  } ${!isReady ? 'opacity-60 grayscale-[0.5]' : ''}`}
+                >
+                  <span className={`text-4xl transition-transform group-hover:scale-110`}>{p.icon}</span>
+                  <span className="font-bold text-sm dark:text-slate-200">{p.name}</span>
+                  
+                  {/* Status Indicator */}
+                  <div className={`absolute top-3 right-3 w-3 h-3 rounded-full border-2 border-white dark:border-slate-800 shadow-sm ${isReady ? 'bg-green-500' : 'bg-slate-300'}`}></div>
+                  
+                  {config.provider === p.id && (
+                      <div className="absolute -bottom-2 bg-indigo-500 text-white px-3 py-1 rounded-full text-[10px] font-bold shadow-lg">
+                          SELECTED
+                      </div>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </section>
 
@@ -133,7 +139,6 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
 
         {/* Step 5: Advanced Options */}
         <section className="flex flex-col md:flex-row items-center gap-8 bg-slate-50/50 dark:bg-slate-900/50 p-6 rounded-3xl border-2 border-slate-100 dark:border-slate-700">
-             {/* Quality */}
              <div className="flex-1 w-full space-y-4">
                 <label className="block text-lg font-bold text-slate-700 dark:text-slate-200">{t('labelSize')}</label>
                 <div className="flex bg-white dark:bg-slate-800 p-1.5 rounded-2xl border-2 border-slate-100 dark:border-slate-700 shadow-sm">
@@ -154,7 +159,6 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
                 </div>
              </div>
 
-             {/* Story Mode */}
              <div className="flex items-center gap-6 bg-white dark:bg-slate-800 p-6 rounded-3xl border-2 border-slate-100 dark:border-slate-700 shadow-sm w-full md:w-auto">
                 <div className="flex-1">
                     <label className="block font-black text-slate-800 dark:text-white">{t('labelStory')}</label>

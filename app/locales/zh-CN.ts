@@ -1,4 +1,4 @@
-/* app/locales/zh-CN.ts v1.1.0 */
+/* app/locales/zh-CN.ts v1.1.5 */
 export const zhCN = {
   appTitle: "绘梦世界",
   selectKey: "选择 API 密钥",
@@ -63,5 +63,10 @@ export const zhCN = {
   canvasTitle: "涂色时间！",
   canvasBrushSize: "笔刷大小",
   canvasClear: "清空",
-  canvasClose: "完成"
+  canvasClose: "完成",
+  getKey: "获取密钥",
+  apiPriorityTitle: "密钥优先级说明",
+  apiPriorityDesc: "系统支持多种密钥来源。手动在下方输入的密钥具有最高优先级，将覆盖系统默认配置。如果某个引擎调用失败，系统会自动尝试使用其他可用引擎。",
+  priorityLocal: "手动配置优先级",
+  priorityEnv: "系统预设优先级"
 };

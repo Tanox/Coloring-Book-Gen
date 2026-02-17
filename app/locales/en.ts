@@ -1,4 +1,4 @@
-/* app/locales/en.ts v1.1.0 */
+/* app/locales/en.ts v1.1.5 */
 export const en = {
   appTitle: "ColorMyWorld",
   selectKey: "Select API Key",
@@ -63,5 +63,10 @@ export const en = {
   canvasTitle: "Coloring Time!",
   canvasBrushSize: "Brush Size",
   canvasClear: "Clear",
-  canvasClose: "Done"
+  canvasClose: "Done",
+  getKey: "Get Key",
+  apiPriorityTitle: "API Key Priority",
+  apiPriorityDesc: "Manual keys entered below have the highest priority and will override system defaults. If a specific engine fails, the system will automatically attempt a fallback to other available providers.",
+  priorityLocal: "Manual Key Priority",
+  priorityEnv: "System Default Priority"
 };
