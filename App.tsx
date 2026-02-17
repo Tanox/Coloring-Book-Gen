@@ -1,4 +1,5 @@
-/* App.tsx v0.5.3 */
+
+/* App.tsx v0.5.4 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GeneratedPage, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider } from './app/types';
 import { 
@@ -21,7 +22,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.5.3';
+const APP_VERSION = 'v0.5.4';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();
@@ -94,7 +95,8 @@ const App: React.FC = () => {
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!readyProviders.includes(config.provider) && config.provider !== ModelProvider.Gemini) {
+    // 如果不是 Gemini 且没有配置密钥，提示用户
+    if (config.provider !== ModelProvider.Gemini && !readyProviders.includes(config.provider)) {
         alert(`${config.provider.toUpperCase()} API Key is missing. Please configure it in settings.`);
         setIsSettingsOpen(true);
         return;

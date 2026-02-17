@@ -1,4 +1,5 @@
-/* app/services/aiService.ts v0.5.0 */
+
+/* app/services/aiService.ts v0.5.4 */
 import { GoogleGenAI, GenerateContentResponse, Chat } from "@google/genai";
 import { ImageSize, ArtStyle, ModelProvider } from "../types";
 
@@ -146,6 +147,7 @@ export const generateColoringPage = async (
   const keys = getKeys();
   const fullPrompt = `Children's coloring book page. ${promptBase}. ${getStylePrompt(style)}. NO colors, NO shading, NO text, NO watermarks. Pure white background, clean black lines only.`;
 
+  // 1. OpenAI 尝试
   if (provider === ModelProvider.OpenAI && keys.openai) {
     try {
         const res = await openAiFetch('https://api.openai.com/v1/images/generations', keys.openai, {
@@ -156,9 +158,10 @@ export const generateColoringPage = async (
             quality: size === ImageSize.Size_4K ? "hd" : "standard"
         });
         return res.data[0].url;
-    } catch (e) { console.warn("OpenAI Image failed, falling back", e); }
+    } catch (e) { console.warn("OpenAI Image failed", e); }
   }
 
+  // 2. 通义万相 尝试
   if (provider === ModelProvider.Qianwen && keys.qianwen) {
     try {
         const res = await openAiFetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', keys.qianwen, {
@@ -167,9 +170,10 @@ export const generateColoringPage = async (
           parameters: { style: "<auto>", size: "768*1024", n: 1 }
         });
         if (res.output?.url) return res.output.url;
-    } catch (e) { console.warn("Qianwen failed, falling back", e); }
+    } catch (e) { console.warn("Qianwen failed", e); }
   }
 
+  // 3. 豆包 (Ark) 尝试
   if (provider === ModelProvider.Doubao && keys.doubao) {
       try {
           const res = await openAiFetch('https://ark.cn-beijing.volces.com/api/v3/images/generations', keys.doubao, {
@@ -179,23 +183,28 @@ export const generateColoringPage = async (
               size: "1024x1024"
           });
           if (res.data?.[0]?.url) return res.data[0].url;
-      } catch (e) { console.warn("Doubao failed, falling back", e); }
+      } catch (e) { console.warn("Doubao failed", e); }
   }
 
-  const ai = getGeminiClient();
-  const isPro = size !== ImageSize.Size_1K;
-  const model = isPro ? 'gemini-3-pro-image-preview' : 'gemini-2.5-flash-image';
-  const config: any = { imageConfig: { aspectRatio: "3:4" } };
-  if (isPro) config.imageConfig.imageSize = size;
-  
-  const response = await ai.models.generateContent({
-    model: model,
-    contents: { parts: [{ text: fullPrompt }] },
-    config: config
-  });
-  const part = response.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
-  if (!part) throw new Error("Generation failed.");
-  return `data:image/png;base64,${part.inlineData.data}`;
+  // 4. Gemini Fallback (默认)
+  try {
+      const ai = getGeminiClient();
+      const isPro = size !== ImageSize.Size_1K;
+      const model = isPro ? 'gemini-3-pro-image-preview' : 'gemini-2.5-flash-image';
+      const config: any = { imageConfig: { aspectRatio: "3:4" } };
+      if (isPro) config.imageConfig.imageSize = size;
+      
+      const response = await ai.models.generateContent({
+        model: model,
+        contents: { parts: [{ text: fullPrompt }] },
+        config: config
+      });
+      const part = response.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+      if (!part) throw new Error("Gemini generation failed to return an image.");
+      return `data:image/png;base64,${part.inlineData.data}`;
+  } catch (e: any) {
+      throw new Error(`Failed to generate image with ${provider} (and Gemini fallback failed): ${e.message}`);
+  }
 };
 
 export const generateStoryForPage = async (
@@ -238,12 +247,28 @@ export const generateStoryForPage = async (
       } catch (e) { console.warn("Doubao story failed", e); }
   }
 
-  const ai = getGeminiClient();
-  const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
-    contents: { parts: [{ text: prompt }] }
-  });
-  return response.text?.trim() || "";
+  if (provider === ModelProvider.OpenAI && keys.openai) {
+      try {
+          const res = await openAiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
+              model: "gpt-4o-mini",
+              messages: [{ role: "user", content: prompt }]
+          });
+          return res.choices[0].message.content.trim();
+      } catch (e) { console.warn("OpenAI story failed", e); }
+  }
+
+  // Fallback to Gemini
+  try {
+      const ai = getGeminiClient();
+      const response = await ai.models.generateContent({
+        model: 'gemini-3-flash-preview',
+        contents: { parts: [{ text: prompt }] }
+      });
+      return response.text?.trim() || "";
+  } catch (e) {
+      console.warn("Gemini story fallback failed", e);
+      return "";
+  }
 };
 
 export const createChatSession = (provider: ModelProvider = ModelProvider.Gemini) => {
@@ -291,12 +316,30 @@ export const createChatSession = (provider: ModelProvider = ModelProvider.Gemini
       };
   }
 
-  const ai = getGeminiClient();
-  const session = ai.chats.create({
-    model: 'gemini-3-pro-preview',
-    config: { systemInstruction: systemPrompt }
-  });
-  return { ...session, provider: ModelProvider.Gemini };
+  if (provider === ModelProvider.OpenAI && keys.openai) {
+      return {
+          provider,
+          sendMessage: async ({ message }: { message: string }) => {
+              const res = await openAiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
+                  model: "gpt-4o-mini",
+                  messages: [{ role: "system", content: systemPrompt }, { role: "user", content: message }]
+              });
+              return { text: res.choices[0].message.content.trim() };
+          }
+      };
+  }
+
+  // Gemini is the default/fallback
+  try {
+      const ai = getGeminiClient();
+      const session = ai.chats.create({
+        model: 'gemini-3-pro-preview',
+        config: { systemInstruction: systemPrompt }
+      });
+      return { ...session, provider: ModelProvider.Gemini };
+  } catch (e) {
+      throw new Error("Failed to initialize chat session. Gemini API key might be missing.");
+  }
 };
 
 export const sendMessageToChat = async (session: any, message: string): Promise<string> => {
