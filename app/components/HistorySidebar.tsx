@@ -1,4 +1,4 @@
-/* app/components/HistorySidebar.tsx v0.5.0 */
+/* app/components/HistorySidebar.tsx v0.5.7 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { BookHistoryItem } from '../types';
@@ -8,7 +8,7 @@ interface HistorySidebarProps {
   onClose: () => void;
   history: BookHistoryItem[];
   onLoadItem: (item: BookHistoryItem) => void;
-  onDeleteItem: (id: string, e: React.MouseEvent) => void;
+  onDeleteItem: (id: string) => void;
 }
 
 const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, onClose, history, onLoadItem, onDeleteItem }) => {
@@ -56,7 +56,7 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, onClose, histor
                                     {t('historyLoad')}
                                 </button>
                                 <button 
-                                onClick={(e) => onDeleteItem(item.id, e)}
+                                onClick={() => onDeleteItem(item.id)}
                                 className="px-6 bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-300 text-lg font-black py-4 rounded-2xl hover:bg-rose-200 dark:hover:bg-rose-800 transition-all active:scale-95"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">

@@ -1,4 +1,4 @@
-# 技术架构规范：绘梦世界 (ColorMyWorld) - v0.5.3
+# 技术架构规范：绘梦世界 (ColorMyWorld) - v0.5.7
 
 ## 1. 系统拓扑
 - **前端核心**：React 18/19 (Hooks 模式) + TypeScript 5。

@@ -1,4 +1,4 @@
-/* app/locales/zh-CN.ts v1.1.6 */
+/* app/locales/zh-CN.ts v1.1.7 */
 export const zhCN = {
   appTitle: "绘梦世界",
   selectKey: "选择 API 密钥",
@@ -37,9 +37,11 @@ export const zhCN = {
   chatResponseDefault: "我不太确定如何回答这个问题。",
   statusCover: "正在为 {name} 设计特别封面...",
   statusPage: "正在绘制第 {current}/{total} 页：{theme} 大冒险...",
+  statusRegenPage: "正在重绘第 {pageIndex} 页...",
   overlayTitle: "正在创造魔法...",
   overlayComplete: "完成",
   errorGen: "创建过程中出错了。请重试。",
+  errorRegenPage: "页面重绘失败：{error}",
   errorPermission: "权限被拒绝。请在设置中选择有效的付费 API 密钥。",
   errorRateLimit: "使用限额已耗尽。请稍候再试或检查您的 API 配额。",
   footerText: "第 {page} 页 - {theme} (赠予 {name})",
@@ -50,6 +52,11 @@ export const zhCN = {
   themeLight: "浅色模式",
   themeDark: "深色模式",
   settingsApiKey: "API 密钥配置",
+  settingsDataManagement: "数据管理",
+  btnExportConfig: "导出配置 (.json)",
+  btnImportConfig: "导入配置",
+  importSuccess: "配置导入成功！页面将刷新以应用更改。",
+  importError: "导入失败：{error}",
   statusConnected: "已配置密钥",
   statusNotConnected: "未配置密钥",
   btnClose: "关闭",
@@ -75,5 +82,13 @@ export const zhCN = {
   shareError: "分享失败，已改为复制链接。",
   shareText: "看，这是我在“绘梦世界”上为 {name} 制作的主题为“{theme}”的涂色书！",
   copyLink: "复制链接",
-  linkCopied: "链接已复制到剪贴板！"
+  linkCopied: "链接已复制到剪贴板！",
+  testConnection: "测试连接",
+  testConnectionSuccess: "✅ 连接成功",
+  testConnectionError: "❌ 测试失败",
+  keyStatusManual: "手动",
+  keyStatusSystem: "系统",
+  keyPlaceholderSystem: "已启用系统预设密钥",
+  keyPlaceholderEnter: "输入 {name} API Key",
+  errorDetails: "错误: {error}"
 };

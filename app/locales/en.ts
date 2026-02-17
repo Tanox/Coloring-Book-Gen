@@ -1,4 +1,4 @@
-/* app/locales/en.ts v1.1.6 */
+/* app/locales/en.ts v1.1.7 */
 export const en = {
   appTitle: "ColorMyWorld",
   selectKey: "Select API Key",
@@ -37,9 +37,11 @@ export const en = {
   chatResponseDefault: "I'm not sure how to respond to that.",
   statusCover: "Designing a special cover for {name}...",
   statusPage: "Drawing page {current} of {total}: {theme} adventures...",
+  statusRegenPage: "Redrawing page {pageIndex}...",
   overlayTitle: "Creating Magic...",
   overlayComplete: "Complete",
   errorGen: "Something went wrong while creating your book. Please try again.",
+  errorRegenPage: "Page regeneration failed: {error}",
   errorPermission: "Permission denied. Please select a valid paid API Key in Settings.",
   errorRateLimit: "Usage limit exceeded. Please wait a moment or check your API quota.",
   footerText: "Page {page} - {theme} for {name}",
@@ -50,6 +52,11 @@ export const en = {
   themeLight: "Light Mode",
   themeDark: "Dark Mode",
   settingsApiKey: "API Key Configuration",
+  settingsDataManagement: "Data Management",
+  btnExportConfig: "Export Config (.json)",
+  btnImportConfig: "Import Config",
+  importSuccess: "Configuration imported successfully! The page will reload to apply changes.",
+  importError: "Import failed: {error}",
   statusConnected: "API Key Set",
   statusNotConnected: "API Key Not Set",
   btnClose: "Close",
@@ -75,5 +82,13 @@ export const en = {
   shareError: "Sharing failed. Link copied instead.",
   shareText: "Check out this awesome coloring book about {theme} I made for {name} on ColorMyWorld!",
   copyLink: "Copy Link",
-  linkCopied: "Link copied to clipboard!"
+  linkCopied: "Link copied to clipboard!",
+  testConnection: "Test Connection",
+  testConnectionSuccess: "✅ Connected",
+  testConnectionError: "❌ Test Failed",
+  keyStatusManual: "Manual",
+  keyStatusSystem: "System",
+  keyPlaceholderSystem: "System default key is active",
+  keyPlaceholderEnter: "Enter {name} API Key",
+  errorDetails: "Error: {error}"
 };

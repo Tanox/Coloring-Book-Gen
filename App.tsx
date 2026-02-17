@@ -1,4 +1,4 @@
-/* App.tsx v0.5.5 */
+/* App.tsx v0.5.7 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GeneratedPage, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider } from './app/types';
 import { 
@@ -21,7 +21,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.5.5';
+const APP_VERSION = 'v0.5.7';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();
@@ -36,6 +36,7 @@ const App: React.FC = () => {
   });
 
   const [generatedPages, setGeneratedPages] = useState<GeneratedPage[]>([]);
+  const [currentBookId, setCurrentBookId] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [generationStep, setGenerationStep] = useState(0);
@@ -70,6 +71,13 @@ const App: React.FC = () => {
   const loadHistory = async () => {
     const items = await getHistory();
     setHistory(items);
+  };
+
+  const handleLoadFromHistory = (item: BookHistoryItem) => {
+    setConfig(item.config);
+    setGeneratedPages(item.pages);
+    setCurrentBookId(item.id);
+    setIsHistoryOpen(false);
   };
 
   const handleDownload = async () => {
@@ -127,13 +135,48 @@ const App: React.FC = () => {
         newPages.push({ title: i === 0 ? "Cover" : `Page ${i}`, imageUrl, prompt, storyText });
       }
       setGeneratedPages(newPages);
-      await saveBookToHistory({ id: Date.now().toString(), timestamp: Date.now(), config, pages: newPages });
+      const newBook: BookHistoryItem = { id: Date.now().toString(), timestamp: Date.now(), config, pages: newPages };
+      await saveBookToHistory(newBook);
+      setCurrentBookId(newBook.id);
       await loadHistory();
     } catch (error: any) {
       console.error(error);
-      alert("Generation failed: " + error.message);
+      alert(t('errorGen') + ": " + error.message);
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  const handleRegeneratePage = async (pageIndex: number) => {
+    if (!generatedPages[pageIndex]) return;
+
+    setIsGenerating(true);
+    setGenerationStep(0);
+    setStatusMessage(t('statusRegenPage', { pageIndex: pageIndex + 1 }));
+
+    try {
+        const pageToRegen = generatedPages[pageIndex];
+        const newImageUrl = await generateColoringPage(pageToRegen.prompt, config.artStyle, config.imageSize, config.provider);
+        
+        const newPages = [...generatedPages];
+        newPages[pageIndex] = { ...newPages[pageIndex], imageUrl: newImageUrl };
+        setGeneratedPages(newPages);
+
+        if (currentBookId) {
+            const allHistory = await getHistory();
+            const itemToUpdate = allHistory.find(item => item.id === currentBookId);
+            if (itemToUpdate) {
+                itemToUpdate.pages = newPages;
+                await saveBookToHistory(itemToUpdate);
+                await loadHistory();
+            }
+        }
+
+    } catch (error: any) {
+        console.error("Page regeneration failed:", error);
+        alert(t('errorRegenPage', { error: error.message }));
+    } finally {
+        setIsGenerating(false);
     }
   };
 
@@ -157,12 +200,12 @@ const App: React.FC = () => {
             config={config} 
             isDownloading={isDownloading} 
             onDownload={handleDownload} 
-            onRegenerate={() => {}} 
+            onRegenerate={handleRegeneratePage} 
             onColor={setCanvasImage} 
         />
       </main>
       <Footer version={APP_VERSION} />
-      <HistorySidebar isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} history={history} onLoadItem={(it) => { setConfig(it.config); setGeneratedPages(it.pages); setIsHistoryOpen(false); }} onDeleteItem={async (id) => { await deleteHistoryItem(id); loadHistory(); }} />
+      <HistorySidebar isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} history={history} onLoadItem={handleLoadFromHistory} onDeleteItem={async (id) => { await deleteHistoryItem(id); loadHistory(); }} />
       {isGenerating && <LoadingOverlay currentStep={generationStep} totalSteps={7} statusMessage={statusMessage} />}
       <ChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} provider={config.provider} />
       <SettingsModal 

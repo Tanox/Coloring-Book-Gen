@@ -1,4 +1,4 @@
-/* app/components/SettingsModal.tsx v0.5.0 */
+/* app/components/SettingsModal.tsx v0.5.7 */
 import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -80,13 +80,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
                           updateKey(key, val);
                       }
                   });
-                  alert('配置导入成功！页面将刷新以应用更改。');
+                  alert(t('importSuccess'));
                   window.location.reload();
               } else {
-                  throw new Error('无效的配置文件格式');
+                  throw new Error('Invalid config file format');
               }
           } catch (err) {
-              alert('导入失败: ' + (err as Error).message);
+              alert(t('importError', { error: (err as Error).message }));
           }
       };
       reader.readAsText(file);
@@ -108,12 +108,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
   };
 
   const providersConfig = [
-    { id: 'gemini', name: 'Google Gemini (推荐)', url: 'https://aistudio.google.com/app/apikey', hasEnv: envKeyAvailable },
+    { id: 'gemini', name: 'Google Gemini', url: 'https://aistudio.google.com/app/apikey', hasEnv: envKeyAvailable },
     { id: 'openai', name: 'OpenAI (DALL-E 3)', url: 'https://platform.openai.com/api-keys', hasEnv: false },
     { id: 'claude', name: 'Claude (Anthropic)', url: 'https://console.anthropic.com/', hasEnv: false },
-    { id: 'deepseek', name: 'DeepSeek (故事专家)', url: 'https://platform.deepseek.com/', hasEnv: false },
-    { id: 'qianwen', name: '通义千问 (高质量涂色)', url: 'https://dashscope.console.aliyun.com/', hasEnv: false },
-    { id: 'doubao', name: '豆包 (本地化模型)', url: 'https://console.volcengine.com/ark', hasEnv: false },
+    { id: 'deepseek', name: 'DeepSeek', url: 'https://platform.deepseek.com/', hasEnv: false },
+    { id: 'qianwen', name: 'Qwen (Alibaba)', url: 'https://dashscope.console.aliyun.com/', hasEnv: false },
+    { id: 'doubao', name: 'Doubao (VolcEngine)', url: 'https://console.volcengine.com/ark', hasEnv: false },
   ];
 
   const languages: { code: Language; label: string }[] = [
@@ -133,7 +133,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
     <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md">
       <div className="relative bg-white dark:bg-slate-900 rounded-[3rem] w-full max-w-3xl overflow-hidden border-8 border-white dark:border-slate-700 flex flex-col max-h-[92vh]">
         
-        {/* Header */}
         <div className="p-10 border-b-4 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
           <h3 className="text-4xl font-black text-slate-800 dark:text-white flex items-center gap-4">
             <span className="text-5xl">⚙️</span> {t('settingsTitle')}
@@ -145,10 +144,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
           </button>
         </div>
 
-        {/* Content */}
         <div className="flex-1 overflow-y-auto p-10 space-y-12">
           
-          {/* General Section */}
           <section className="space-y-8">
             <h4 className="text-base font-black text-indigo-500 uppercase tracking-widest pl-2">{t('settingsLanguage')} & {t('settingsTheme')}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -177,9 +174,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
             </div>
           </section>
 
-          {/* Data Management Section */}
           <section className="space-y-8">
-            <h4 className="text-base font-black text-emerald-500 uppercase tracking-widest pl-2">数据管理</h4>
+            <h4 className="text-base font-black text-emerald-500 uppercase tracking-widest pl-2">{t('settingsDataManagement')}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <button 
                     onClick={handleExportConfig}
@@ -188,7 +184,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
-                    导出配置 (.json)
+                    {t('btnExportConfig')}
                 </button>
                 <button 
                     onClick={() => fileInputRef.current?.click()}
@@ -197,7 +193,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                     </svg>
-                    导入配置
+                    {t('btnImportConfig')}
                 </button>
                 <input 
                     type="file" 
@@ -209,7 +205,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
             </div>
           </section>
 
-          {/* API Keys Section */}
           <section className="space-y-8">
             <div className="flex items-center justify-between pl-2">
               <h4 className="text-base font-black text-pink-500 uppercase tracking-widest">{t('settingsApiKey')}</h4>
@@ -234,9 +229,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
                       <div className="flex flex-wrap items-center gap-3">
                         <label className="text-xl font-black text-slate-800 dark:text-slate-100">{p.name}</label>
                         {hasLocal ? (
-                            <span className="text-xs bg-green-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-tight">Manual</span>
+                            <span className="text-xs bg-green-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-tight">{t('keyStatusManual')}</span>
                         ) : useEnv ? (
-                            <span className="text-xs bg-blue-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-tight">System</span>
+                            <span className="text-xs bg-blue-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-tight">{t('keyStatusSystem')}</span>
                         ) : null}
                       </div>
                       <div className="flex items-center gap-4">
@@ -251,7 +246,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
                         >
                             {testStatus?.loading ? (
                                 <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                            ) : testStatus?.success ? '✅ 连接成功' : testStatus?.error ? '❌ 测试失败' : '✨ 测试连接'}
+                            ) : testStatus?.success ? t('testConnectionSuccess') : testStatus?.error ? t('testConnectionError') : t('testConnection')}
                         </button>
                         <a href={p.url} target="_blank" rel="noreferrer" className="text-sm font-bold text-indigo-500 hover:underline flex items-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">
                             {t('getKey')}
@@ -264,7 +259,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
                     
                     {testStatus?.error && (
                         <div className="text-xs font-bold text-red-500 mt-1 bg-red-50 dark:bg-red-900/20 p-2 rounded-lg border border-red-100 dark:border-red-800">
-                            Error: {testStatus.error}
+                            {t('errorDetails', { error: testStatus.error })}
                         </div>
                     )}
 
@@ -273,7 +268,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
                         type={showKeys[p.id] ? "text" : "password"} 
                         value={currentVal} 
                         onChange={e => updateKey(p.id, e.target.value)} 
-                        placeholder={useEnv ? "已启用系统预设密钥" : `输入 ${p.name} API Key`}
+                        placeholder={useEnv ? t('keyPlaceholderSystem') : t('keyPlaceholderEnter', { name: p.name })}
                         className={`w-full bg-white dark:bg-slate-700 border-4 border-slate-100 dark:border-slate-600 rounded-2xl p-5 pr-16 font-mono text-lg dark:text-white outline-none focus:border-pink-400 transition-all ${useEnv ? 'placeholder:text-blue-500/50 font-sans' : ''}`}
                       />
                       <button 
@@ -293,7 +288,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
             </div>
           </section>
 
-          {/* Priority Instruction Section */}
           <section className="bg-blue-50 dark:bg-indigo-900/30 p-8 rounded-[2.5rem] border-4 border-blue-100 dark:border-indigo-800 animate-fade-in-up">
             <div className="flex gap-6">
                 <div className="text-5xl">💡</div>
@@ -312,7 +306,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
 
         </div>
 
-        {/* Footer */}
         <div className="p-10 bg-slate-50 dark:bg-slate-800 border-t-4 dark:border-slate-700">
           <button 
             onClick={onClose} 
