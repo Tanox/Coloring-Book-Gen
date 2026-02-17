@@ -1,4 +1,4 @@
-/* App.tsx v0.3.0 */
+/* App.tsx v0.3.2 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GeneratedPage, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider } from './app/types';
 import { generateColoringPage, generateStoryForPage } from './app/services/aiService';
@@ -16,7 +16,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.3.0';
+const APP_VERSION = 'v0.3.2';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();
@@ -38,7 +38,6 @@ const App: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [hasApiKey, setHasApiKey] = useState(false);
-  const [currentBookId, setCurrentBookId] = useState<string | null>(null);
   const [history, setHistory] = useState<BookHistoryItem[]>([]);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [canvasImage, setCanvasImage] = useState<string | null>(null);
@@ -68,16 +67,17 @@ const App: React.FC = () => {
 
     try {
       const newPages: GeneratedPage[] = [];
-      for (let i = 0; i <= 5; i++) {
+      const total = 5;
+      for (let i = 0; i <= total; i++) {
         setGenerationStep(i + 1);
         setStatusMessage(i === 0 
             ? t('statusCover', { name: config.childName }) 
-            : t('statusPage', { current: i, total: 5, theme: config.theme }));
+            : t('statusPage', { current: i, total, theme: config.theme }));
 
-        const sceneDesc = i === 0 ? "Cover" : `Page ${i} adventure`;
+        const sceneDesc = i === 0 ? "Cover with Title" : `Adventure page ${i}`;
         const prompt = i === 0 
-          ? `Coloring book cover for ${config.theme}` 
-          : `Coloring book page: ${config.theme}, scene: ${sceneDesc}`;
+          ? `Children's coloring book cover, theme: ${config.theme}, title text "${config.theme}" integrated simply` 
+          : `Clean children's coloring book outline: ${config.theme}, ${sceneDesc}`;
 
         const imageUrl = await generateColoringPage(prompt, config.artStyle, config.imageSize, config.provider);
         let storyText = undefined;
@@ -91,9 +91,29 @@ const App: React.FC = () => {
       await saveBookToHistory({ id: Date.now().toString(), timestamp: Date.now(), config, pages: newPages });
       await loadHistory();
     } catch (error: any) {
+      console.error(error);
       alert("Generation failed: " + error.message);
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (generatedPages.length === 0) return;
+    setIsDownloading(true);
+    try {
+      const coverSubtitle = t('pdfFor', { name: config.childName });
+      await generateBookPDF(
+          generatedPages, 
+          config.theme, 
+          config.childName, 
+          coverSubtitle, 
+          t('footerText')
+      );
+    } catch (error) {
+      console.error("PDF Error", error);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -102,13 +122,27 @@ const App: React.FC = () => {
       <Header version={APP_VERSION} onOpenHistory={() => setIsHistoryOpen(true)} onOpenSettings={() => setIsSettingsOpen(true)} onToggleChat={() => setIsChatOpen(!isChatOpen)} isChatOpen={isChatOpen} />
       <main className="max-w-7xl mx-auto px-4 py-10">
         <GeneratorForm config={config} setConfig={setConfig} isGenerating={isGenerating} onGenerate={handleGenerate} />
-        <ResultsGallery pages={generatedPages} config={config} isDownloading={isDownloading} onDownload={() => {}} onRegenerate={() => {}} onColor={setCanvasImage} />
+        <ResultsGallery 
+            pages={generatedPages} 
+            config={config} 
+            isDownloading={isDownloading} 
+            onDownload={handleDownload} 
+            onRegenerate={() => {}} 
+            onColor={setCanvasImage} 
+        />
       </main>
       <Footer version={APP_VERSION} />
       <HistorySidebar isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} history={history} onLoadItem={(it) => { setConfig(it.config); setGeneratedPages(it.pages); setIsHistoryOpen(false); }} onDeleteItem={async (id) => { await deleteHistoryItem(id); loadHistory(); }} />
       {isGenerating && <LoadingOverlay currentStep={generationStep} totalSteps={7} statusMessage={statusMessage} />}
       <ChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
-      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} hasApiKey={hasApiKey} onSelectApiKey={promptApiKeySelection} customKey={localStorage.getItem('gemini_api_key') || ''} onCustomKeyChange={(v) => localStorage.setItem('gemini_api_key', v)} />
+      <SettingsModal 
+        isOpen={isSettingsOpen} 
+        onClose={() => setIsSettingsOpen(false)} 
+        hasApiKey={hasApiKey} 
+        onSelectApiKey={promptApiKeySelection} 
+        customKey={localStorage.getItem('gemini_api_key') || ''} 
+        onCustomKeyChange={(v) => { localStorage.setItem('gemini_api_key', v); setHasApiKey(!!v); }} 
+      />
       <ColoringCanvas isOpen={!!canvasImage} onClose={() => setCanvasImage(null)} imageUrl={canvasImage || ''} />
     </div>
   );

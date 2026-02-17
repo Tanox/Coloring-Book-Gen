@@ -1,4 +1,4 @@
-/* app/services/aiService.ts v0.3.0 */
+/* app/services/aiService.ts v0.3.1 */
 import { GoogleGenAI, GenerateContentResponse, Chat } from "@google/genai";
 import { ImageSize, ArtStyle, ModelProvider } from "../types";
 
@@ -51,8 +51,8 @@ export const generateColoringPage = async (
   const fullPrompt = `${promptBase}\n${getStylePrompt(style)}\nNegative prompt: colors, shading, text, watermark, blurry, realistic photo.`;
   
   // Logic for different providers
-  if (provider === ModelProvider.Gemini || provider === ModelProvider.DeepSeek) {
-    // DeepSeek doesn't have image models, so fallback to Gemini
+  if (provider === ModelProvider.Gemini || provider === ModelProvider.DeepSeek || provider === ModelProvider.Doubao) {
+    // Currently fallback Doubao and DeepSeek image to Gemini for stability
     const ai = getGeminiClient();
     const isPro = size !== ImageSize.Size_1K;
     const model = isPro ? 'gemini-3-pro-image-preview' : 'gemini-2.5-flash-image';
@@ -72,18 +72,15 @@ export const generateColoringPage = async (
   if (provider === ModelProvider.Qianwen) {
     const key = getKeys().qianwen;
     if (!key) throw new Error("Qianwen API Key missing");
-    // Using DashScope Wanx-V1 logic via fetch
     const res = await openAiFetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', key, {
       model: "wanx-v1",
       input: { prompt: fullPrompt },
       parameters: { style: "<auto>", size: "768*1024", n: 1 }
     });
-    // Task-based API, needs polling usually, but for simplicity assuming direct result or compatible mode
     if (res.output?.url) return res.output.url;
     throw new Error("Qianwen generation failed");
   }
 
-  // Fallback
   return ""; 
 };
 
@@ -104,7 +101,15 @@ export const generateStoryForPage = async (
     return res.choices[0].message.content.trim();
   }
 
-  // Default to Gemini
+  if (provider === ModelProvider.Doubao && keys.doubao) {
+    // Basic Ark API call logic (OpenAI compatible)
+    const res = await openAiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
+      model: "doubao-pro-32k", // Example model name
+      messages: [{ role: "user", content: prompt }]
+    });
+    return res.choices[0].message.content.trim();
+  }
+
   const ai = getGeminiClient();
   const response = await ai.models.generateContent({
     model: 'gemini-3-flash-preview',
