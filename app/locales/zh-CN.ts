@@ -1,4 +1,4 @@
-/* app/locales/zh-CN.ts v1.1.5 */
+/* app/locales/zh-CN.ts v1.1.6 */
 export const zhCN = {
   appTitle: "绘梦世界",
   selectKey: "选择 API 密钥",
@@ -27,6 +27,8 @@ export const zhCN = {
   billingLink: "阅读计费文档",
   resultsTitle: "预览您的书",
   btnDownload: "下载 PDF",
+  btnShare: "分享整本书",
+  btnSharePage: "分享此页",
   chatTitle: "创意助手",
   chatGreeting: "嗨！我是您的创意小助手。需要涂色书主题的灵感或打印建议吗？",
   chatPlaceholder: "随便问我什么...",
@@ -68,5 +70,10 @@ export const zhCN = {
   apiPriorityTitle: "密钥优先级说明",
   apiPriorityDesc: "系统支持多种密钥来源。手动在下方输入的密钥具有最高优先级，将覆盖系统默认配置。如果某个引擎调用失败，系统会自动尝试使用其他可用引擎。",
   priorityLocal: "手动配置优先级",
-  priorityEnv: "系统预设优先级"
+  priorityEnv: "系统预设优先级",
+  shareSuccess: "分享成功！",
+  shareError: "分享失败，已改为复制链接。",
+  shareText: "看，这是我在“绘梦世界”上为 {name} 制作的主题为“{theme}”的涂色书！",
+  copyLink: "复制链接",
+  linkCopied: "链接已复制到剪贴板！"
 };

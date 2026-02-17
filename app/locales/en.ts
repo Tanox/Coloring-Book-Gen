@@ -1,4 +1,4 @@
-/* app/locales/en.ts v1.1.5 */
+/* app/locales/en.ts v1.1.6 */
 export const en = {
   appTitle: "ColorMyWorld",
   selectKey: "Select API Key",
@@ -27,6 +27,8 @@ export const en = {
   billingLink: "Read Billing Docs",
   resultsTitle: "Your Book Preview",
   btnDownload: "Download PDF",
+  btnShare: "Share Book",
+  btnSharePage: "Share Page",
   chatTitle: "Creative Assistant",
   chatGreeting: "Hi! I'm your creative helper. Need ideas for coloring book themes or tips on how to print?",
   chatPlaceholder: "Ask me anything...",
@@ -68,5 +70,10 @@ export const en = {
   apiPriorityTitle: "API Key Priority",
   apiPriorityDesc: "Manual keys entered below have the highest priority and will override system defaults. If a specific engine fails, the system will automatically attempt a fallback to other available providers.",
   priorityLocal: "Manual Key Priority",
-  priorityEnv: "System Default Priority"
+  priorityEnv: "System Default Priority",
+  shareSuccess: "Shared successfully!",
+  shareError: "Sharing failed. Link copied instead.",
+  shareText: "Check out this awesome coloring book about {theme} I made for {name} on ColorMyWorld!",
+  copyLink: "Copy Link",
+  linkCopied: "Link copied to clipboard!"
 };
