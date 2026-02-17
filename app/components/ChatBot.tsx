@@ -1,5 +1,4 @@
-
-/* app/components/ChatBot.tsx v0.3.9 */
+/* app/components/ChatBot.tsx v0.5.0 */
 import React, { useState, useEffect, useRef } from 'react';
 import { createChatSession, sendMessageToChat } from '../services/aiService';
 import { ChatMessage, ModelProvider } from '../types';
@@ -89,7 +88,6 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose, provider }) => {
 
   if (!isOpen) return null;
 
-  // Added missing OpenAI and Claude providers to satisfy ModelProvider Record type
   const providerNames: Record<ModelProvider, string> = {
     [ModelProvider.Gemini]: 'Gemini',
     [ModelProvider.DeepSeek]: 'DeepSeek',
@@ -100,7 +98,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose, provider }) => {
   };
 
   return (
-    <div id="chatbot-container" className="fixed bottom-8 right-8 w-[450px] max-w-[90vw] h-[750px] max-h-[85vh] bg-white dark:bg-slate-800 rounded-[3rem] border-4 border-sky-100 dark:border-slate-700 flex flex-col z-50 overflow-hidden font-comic animate-slide-in-up shadow-2xl">
+    <div id="chatbot-container" className="fixed bottom-8 right-8 w-[450px] max-w-[90vw] h-[750px] max-h-[85vh] bg-white dark:bg-slate-800 rounded-[3rem] border-4 border-sky-100 dark:border-slate-700 flex flex-col z-50 overflow-hidden font-comic animate-slide-in-up">
       <div className="bg-gradient-to-r from-sky-400 to-indigo-500 p-7 text-white flex justify-between items-center">
         <div className="flex flex-col">
             <div className="flex items-center gap-4">
@@ -115,7 +113,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose, provider }) => {
         </div>
         <button onClick={onClose} className="hover:bg-white/20 p-4 rounded-full transition-colors active:scale-90">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-9 w-9" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
           </svg>
         </button>
       </div>
@@ -123,7 +121,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose, provider }) => {
       <div className="flex-1 overflow-y-auto p-7 space-y-6 bg-slate-50 dark:bg-slate-900">
         {messages.map(msg => (
           <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[88%] px-7 py-5 text-lg font-bold leading-relaxed ${msg.role === 'user' ? 'bg-sky-500 text-white rounded-[2.5rem] rounded-br-none shadow-md shadow-sky-200' : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-100 border-2 border-slate-100 dark:border-slate-600 rounded-[2.5rem] rounded-bl-none shadow-sm'}`}>
+            <div className={`max-w-[88%] px-7 py-5 text-lg font-bold leading-relaxed ${msg.role === 'user' ? 'bg-sky-500 text-white rounded-[2.5rem] rounded-br-none' : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-100 border-2 border-slate-100 dark:border-slate-600 rounded-[2.5rem] rounded-bl-none'}`}>
               {msg.text}
             </div>
           </div>
@@ -153,7 +151,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose, provider }) => {
           <button 
             onClick={handleSend}
             disabled={isLoading || !input.trim()}
-            className="bg-sky-500 text-white p-5 rounded-2xl hover:bg-sky-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105 active:scale-95 shadow-lg shadow-sky-200"
+            className="bg-sky-500 text-white p-5 rounded-2xl hover:bg-sky-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105 active:scale-95"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />

@@ -1,4 +1,4 @@
-/* app/components/HistorySidebar.tsx v0.3.8 */
+/* app/components/HistorySidebar.tsx v0.5.0 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { BookHistoryItem } from '../types';
@@ -22,7 +22,7 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, onClose, histor
             className="absolute inset-0 bg-indigo-900/30 backdrop-blur-sm"
             onClick={onClose}
         ></div>
-        <div className="relative w-[450px] max-w-[90vw] bg-white dark:bg-slate-900 h-full overflow-y-auto p-10 animate-slide-in-right border-l-8 border-indigo-200 dark:border-indigo-900 shadow-2xl shadow-indigo-900/20">
+        <div className="relative w-[450px] max-w-[90vw] bg-white dark:bg-slate-900 h-full overflow-y-auto p-10 animate-slide-in-right border-l-8 border-indigo-200 dark:border-indigo-900">
             <div className="flex justify-between items-center mb-12">
                 <h3 className="text-4xl font-black text-slate-800 dark:text-white flex items-center gap-4">
                   <span className="text-5xl">📚</span> {t('historyTitle')}
@@ -42,7 +42,7 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, onClose, histor
             ) : (
                 <div className="space-y-8">
                     {history.map(item => (
-                        <div key={item.id} className="bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-800 rounded-[2.5rem] p-7 border-4 border-slate-100 dark:border-slate-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-all group shadow-md">
+                        <div key={item.id} className="bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-800 rounded-[2.5rem] p-7 border-4 border-slate-100 dark:border-slate-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-all group">
                             <h4 className="font-black text-2xl text-slate-800 dark:text-white mb-3 tracking-tight">{item.config.theme}</h4>
                             <div className="flex items-center gap-3 mb-6">
                                 <span className="text-base font-black text-slate-400">{new Date(item.timestamp).toLocaleDateString()}</span>
@@ -51,7 +51,7 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, onClose, histor
                             <div className="flex gap-4">
                                 <button 
                                 onClick={() => onLoadItem(item)}
-                                className="flex-1 bg-indigo-500 text-white text-lg font-black py-4 rounded-2xl hover:bg-indigo-600 transition-all active:scale-95 shadow-lg shadow-indigo-100 dark:shadow-none"
+                                className="flex-1 bg-indigo-500 text-white text-lg font-black py-4 rounded-2xl hover:bg-indigo-600 transition-all active:scale-95"
                                 >
                                     {t('historyLoad')}
                                 </button>

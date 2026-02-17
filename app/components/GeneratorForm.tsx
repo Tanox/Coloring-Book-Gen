@@ -1,4 +1,4 @@
-/* app/components/GeneratorForm.tsx v0.3.9 */
+/* app/components/GeneratorForm.tsx v0.5.0 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GenerationConfig, ArtStyle, ImageSize, ModelProvider } from '../types';
@@ -42,7 +42,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
         </p>
       </div>
 
-      <form onSubmit={onGenerate} className="bg-white/80 dark:bg-slate-800/90 backdrop-blur-xl p-10 md:p-14 rounded-[4rem] border-4 border-white dark:border-slate-700 shadow-2xl shadow-indigo-200/50 dark:shadow-none text-left space-y-16">
+      <form onSubmit={onGenerate} className="bg-white/80 dark:bg-slate-800/90 backdrop-blur-xl p-10 md:p-14 rounded-[4rem] border-4 border-white dark:border-slate-700 text-left space-y-16">
         
         {/* Step 1: AI Engine */}
         <section>
@@ -60,14 +60,14 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
                   onClick={() => setConfig({...config, provider: p.id})}
                   className={`group relative flex flex-col items-center gap-4 p-5 rounded-3xl border-4 transition-all duration-300 ${
                     config.provider === p.id 
-                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/40 scale-[1.05] shadow-xl' 
+                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/40 scale-[1.05]' 
                     : 'border-slate-50 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 hover:border-indigo-200'
                   } ${!isReady ? 'opacity-40 grayscale-[0.8]' : ''}`}
                 >
                   <span className={`text-4xl transition-transform group-hover:scale-110`}>{p.icon}</span>
                   <span className="font-bold text-base dark:text-slate-200 text-center">{p.name}</span>
                   
-                  <div className={`absolute top-3 right-3 w-4 h-4 rounded-full border-2 border-white dark:border-slate-800 shadow-sm ${isReady ? 'bg-green-500' : 'bg-slate-300'}`}></div>
+                  <div className={`absolute top-3 right-3 w-4 h-4 rounded-full border-2 border-white dark:border-slate-800 ${isReady ? 'bg-green-500' : 'bg-slate-300'}`}></div>
                 </button>
               );
             })}
@@ -120,7 +120,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
                 onClick={() => setConfig({...config, artStyle: s.id})}
                 className={`flex flex-col items-center gap-3 p-6 rounded-[2.5rem] border-4 transition-all ${
                   config.artStyle === s.id 
-                  ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/40 ring-4 ring-purple-100 dark:ring-purple-900/20 shadow-xl scale-105' 
+                  ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/40 ring-4 ring-purple-100 dark:ring-purple-900/20 scale-105' 
                   : 'border-slate-50 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30 hover:bg-white dark:hover:bg-slate-700 hover:border-purple-200'
                 }`}
               >
@@ -136,7 +136,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
         <section className="flex flex-col lg:flex-row items-center gap-10 bg-slate-50/50 dark:bg-slate-900/50 p-8 rounded-[3rem] border-2 border-slate-100 dark:border-slate-700">
              <div className="flex-1 w-full space-y-5">
                 <label className="block text-xl font-black text-slate-700 dark:text-slate-200">{t('labelSize')}</label>
-                <div className="flex bg-white dark:bg-slate-800 p-2 rounded-2xl border-2 border-slate-100 dark:border-slate-700 shadow-sm">
+                <div className="flex bg-white dark:bg-slate-800 p-2 rounded-2xl border-2 border-slate-100 dark:border-slate-700">
                     {[ImageSize.Size_1K, ImageSize.Size_2K, ImageSize.Size_4K].map(size => (
                         <button
                             key={size}
@@ -144,7 +144,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
                             onClick={() => setConfig({...config, imageSize: size})}
                             className={`flex-1 py-4 rounded-xl font-black text-lg transition-all ${
                                 config.imageSize === size 
-                                ? 'bg-indigo-500 text-white shadow-lg scale-100' 
+                                ? 'bg-indigo-500 text-white scale-100' 
                                 : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700'
                             }`}
                         >
@@ -154,7 +154,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
                 </div>
              </div>
 
-             <div className="flex items-center gap-8 bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] border-2 border-slate-100 dark:border-slate-700 shadow-sm w-full lg:w-auto">
+             <div className="flex items-center gap-8 bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] border-2 border-slate-100 dark:border-slate-700 w-full lg:w-auto">
                 <div className="flex-1 min-w-[120px]">
                     <label className="block text-xl font-black text-slate-800 dark:text-white">{t('labelStory')}</label>
                     <span className="text-sm text-slate-400 font-bold">{t('storyModeDesc')}</span>
@@ -164,7 +164,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
                     onClick={() => setConfig({...config, enableStory: !config.enableStory})}
                     className={`relative inline-flex h-11 w-20 items-center rounded-full transition-all focus:outline-none ${config.enableStory ? 'bg-green-500' : 'bg-slate-200 dark:bg-slate-700'}`}
                 >
-                    <span className={`inline-block h-9 w-9 transform rounded-full bg-white shadow-md transition-transform ${config.enableStory ? 'translate-x-10' : 'translate-x-1'}`} />
+                    <span className={`inline-block h-9 w-9 transform rounded-full bg-white transition-transform ${config.enableStory ? 'translate-x-10' : 'translate-x-1'}`} />
                 </button>
              </div>
         </section>
@@ -172,7 +172,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
         <button 
             type="submit" 
             disabled={isGenerating || !config.theme || !config.childName} 
-            className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-black text-4xl py-10 rounded-[3rem] transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-2xl shadow-purple-500/30 disabled:opacity-50 disabled:grayscale disabled:hover:scale-100"
+            className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-black text-4xl py-10 rounded-[3rem] transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:grayscale disabled:hover:scale-100"
         >
             {isGenerating ? (
                 <span className="flex items-center justify-center gap-6">

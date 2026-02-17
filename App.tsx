@@ -1,4 +1,4 @@
-/* App.tsx v0.4.0 */
+/* App.tsx v0.5.3 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GeneratedPage, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider } from './app/types';
 import { 
@@ -21,7 +21,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.4.0';
+const APP_VERSION = 'v0.5.3';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();
@@ -137,9 +137,13 @@ const App: React.FC = () => {
     }
   };
 
+  const onToggleChat = () => {
+    setIsChatOpen(!isChatOpen);
+  };
+
   return (
     <div id="app-root" className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50 dark:from-slate-900 dark:to-indigo-950 font-comic pb-20 transition-colors duration-200">
-      <Header version={APP_VERSION} onOpenHistory={() => setIsHistoryOpen(true)} onOpenSettings={() => setIsSettingsOpen(true)} onToggleChat={() => onToggleChat()} isChatOpen={isChatOpen} />
+      <Header version={APP_VERSION} onOpenHistory={() => setIsHistoryOpen(true)} onOpenSettings={() => setIsSettingsOpen(true)} onToggleChat={onToggleChat} isChatOpen={isChatOpen} />
       <main className="max-w-7xl mx-auto px-4 py-10">
         <GeneratorForm 
           config={config} 
@@ -170,9 +174,5 @@ const App: React.FC = () => {
       <ColoringCanvas isOpen={!!canvasImage} onClose={() => setCanvasImage(null)} imageUrl={canvasImage || ''} />
     </div>
   );
-
-  function onToggleChat() {
-    setIsChatOpen(!isChatOpen);
-  }
 };
 export default App;

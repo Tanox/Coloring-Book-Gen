@@ -1,5 +1,5 @@
-/* app/components/SettingsModal.tsx v0.4.0 */
-import React, { useState, useEffect } from 'react';
+/* app/components/SettingsModal.tsx v0.5.0 */
+import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { Language, ModelProvider } from '../types';
@@ -15,6 +15,7 @@ interface SettingsModalProps {
 const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelectApiKey }) => {
   const { t, language, setLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [showKeys, setShowKeys] = useState<Record<string, boolean>>({});
   const [testResults, setTestResults] = useState<Record<string, { loading: boolean, success?: boolean, error?: string }>>({});
@@ -43,8 +44,52 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
     } else {
         localStorage.removeItem(`${provider}_api_key`);
     }
-    // Clear test result when key changes
     setTestResults(prev => ({ ...prev, [provider]: { loading: false } }));
+  };
+
+  const handleExportConfig = () => {
+    const configData = {
+        version: 'v0.5.0',
+        exportDate: new Date().toISOString(),
+        keys: keys,
+        preferences: {
+            language,
+            theme
+        }
+    };
+    const blob = new Blob([JSON.stringify(configData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `colormyworld-config-${new Date().getTime()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImportConfig = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+          try {
+              const config = JSON.parse(event.target?.result as string);
+              if (config.keys) {
+                  Object.entries(config.keys).forEach(([key, val]) => {
+                      if (val && typeof val === 'string') {
+                          updateKey(key, val);
+                      }
+                  });
+                  alert('配置导入成功！页面将刷新以应用更改。');
+                  window.location.reload();
+              } else {
+                  throw new Error('无效的配置文件格式');
+              }
+          } catch (err) {
+              alert('导入失败: ' + (err as Error).message);
+          }
+      };
+      reader.readAsText(file);
   };
 
   const toggleKeyVisibility = (provider: string) => {
@@ -54,7 +99,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
   const handleTestConnection = async (providerId: string) => {
       setTestResults(prev => ({ ...prev, [providerId]: { loading: true } }));
       try {
-          // Cast string ID to ModelProvider enum
           const providerEnum = providerId as ModelProvider;
           const success = await testProviderConnection(providerEnum);
           setTestResults(prev => ({ ...prev, [providerId]: { loading: false, success: true } }));
@@ -87,7 +131,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md">
-      <div className="relative bg-white dark:bg-slate-900 rounded-[3rem] w-full max-w-3xl overflow-hidden border-8 border-white dark:border-slate-700 shadow-2xl flex flex-col max-h-[92vh]">
+      <div className="relative bg-white dark:bg-slate-900 rounded-[3rem] w-full max-w-3xl overflow-hidden border-8 border-white dark:border-slate-700 flex flex-col max-h-[92vh]">
         
         {/* Header */}
         <div className="p-10 border-b-4 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
@@ -133,6 +177,38 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
             </div>
           </section>
 
+          {/* Data Management Section */}
+          <section className="space-y-8">
+            <h4 className="text-base font-black text-emerald-500 uppercase tracking-widest pl-2">数据管理</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <button 
+                    onClick={handleExportConfig}
+                    className="flex items-center justify-center gap-4 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-300 border-4 border-emerald-100 dark:border-emerald-800 p-6 rounded-3xl font-black text-xl hover:bg-emerald-100 transition-all active:scale-95"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    导出配置 (.json)
+                </button>
+                <button 
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center justify-center gap-4 bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-300 border-4 border-amber-100 dark:border-amber-800 p-6 rounded-3xl font-black text-xl hover:bg-amber-100 transition-all active:scale-95"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    </svg>
+                    导入配置
+                </button>
+                <input 
+                    type="file" 
+                    ref={fileInputRef} 
+                    className="hidden" 
+                    accept=".json" 
+                    onChange={handleImportConfig}
+                />
+            </div>
+          </section>
+
           {/* API Keys Section */}
           <section className="space-y-8">
             <div className="flex items-center justify-between pl-2">
@@ -153,7 +229,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
                 const testStatus = testResults[p.id];
 
                 return (
-                  <div key={p.id} className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border-4 border-slate-100 dark:border-slate-800 space-y-4 shadow-sm relative overflow-hidden group">
+                  <div key={p.id} className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border-4 border-slate-100 dark:border-slate-800 space-y-4 relative overflow-hidden group">
                     <div className="flex justify-between items-center">
                       <div className="flex flex-wrap items-center gap-3">
                         <label className="text-xl font-black text-slate-800 dark:text-slate-100">{p.name}</label>
@@ -240,7 +316,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
         <div className="p-10 bg-slate-50 dark:bg-slate-800 border-t-4 dark:border-slate-700">
           <button 
             onClick={onClose} 
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-6 rounded-3xl font-black text-2xl transition-all transform active:scale-95 shadow-xl shadow-indigo-100 dark:shadow-none"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-6 rounded-3xl font-black text-2xl transition-all transform active:scale-95"
           >
             {t('btnClose')}
           </button>

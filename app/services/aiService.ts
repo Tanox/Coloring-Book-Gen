@@ -1,4 +1,4 @@
-/* app/services/aiService.ts v0.4.0 */
+/* app/services/aiService.ts v0.5.0 */
 import { GoogleGenAI, GenerateContentResponse, Chat } from "@google/genai";
 import { ImageSize, ArtStyle, ModelProvider } from "../types";
 
@@ -114,7 +114,6 @@ export const testProviderConnection = async (provider: ModelProvider): Promise<b
                 return true;
             case ModelProvider.Qianwen:
                 if (!keys.qianwen) return false;
-                // Using a simple text generation for Qianwen test
                 await openAiFetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation', keys.qianwen, {
                     model: "qwen-turbo",
                     input: { prompt: testPrompt },
@@ -124,7 +123,7 @@ export const testProviderConnection = async (provider: ModelProvider): Promise<b
             case ModelProvider.Doubao:
                 if (!keys.doubao) return false;
                 await openAiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
-                    model: "doubao-pro-4k", // Placeholder, users should ideally provide endpoint ID
+                    model: "doubao-pro-4k",
                     messages: [{ role: "user", content: testPrompt }],
                     max_tokens: 5
                 });
@@ -147,7 +146,6 @@ export const generateColoringPage = async (
   const keys = getKeys();
   const fullPrompt = `Children's coloring book page. ${promptBase}. ${getStylePrompt(style)}. NO colors, NO shading, NO text, NO watermarks. Pure white background, clean black lines only.`;
 
-  // ROUTE: OpenAI (DALL-E 3)
   if (provider === ModelProvider.OpenAI && keys.openai) {
     try {
         const res = await openAiFetch('https://api.openai.com/v1/images/generations', keys.openai, {
@@ -161,7 +159,6 @@ export const generateColoringPage = async (
     } catch (e) { console.warn("OpenAI Image failed, falling back", e); }
   }
 
-  // ROUTE: Qianwen
   if (provider === ModelProvider.Qianwen && keys.qianwen) {
     try {
         const res = await openAiFetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', keys.qianwen, {
@@ -173,10 +170,8 @@ export const generateColoringPage = async (
     } catch (e) { console.warn("Qianwen failed, falling back", e); }
   }
 
-  // ROUTE: Doubao (Image via Ark)
   if (provider === ModelProvider.Doubao && keys.doubao) {
       try {
-          // Note: Doubao image API may vary by region/endpoint, using standard Ark format
           const res = await openAiFetch('https://ark.cn-beijing.volces.com/api/v3/images/generations', keys.doubao, {
               model: "cv-xl", 
               prompt: fullPrompt,
@@ -187,7 +182,6 @@ export const generateColoringPage = async (
       } catch (e) { console.warn("Doubao failed, falling back", e); }
   }
 
-  // FALLBACK: Gemini
   const ai = getGeminiClient();
   const isPro = size !== ImageSize.Size_1K;
   const model = isPro ? 'gemini-3-pro-image-preview' : 'gemini-2.5-flash-image';
@@ -213,7 +207,6 @@ export const generateStoryForPage = async (
   const prompt = `Write a single, very short, simple, and engaging sentence for a children's book in ${language}.\nTheme: ${theme}\nScene: ${sceneDescription}\nFormat: Just the sentence.`;
   const keys = getKeys();
 
-  // ROUTE: Claude
   if (provider === ModelProvider.Claude && keys.claude) {
     try {
         const res = await openAiFetch('https://api.anthropic.com/v1/messages', keys.claude, {
@@ -225,7 +218,6 @@ export const generateStoryForPage = async (
     } catch (e) { console.warn("Claude story failed", e); }
   }
 
-  // ROUTE: DeepSeek
   if (provider === ModelProvider.DeepSeek && keys.deepseek) {
     try {
         const res = await openAiFetch('https://api.deepseek.com/v1/chat/completions', keys.deepseek, {
@@ -236,7 +228,6 @@ export const generateStoryForPage = async (
     } catch (e) { console.warn("DeepSeek story failed", e); }
   }
 
-  // ROUTE: Doubao
   if (provider === ModelProvider.Doubao && keys.doubao) {
       try {
           const res = await openAiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
@@ -247,7 +238,6 @@ export const generateStoryForPage = async (
       } catch (e) { console.warn("Doubao story failed", e); }
   }
 
-  // FALLBACK: Gemini
   const ai = getGeminiClient();
   const response = await ai.models.generateContent({
     model: 'gemini-3-flash-preview',

@@ -1,4 +1,4 @@
-/* app/components/ResultsGallery.tsx v0.3.8 */
+/* app/components/ResultsGallery.tsx v0.5.0 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GeneratedPage, GenerationConfig } from '../types';
@@ -31,7 +31,7 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({
             <button 
                 onClick={onDownload}
                 disabled={isDownloading}
-                className="flex items-center gap-4 bg-green-500 hover:bg-green-600 text-white px-12 py-5 rounded-[2rem] text-2xl font-black transition-all disabled:opacity-70 disabled:cursor-wait active:translate-y-[2px] shadow-xl shadow-green-200 dark:shadow-none"
+                className="flex items-center gap-4 bg-green-500 hover:bg-green-600 text-white px-12 py-5 rounded-[2rem] text-2xl font-black transition-all disabled:opacity-70 disabled:cursor-wait active:translate-y-[2px]"
             >
                 {isDownloading ? (
                         <>
@@ -54,7 +54,7 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
             {pages.map((page, idx) => (
-                <div key={idx} className="bg-white dark:bg-slate-800 p-8 rounded-[3rem] border-2 border-slate-100 dark:border-slate-700 group hover:scale-[1.03] hover:rotate-1 transition-all duration-300 flex flex-col relative overflow-hidden shadow-xl shadow-slate-100 dark:shadow-none">
+                <div key={idx} className="bg-white dark:bg-slate-800 p-8 rounded-[3rem] border-2 border-slate-100 dark:border-slate-700 group hover:scale-[1.03] hover:rotate-1 transition-all duration-300 flex flex-col relative overflow-hidden">
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-12 bg-yellow-200/50 rotate-2 z-10 backdrop-blur-sm rounded-b-xl"></div>
 
                     <div className="aspect-[3/4] w-full overflow-hidden rounded-[2rem] bg-slate-50 dark:bg-slate-900 mb-6 border-4 border-dashed border-slate-200 dark:border-slate-700 relative group-hover:border-indigo-300 transition-colors">
@@ -66,7 +66,7 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({
                         <div className="absolute inset-0 bg-indigo-900/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-6">
                             <button 
                                 onClick={() => onColor(page.imageUrl)}
-                                className="bg-white text-indigo-600 p-5 rounded-full hover:scale-110 hover:bg-indigo-50 transition-all border-4 border-indigo-100 shadow-xl"
+                                className="bg-white text-indigo-600 p-5 rounded-full hover:scale-110 hover:bg-indigo-50 transition-all border-4 border-indigo-100"
                                 title={t('btnColorNow')}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -75,7 +75,7 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({
                             </button>
                             <button 
                                 onClick={() => onRegenerate(idx)}
-                                className="bg-white text-pink-600 p-5 rounded-full hover:scale-110 hover:bg-pink-50 transition-all border-4 border-pink-100 shadow-xl"
+                                className="bg-white text-pink-600 p-5 rounded-full hover:scale-110 hover:bg-pink-50 transition-all border-4 border-pink-100"
                                 title={t('btnRegeneratePage')}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">

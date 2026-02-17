@@ -1,4 +1,4 @@
-/* app/components/Footer.tsx v0.3.8 */
+/* app/components/Footer.tsx v0.5.3 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
