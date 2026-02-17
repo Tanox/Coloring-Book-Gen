@@ -1,9 +1,8 @@
-/* services/pdfService.ts v1.2.1 */
+/* app/services/pdfService.ts v0.2.6 */
 import { jsPDF } from "jspdf";
 import { GeneratedPage } from "../types";
 import { getCachedFont, cacheFont } from "./storageService";
 
-// Using Noto Sans SC via JsDelivr for better global CDN performance
 const FONT_URL = "https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.0.18/files/noto-sans-sc-latin-400-normal.woff";
 const FONT_NAME = "CustomFont.ttf";
 
@@ -26,7 +25,6 @@ export const generateBookPDF = async (
   const contentWidth = pageWidth - (margin * 2);
   const contentHeight = pageHeight - (margin * 2);
 
-  // 1. Load Font
   try {
     let fontBase64 = await getCachedFont(FONT_NAME);
     if (!fontBase64) {
@@ -57,30 +55,22 @@ export const generateBookPDF = async (
 
   pages.forEach((page, index) => {
     if (index > 0) doc.addPage();
-
     if (index === 0) {
-      // Cover
       doc.setFontSize(28); 
       doc.setTextColor(0, 0, 0);
       const splitTitle = doc.splitTextToSize(title, contentWidth);
       doc.text(splitTitle, pageWidth / 2, 40, { align: "center" });
-
       const titleHeight = splitTitle.length * 12; 
       const imageStartY = 45 + titleHeight;
       const availableHeight = pageHeight - imageStartY - 40; 
-
       doc.addImage(page.imageUrl, "PNG", margin, imageStartY, contentWidth, availableHeight, undefined, 'FAST');
-
       doc.setFontSize(16);
       doc.setTextColor(60, 60, 60); 
       doc.text(coverSubtitle, pageWidth / 2, pageHeight - 20, { align: "center" });
     } else {
-      // Page
       const storyHeight = page.storyText ? 30 : 0;
       const displayHeight = contentHeight - storyHeight;
-
       doc.addImage(page.imageUrl, "PNG", margin, margin, contentWidth, displayHeight, undefined, 'FAST');
-      
       if (page.storyText) {
           doc.setFontSize(14);
           doc.setTextColor(0, 0, 0);
@@ -88,17 +78,14 @@ export const generateBookPDF = async (
           const storyY = margin + displayHeight + 10;
           doc.text(splitStory, pageWidth / 2, storyY, { align: "center" });
       }
-
       const footerText = footerTemplate
         .replace('{page}', String(index)) 
         .replace('{theme}', title)
         .replace('{name}', authorName);
-
       doc.setFontSize(9);
       doc.setTextColor(150);
       doc.text(footerText, pageWidth / 2, pageHeight - 5, { align: "center" });
     }
   });
-
   doc.save(`${safeTitle || 'Coloring_Book'}.pdf`);
 };

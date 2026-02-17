@@ -1,4 +1,4 @@
-/* components/HistorySidebar.tsx v1.1.0 */
+/* app/components/HistorySidebar.tsx v0.2.6 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { BookHistoryItem } from '../types';
@@ -22,7 +22,7 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, onClose, histor
             className="absolute inset-0 bg-indigo-900/30 backdrop-blur-sm"
             onClick={onClose}
         ></div>
-        <div className="relative w-96 max-w-full bg-white dark:bg-slate-900 h-full shadow-2xl overflow-y-auto p-8 animate-slide-in-right border-l-4 border-indigo-200 dark:border-indigo-900">
+        <div className="relative w-96 max-w-full bg-white dark:bg-slate-900 h-full overflow-y-auto p-8 animate-slide-in-right border-l-4 border-indigo-200 dark:border-indigo-900 shadow-none">
             <div className="flex justify-between items-center mb-10">
                 <h3 className="text-3xl font-extrabold text-slate-800 dark:text-white flex items-center gap-3">
                 <span className="text-4xl">📚</span> {t('historyTitle')}
@@ -42,19 +42,19 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, onClose, histor
             ) : (
                 <div className="space-y-6">
                     {history.map(item => (
-                        <div key={item.id} className="bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-800 rounded-3xl p-5 border-2 border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-500 transition-all group">
+                        <div key={item.id} className="bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-800 rounded-3xl p-5 border-2 border-slate-100 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-500 transition-all group shadow-none">
                             <h4 className="font-bold text-xl text-slate-800 dark:text-white mb-2">{item.config.theme}</h4>
                             <p className="text-sm font-semibold text-slate-400 mb-5">{new Date(item.timestamp).toLocaleDateString()}</p>
                             <div className="flex gap-3">
                                 <button 
                                 onClick={() => onLoadItem(item)}
-                                className="flex-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 text-sm font-bold py-3 rounded-xl hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors"
+                                className="flex-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 text-sm font-bold py-3 rounded-xl hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors shadow-none"
                                 >
                                     {t('historyLoad')}
                                 </button>
                                 <button 
                                 onClick={(e) => onDeleteItem(item.id, e)}
-                                className="px-5 bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-300 text-sm font-bold py-3 rounded-xl hover:bg-rose-200 dark:hover:bg-rose-800 transition-colors"
+                                className="px-5 bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-300 text-sm font-bold py-3 rounded-xl hover:bg-rose-200 dark:hover:bg-rose-800 transition-colors shadow-none"
                                 >
                                     {t('historyDelete')}
                                 </button>

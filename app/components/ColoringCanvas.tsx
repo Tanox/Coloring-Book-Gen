@@ -1,4 +1,4 @@
-/* components/ColoringCanvas.tsx v2.1.0 */
+/* app/components/ColoringCanvas.tsx v2.1.1 */
 import React, { useRef, useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -113,7 +113,7 @@ const ColoringCanvas: React.FC<ColoringCanvasProps> = ({ isOpen, onClose, imageU
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-indigo-900/60 backdrop-blur-sm font-comic">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-5xl h-[90vh] flex flex-col shadow-2xl overflow-hidden border-4 border-white dark:border-slate-700">
+      <div className="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden border-4 border-white dark:border-slate-700 shadow-none">
         
         {/* Header */}
         <div className="p-4 border-b-2 border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900">
@@ -122,21 +122,21 @@ const ColoringCanvas: React.FC<ColoringCanvasProps> = ({ isOpen, onClose, imageU
             </h3>
             <button 
                 onClick={onClose} 
-                className="bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-300 font-bold px-4 py-2 rounded-xl hover:bg-rose-200 transition-colors"
+                className="bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-300 font-bold px-4 py-2 rounded-xl hover:bg-rose-200 transition-colors shadow-none"
             >
                 {t('canvasClose')}
             </button>
         </div>
 
         {/* Toolbar - Art Desk Style */}
-        <div className="p-4 bg-orange-50 dark:bg-slate-800 flex flex-wrap gap-6 items-center border-b border-orange-100 dark:border-slate-700 shadow-sm z-10">
+        <div className="p-4 bg-orange-50 dark:bg-slate-800 flex flex-wrap gap-6 items-center border-b border-orange-100 dark:border-slate-700 z-10">
             {/* Palette */}
-            <div className="flex gap-2 flex-wrap bg-white dark:bg-slate-700 p-2 rounded-2xl shadow-sm border border-orange-100 dark:border-slate-600">
+            <div className="flex gap-2 flex-wrap bg-white dark:bg-slate-700 p-2 rounded-2xl border border-orange-100 dark:border-slate-600 shadow-none">
                 {COLORS.map(c => (
                     <button
                         key={c}
                         onClick={() => setColor(c)}
-                        className={`w-10 h-10 rounded-full border-4 shadow-sm transition-transform hover:scale-110 ${color === c ? 'border-slate-800 dark:border-white scale-110 z-10' : 'border-white dark:border-slate-500'}`}
+                        className={`w-10 h-10 rounded-full border-4 transition-transform hover:scale-110 shadow-none ${color === c ? 'border-slate-800 dark:border-white scale-110 z-10' : 'border-white dark:border-slate-500'}`}
                         style={{ backgroundColor: c }}
                         aria-label={`Select color ${c}`}
                     />
@@ -147,7 +147,7 @@ const ColoringCanvas: React.FC<ColoringCanvasProps> = ({ isOpen, onClose, imageU
             <div className="hidden sm:block h-10 w-0.5 bg-orange-200 dark:bg-slate-600"></div>
             
             {/* Brush Size */}
-            <div className="flex items-center gap-3 bg-white dark:bg-slate-700 px-4 py-2 rounded-2xl shadow-sm border border-orange-100 dark:border-slate-600">
+            <div className="flex items-center gap-3 bg-white dark:bg-slate-700 px-4 py-2 rounded-2xl border border-orange-100 dark:border-slate-600 shadow-none">
                 <span className="text-sm font-bold text-slate-600 dark:text-slate-300">{t('canvasBrushSize')}</span>
                 <input 
                     type="range" 
@@ -165,7 +165,7 @@ const ColoringCanvas: React.FC<ColoringCanvasProps> = ({ isOpen, onClose, imageU
 
             <button 
                 onClick={clearCanvas}
-                className="ml-auto px-6 py-3 bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-200 border-2 border-slate-200 dark:border-slate-600 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-600 text-sm font-bold shadow-sm transition-colors"
+                className="ml-auto px-6 py-3 bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-200 border-2 border-slate-200 dark:border-slate-600 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-600 text-sm font-bold transition-colors shadow-none"
             >
                 ♻️ {t('canvasClear')}
             </button>
@@ -173,7 +173,7 @@ const ColoringCanvas: React.FC<ColoringCanvasProps> = ({ isOpen, onClose, imageU
 
         {/* Canvas Container */}
         <div ref={containerRef} className="flex-1 bg-slate-100 dark:bg-slate-950 p-6 overflow-hidden flex items-center justify-center relative touch-none bg-[url('https://www.transparenttextures.com/patterns/graphy.png')]">
-             <div className="bg-white p-2 shadow-xl rounded-lg rotate-1">
+             <div className="bg-white p-2 rounded-lg rotate-1 shadow-none">
                  <canvas
                     ref={canvasRef}
                     onMouseDown={startDrawing}

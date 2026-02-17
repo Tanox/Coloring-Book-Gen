@@ -1,4 +1,4 @@
-/* types.ts v0.1.1 */
+/* app/types.ts v0.3.0 */
 export enum ImageSize {
   Size_1K = '1K',
   Size_2K = '2K',
@@ -6,18 +6,25 @@ export enum ImageSize {
 }
 
 export enum ArtStyle {
-  Simple = 'simple',     // Toddler: Bold lines, simple shapes
-  Standard = 'standard', // Default
-  Detailed = 'detailed', // Older kids: More patterns
-  Cartoon = 'cartoon',   // Disney/Pixar style outlines
-  Realistic = 'realistic' // Sketch style
+  Simple = 'simple',
+  Standard = 'standard',
+  Detailed = 'detailed',
+  Cartoon = 'cartoon',
+  Realistic = 'realistic'
+}
+
+export enum ModelProvider {
+  Gemini = 'gemini',
+  DeepSeek = 'deepseek',
+  Qianwen = 'qianwen',
+  Doubao = 'doubao'
 }
 
 export interface GeneratedPage {
   title: string;
-  imageUrl: string; // Base64 data URL
+  imageUrl: string; 
   prompt: string;
-  storyText?: string; // Optional story text for this page
+  storyText?: string;
 }
 
 export interface BookHistoryItem {
@@ -40,6 +47,7 @@ export interface GenerationConfig {
   imageSize: ImageSize;
   artStyle: ArtStyle;
   enableStory: boolean;
+  provider: ModelProvider;
 }
 
 export type Language = 'en' | 'zh-CN' | 'zh-TW' | 'es' | 'ar' | 'fr' | 'pt-BR' | 'de' | 'ja' | 'ko' | 'ru';

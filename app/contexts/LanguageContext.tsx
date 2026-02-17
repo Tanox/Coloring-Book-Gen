@@ -1,4 +1,4 @@
-/* app/contexts/LanguageContext.tsx v0.1.1 */
+/* app/contexts/LanguageContext.tsx v0.2.6 */
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Language } from '../types';
 import { translations } from '../locales';
@@ -27,7 +27,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   const t = (key: string, params?: Record<string, string | number>): string => {
     const langDict = translations[language] || translations['en'];
     let text = langDict[key] || translations['en'][key] || key;
-
     if (params) {
       Object.entries(params).forEach(([paramKey, paramValue]) => {
         text = text.replace(`{${paramKey}}`, String(paramValue));
@@ -45,8 +44,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
-  }
+  if (!context) throw new Error('useLanguage must be used within a LanguageProvider');
   return context;
 };
