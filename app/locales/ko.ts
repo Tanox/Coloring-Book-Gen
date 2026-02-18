@@ -1,4 +1,4 @@
-/* app/locales/ko.ts v1.1.7 */
+/* app/locales/ko.ts v1.1.9 */
 export const ko = {
   appTitle: "ColorMyWorld",
   selectKey: "API 키 선택",
@@ -7,6 +7,7 @@ export const ko = {
   introSubtitle: "주제와 아이 이름을 입력하면 AI가 마법처럼 색칠 공부 책을 만들어줍니다!",
   labelTheme: "주제",
   labelName: "이름",
+  labelAiEngine: "마법 두뇌 선택",
   labelSize: "품질",
   labelStyle: "스타일",
   labelStory: "스토리 모드",
@@ -15,6 +16,11 @@ export const ko = {
   styleDetailed: "정밀 (고학년)",
   styleCartoon: "만화",
   styleRealistic: "사실적",
+  styleSimpleDesc: "굵은 선, 디테일 없음",
+  styleStandardDesc: "표준 색칠 스타일",
+  styleDetailedDesc: "복잡한 라인 아트",
+  styleCartoonDesc: "귀여운 카툰 디자인",
+  styleRealisticDesc: "사실적인 스케치 스타일",
   storyModeDesc: "페이지별 짧은 이야기 생성",
   phTheme: "어떤 책인가요?",
   phName: "누구를 위해?",

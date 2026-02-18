@@ -1,6 +1,5 @@
-
-/* app/services/aiService.ts v0.5.4 */
-import { GoogleGenAI, GenerateContentResponse, Chat } from "@google/genai";
+/* app/services/aiService.ts v0.5.14 */
+import { GoogleGenAI } from "@google/genai";
 import { ImageSize, ArtStyle, ModelProvider } from "../types";
 
 const getKeys = () => ({
@@ -11,6 +10,39 @@ const getKeys = () => ({
   openai: localStorage.getItem('openai_api_key') || '',
   claude: localStorage.getItem('claude_api_key') || '',
 });
+
+const apiFetch = async (
+  url: string, 
+  key: string, 
+  body: any, 
+  authScheme: 'Bearer' | 'Simple' | 'Custom', 
+  customHeaders: Record<string, string> = {}
+) => {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...customHeaders
+  };
+  
+  if (authScheme === 'Bearer') {
+    headers['Authorization'] = `Bearer ${key}`;
+  } else if (authScheme === 'Simple') {
+    headers['Authorization'] = key;
+  }
+  // For 'Custom', headers are provided entirely via customHeaders.
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body)
+  });
+
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({ message: `HTTP Error: ${response.status}` }));
+    const message = errData.error?.message || errData.message || errData.msg || `API Error: ${response.statusText}`;
+    throw new Error(message);
+  }
+  return response.json();
+};
 
 export const checkApiKeySelection = async (): Promise<boolean> => {
   const win = window as any;
@@ -59,26 +91,6 @@ const getGeminiClient = () => {
   return new GoogleGenAI({ apiKey: key });
 };
 
-async function openAiFetch(url: string, key: string, body: any, customHeaders = {}) {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${key}`,
-      ...customHeaders
-    },
-    body: JSON.stringify(body)
-  });
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    throw new Error(err.error?.message || err.message || `API Error: ${response.statusText}`);
-  }
-  return response.json();
-}
-
-/**
- * Tests if a specific provider's API key is valid by sending a tiny request.
- */
 export const testProviderConnection = async (provider: ModelProvider): Promise<boolean> => {
     const keys = getKeys();
     const testPrompt = "Hi";
@@ -91,43 +103,43 @@ export const testProviderConnection = async (provider: ModelProvider): Promise<b
                 return true;
             case ModelProvider.OpenAI:
                 if (!keys.openai) return false;
-                await openAiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
+                await apiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
                     model: "gpt-3.5-turbo",
                     messages: [{role: "user", content: testPrompt}],
                     max_tokens: 5
-                });
+                }, 'Bearer');
                 return true;
             case ModelProvider.Claude:
                 if (!keys.claude) return false;
-                await openAiFetch('https://api.anthropic.com/v1/messages', keys.claude, {
+                await apiFetch('https://api.anthropic.com/v1/messages', keys.claude, {
                     model: "claude-3-haiku-20240307",
                     max_tokens: 5,
                     messages: [{ role: "user", content: testPrompt }]
-                }, { 'anthropic-version': '2023-06-01', 'x-api-key': keys.claude, 'Authorization': '' });
+                }, 'Custom', { 'anthropic-version': '2023-06-01', 'x-api-key': keys.claude });
                 return true;
             case ModelProvider.DeepSeek:
                 if (!keys.deepseek) return false;
-                await openAiFetch('https://api.deepseek.com/v1/chat/completions', keys.deepseek, {
+                await apiFetch('https://api.deepseek.com/v1/chat/completions', keys.deepseek, {
                     model: "deepseek-chat",
                     messages: [{ role: "user", content: testPrompt }],
                     max_tokens: 5
-                });
+                }, 'Bearer');
                 return true;
             case ModelProvider.Qianwen:
                 if (!keys.qianwen) return false;
-                await openAiFetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation', keys.qianwen, {
+                await apiFetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation', keys.qianwen, {
                     model: "qwen-turbo",
                     input: { prompt: testPrompt },
                     parameters: { max_tokens: 5 }
-                });
+                }, 'Simple');
                 return true;
             case ModelProvider.Doubao:
                 if (!keys.doubao) return false;
-                await openAiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
+                await apiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
                     model: "doubao-pro-4k",
                     messages: [{ role: "user", content: testPrompt }],
                     max_tokens: 5
-                });
+                }, 'Bearer');
                 return true;
             default:
                 return false;
@@ -147,46 +159,42 @@ export const generateColoringPage = async (
   const keys = getKeys();
   const fullPrompt = `Children's coloring book page. ${promptBase}. ${getStylePrompt(style)}. NO colors, NO shading, NO text, NO watermarks. Pure white background, clean black lines only.`;
 
-  // 1. OpenAI 尝试
   if (provider === ModelProvider.OpenAI && keys.openai) {
     try {
-        const res = await openAiFetch('https://api.openai.com/v1/images/generations', keys.openai, {
+        const res = await apiFetch('https://api.openai.com/v1/images/generations', keys.openai, {
             model: "dall-e-3",
             prompt: fullPrompt,
             n: 1,
             size: "1024x1024",
             quality: size === ImageSize.Size_4K ? "hd" : "standard"
-        });
+        }, 'Bearer');
         return res.data[0].url;
     } catch (e) { console.warn("OpenAI Image failed", e); }
   }
 
-  // 2. 通义万相 尝试
   if (provider === ModelProvider.Qianwen && keys.qianwen) {
     try {
-        const res = await openAiFetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', keys.qianwen, {
+        const res = await apiFetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', keys.qianwen, {
           model: "wanx-v1",
           input: { prompt: fullPrompt },
           parameters: { style: "<auto>", size: "768*1024", n: 1 }
-        });
+        }, 'Simple');
         if (res.output?.url) return res.output.url;
     } catch (e) { console.warn("Qianwen failed", e); }
   }
 
-  // 3. 豆包 (Ark) 尝试
   if (provider === ModelProvider.Doubao && keys.doubao) {
       try {
-          const res = await openAiFetch('https://ark.cn-beijing.volces.com/api/v3/images/generations', keys.doubao, {
+          const res = await apiFetch('https://ark.cn-beijing.volces.com/api/v3/images/generations', keys.doubao, {
               model: "cv-xl", 
               prompt: fullPrompt,
               n: 1,
               size: "1024x1024"
-          });
+          }, 'Bearer');
           if (res.data?.[0]?.url) return res.data[0].url;
       } catch (e) { console.warn("Doubao failed", e); }
   }
 
-  // 4. Gemini Fallback (默认)
   try {
       const ai = getGeminiClient();
       const isPro = size !== ImageSize.Size_1K;
@@ -218,46 +226,45 @@ export const generateStoryForPage = async (
 
   if (provider === ModelProvider.Claude && keys.claude) {
     try {
-        const res = await openAiFetch('https://api.anthropic.com/v1/messages', keys.claude, {
+        const res = await apiFetch('https://api.anthropic.com/v1/messages', keys.claude, {
             model: "claude-3-5-sonnet-20240620",
             max_tokens: 100,
             messages: [{ role: "user", content: prompt }]
-        }, { 'anthropic-version': '2023-06-01', 'x-api-key': keys.claude, 'Authorization': '' });
+        }, 'Custom', { 'anthropic-version': '2023-06-01', 'x-api-key': keys.claude });
         return res.content[0].text.trim();
     } catch (e) { console.warn("Claude story failed", e); }
   }
 
   if (provider === ModelProvider.DeepSeek && keys.deepseek) {
     try {
-        const res = await openAiFetch('https://api.deepseek.com/v1/chat/completions', keys.deepseek, {
+        const res = await apiFetch('https://api.deepseek.com/v1/chat/completions', keys.deepseek, {
           model: "deepseek-chat",
           messages: [{ role: "user", content: prompt }]
-        });
+        }, 'Bearer');
         return res.choices[0].message.content.trim();
     } catch (e) { console.warn("DeepSeek story failed", e); }
   }
 
   if (provider === ModelProvider.Doubao && keys.doubao) {
       try {
-          const res = await openAiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
+          const res = await apiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
               model: "doubao-pro-4k",
               messages: [{ role: "user", content: prompt }]
-          });
+          }, 'Bearer');
           return res.choices[0].message.content.trim();
       } catch (e) { console.warn("Doubao story failed", e); }
   }
 
   if (provider === ModelProvider.OpenAI && keys.openai) {
       try {
-          const res = await openAiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
+          const res = await apiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
               model: "gpt-4o-mini",
               messages: [{ role: "user", content: prompt }]
-          });
+          }, 'Bearer');
           return res.choices[0].message.content.trim();
       } catch (e) { console.warn("OpenAI story failed", e); }
   }
 
-  // Fallback to Gemini
   try {
       const ai = getGeminiClient();
       const response = await ai.models.generateContent({
@@ -279,12 +286,12 @@ export const createChatSession = (provider: ModelProvider = ModelProvider.Gemini
       return {
           provider,
           sendMessage: async ({ message }: { message: string }) => {
-              const res = await openAiFetch('https://api.anthropic.com/v1/messages', keys.claude, {
+              const res = await apiFetch('https://api.anthropic.com/v1/messages', keys.claude, {
                   model: "claude-3-5-sonnet-20240620",
                   max_tokens: 256,
                   system: systemPrompt,
                   messages: [{ role: "user", content: message }]
-              }, { 'anthropic-version': '2023-06-01', 'x-api-key': keys.claude, 'Authorization': '' });
+              }, 'Custom', { 'anthropic-version': '2023-06-01', 'x-api-key': keys.claude });
               return { text: res.content[0].text.trim() };
           }
       };
@@ -294,10 +301,10 @@ export const createChatSession = (provider: ModelProvider = ModelProvider.Gemini
       return {
           provider,
           sendMessage: async ({ message }: { message: string }) => {
-              const res = await openAiFetch('https://api.deepseek.com/v1/chat/completions', keys.deepseek, {
+              const res = await apiFetch('https://api.deepseek.com/v1/chat/completions', keys.deepseek, {
                   model: "deepseek-chat",
                   messages: [{ role: "system", content: systemPrompt }, { role: "user", content: message }]
-              });
+              }, 'Bearer');
               return { text: res.choices[0].message.content.trim() };
           }
       };
@@ -307,10 +314,10 @@ export const createChatSession = (provider: ModelProvider = ModelProvider.Gemini
       return {
           provider,
           sendMessage: async ({ message }: { message: string }) => {
-              const res = await openAiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
+              const res = await apiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
                   model: "doubao-pro-4k",
                   messages: [{ role: "system", content: systemPrompt }, { role: "user", content: message }]
-              });
+              }, 'Bearer');
               return { text: res.choices[0].message.content.trim() };
           }
       };
@@ -320,16 +327,15 @@ export const createChatSession = (provider: ModelProvider = ModelProvider.Gemini
       return {
           provider,
           sendMessage: async ({ message }: { message: string }) => {
-              const res = await openAiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
+              const res = await apiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
                   model: "gpt-4o-mini",
                   messages: [{ role: "system", content: systemPrompt }, { role: "user", content: message }]
-              });
+              }, 'Bearer');
               return { text: res.choices[0].message.content.trim() };
           }
       };
   }
 
-  // Gemini is the default/fallback
   try {
       const ai = getGeminiClient();
       const session = ai.chats.create({

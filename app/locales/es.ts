@@ -1,4 +1,4 @@
-/* app/locales/es.ts v1.1.7 */
+/* app/locales/es.ts v1.1.9 */
 export const es = {
   appTitle: "PintaMiMundo",
   selectKey: "Seleccionar Clave API",
@@ -7,6 +7,7 @@ export const es = {
   introSubtitle: "Introduce un tema y el nombre de tu hijo/a, ¡y nuestra IA generará mágicamente un libro para colorear imprimible solo para él/ella!",
   labelTheme: "Tema",
   labelName: "Nombre del niño/a",
+  labelAiEngine: "Elige Cerebro Mágico",
   labelSize: "Calidad",
   labelStyle: "Estilo",
   labelStory: "Modo Historia",
@@ -15,6 +16,11 @@ export const es = {
   styleDetailed: "Detallado",
   styleCartoon: "Dibujos animados",
   styleRealistic: "Realista",
+  styleSimpleDesc: "Líneas gruesas, sin detalles",
+  styleStandardDesc: "Estilo de colorear estándar",
+  styleDetailedDesc: "Arte de línea intrincado",
+  styleCartoonDesc: "Diseño de dibujos animados lindo",
+  styleRealisticDesc: "Estilo de boceto realista",
   storyModeDesc: "Generar una historia corta por página",
   phTheme: "¿De qué tratará el libro?",
   phName: "¿Para quién es este libro?",

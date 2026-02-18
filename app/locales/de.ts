@@ -1,4 +1,4 @@
-/* app/locales/de.ts v1.1.7 */
+/* app/locales/de.ts v1.1.9 */
 export const de = {
   appTitle: "MalMeineWelt",
   selectKey: "API Key wählen",
@@ -7,6 +7,7 @@ export const de = {
   introSubtitle: "Gib ein Thema und den Namen des Kindes ein, und unsere KI zaubert ein druckbares Malbuch!",
   labelTheme: "Thema",
   labelName: "Name",
+  labelAiEngine: "Wähle Magisches Gehirn",
   labelSize: "Qualität",
   labelStyle: "Stil",
   labelStory: "Geschichtsmodus",
@@ -15,6 +16,11 @@ export const de = {
   styleDetailed: "Detailliert",
   styleCartoon: "Cartoon",
   styleRealistic: "Realistisch",
+  styleSimpleDesc: "Dicke Linien, keine Details",
+  styleStandardDesc: "Standard-Malstil",
+  styleDetailedDesc: "Aufwendige Strichzeichnungen",
+  styleCartoonDesc: "Niedliches Cartoon-Design",
+  styleRealisticDesc: "Realistischer Skizzenstil",
   storyModeDesc: "Kurzgeschichte pro Seite",
   phTheme: "Worum soll es gehen?",
   phName: "Für wen?",

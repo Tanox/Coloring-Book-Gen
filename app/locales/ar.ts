@@ -1,4 +1,4 @@
-/* app/locales/ar.ts v1.1.7 */
+/* app/locales/ar.ts v1.1.9 */
 export const ar = {
   appTitle: "لون عالمي",
   selectKey: "اختر مفتاح API",
@@ -7,6 +7,7 @@ export const ar = {
   introSubtitle: "أدخل موضوعًا واسم طفلك، وسيقوم الذكاء الاصطناعي بإنشاء كتاب تلوين قابل للطباعة خصيصًا له!",
   labelTheme: "الموضوع",
   labelName: "اسم الطفل",
+  labelAiEngine: "اختر العقل السحري",
   labelSize: "الجودة",
   labelStyle: "النمط",
   labelStory: "وضع القصة",
@@ -15,6 +16,11 @@ export const ar = {
   styleDetailed: "مفصل",
   styleCartoon: "كرتون",
   styleRealistic: "واقعي",
+  styleSimpleDesc: "خطوط سميكة، بلا تفاصيل",
+  styleStandardDesc: "نمط تلوين قياسي",
+  styleDetailedDesc: "فن خطي معقد",
+  styleCartoonDesc: "تصميم كرتوني لطيف",
+  styleRealisticDesc: "نمط رسم واقعي",
   storyModeDesc: "توليد قصة قصيرة لكل صفحة",
   phTheme: "عن ماذا سيكون الكتاب؟",
   phName: "لمن هذا الكتاب؟",

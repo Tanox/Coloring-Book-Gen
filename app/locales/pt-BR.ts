@@ -1,4 +1,4 @@
-/* app/locales/pt-BR.ts v1.1.7 */
+/* app/locales/pt-BR.ts v1.1.9 */
 export const ptBR = {
   appTitle: "PinteMeuMundo",
   selectKey: "Chave API",
@@ -7,6 +7,7 @@ export const ptBR = {
   introSubtitle: "Digite um tema e o nome da criança, e nossa IA criará magicamente um livro de colorir para ela!",
   labelTheme: "Tema",
   labelName: "Nome",
+  labelAiEngine: "Escolha o Cérebro Mágico",
   labelSize: "Qualidade",
   labelStyle: "Estilo",
   labelStory: "Modo História",
@@ -15,6 +16,11 @@ export const ptBR = {
   styleDetailed: "Detalhado",
   styleCartoon: "Cartoon",
   styleRealistic: "Realista",
+  styleSimpleDesc: "Linhas grossas, sem detalhes",
+  styleStandardDesc: "Estilo de colorir padrão",
+  styleDetailedDesc: "Arte de linha intricada",
+  styleCartoonDesc: "Design de desenho animado fofo",
+  styleRealisticDesc: "Estilo de esboço realista",
   storyModeDesc: "Gerar história curta por página",
   phTheme: "Sobre o que é o livro?",
   phName: "Para quem é?",
@@ -60,7 +66,7 @@ export const ptBR = {
   statusConnected: "Conectada",
   statusNotConnected: "Não Conectada",
   btnClose: "Fechar",
-  manualKeyTitle: "Inserir chave manualmente",
+  manualKeyTitle: "Inserir chave manually",
   manualKeyPlaceholder: "Cole aqui (sk-...)",
   or: "- OU -",
   showKey: "Mostrar",

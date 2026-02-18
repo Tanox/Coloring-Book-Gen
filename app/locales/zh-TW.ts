@@ -1,4 +1,4 @@
-/* app/locales/zh-TW.ts v1.1.7 */
+/* app/locales/zh-TW.ts v1.1.9 */
 export const zhTW = {
   appTitle: "繪夢世界",
   selectKey: "選擇 API 金鑰",
@@ -7,6 +7,7 @@ export const zhTW = {
   introSubtitle: "輸入主題和孩子的名字，AI 將施展魔法，為他們生成一本可列印的專屬著色本！",
   labelTheme: "主題 (例如：太空恐龍)",
   labelName: "孩子名字",
+  labelAiEngine: "選擇魔法大腦",
   labelSize: "圖片品質",
   labelStyle: "繪畫風格",
   labelStory: "故事模式",
@@ -15,6 +16,11 @@ export const zhTW = {
   styleDetailed: "精細 (大齡兒童)",
   styleCartoon: "卡通角色",
   styleRealistic: "寫實素描",
+  styleSimpleDesc: "粗線條，無細節",
+  styleStandardDesc: "標準填色風格",
+  styleDetailedDesc: "精細線條裝飾",
+  styleCartoonDesc: "可愛的卡通設計",
+  styleRealisticDesc: "寫實白描風格",
   storyModeDesc: "為每一頁生成簡短故事",
   phTheme: "這本書關於什麼故事？",
   phName: "這本書是送給誰的？",

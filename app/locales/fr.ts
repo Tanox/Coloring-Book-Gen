@@ -1,4 +1,4 @@
-/* app/locales/fr.ts v1.1.7 */
+/* app/locales/fr.ts v1.1.9 */
 export const fr = {
   appTitle: "ColorieMonMonde",
   selectKey: "Clé API",
@@ -7,6 +7,7 @@ export const fr = {
   introSubtitle: "Entrez un thème et le prénom de l'enfant, et l'IA générera magiquement un livre à colorier !",
   labelTheme: "Thème",
   labelName: "Prénom",
+  labelAiEngine: "Choisir le Cerveau Magique",
   labelSize: "Qualité",
   labelStyle: "Style",
   labelStory: "Mode Histoire",
@@ -15,6 +16,11 @@ export const fr = {
   styleDetailed: "Détaillé",
   styleCartoon: "Cartoon",
   styleRealistic: "Réaliste",
+  styleSimpleDesc: "Lignes épaisses, sans détails",
+  styleStandardDesc: "Style de coloriage standard",
+  styleDetailedDesc: "Art au trait complexe",
+  styleCartoonDesc: "Joli dessin animé",
+  styleRealisticDesc: "Style de croquis réaliste",
   storyModeDesc: "Générer une petite histoire par page",
   phTheme: "Sujet du livre ?",
   phName: "Pour qui ?",
@@ -75,7 +81,7 @@ export const fr = {
   canvasClose: "Fini",
   getKey: "Obtenir Clé",
   apiPriorityTitle: "Priorité Clé API",
-  apiPriorityDesc: "Les clés manuelles ont la plus haute priorité. Si un moteur échoue, le système essaiera automatiquement d'autres fournisseurs.",
+  apiPriorityDesc: "Les clés manuelles ont la plus haute priorité. Si un moteur échoue, le système essaiera automatically d'autres fournisseurs.",
   priorityLocal: "Priorité Manuelle",
   priorityEnv: "Priorité Système",
   shareSuccess: "Partagé avec succès !",

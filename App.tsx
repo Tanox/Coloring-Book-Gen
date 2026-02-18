@@ -1,4 +1,4 @@
-/* App.tsx v0.5.7 */
+/* App.tsx v0.5.14 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GeneratedPage, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider } from './app/types';
 import { 
@@ -21,7 +21,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.5.7';
+const APP_VERSION = 'v0.5.14';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();

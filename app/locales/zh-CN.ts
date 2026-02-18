@@ -1,4 +1,4 @@
-/* app/locales/zh-CN.ts v1.1.7 */
+/* app/locales/zh-CN.ts v1.1.9 */
 export const zhCN = {
   appTitle: "绘梦世界",
   selectKey: "选择 API 密钥",
@@ -7,6 +7,7 @@ export const zhCN = {
   introSubtitle: "输入主题和孩子的名字，AI 将施展魔法，为他们生成一本可打印的专属涂色书！",
   labelTheme: "主题 (例如：太空恐龙)",
   labelName: "孩子名字",
+  labelAiEngine: "选择魔法大脑",
   labelSize: "图片质量",
   labelStyle: "绘画风格",
   labelStory: "故事模式",
@@ -15,6 +16,11 @@ export const zhCN = {
   styleDetailed: "精细 (大龄儿童)",
   styleCartoon: "卡通角色",
   styleRealistic: "写实素描",
+  styleSimpleDesc: "粗线条，无细节",
+  styleStandardDesc: "标准填色风格",
+  styleDetailedDesc: "精细线条装饰",
+  styleCartoonDesc: "可爱的卡通设计",
+  styleRealisticDesc: "写实白描风格",
   storyModeDesc: "为每一页生成简短故事",
   phTheme: "这本书关于什么故事？",
   phName: "这本书是送给谁的？",

@@ -1,4 +1,4 @@
-/* app/locales/ja.ts v1.1.7 */
+/* app/locales/ja.ts v1.1.9 */
 export const ja = {
   appTitle: "ColorMyWorld",
   selectKey: "APIキー選択",
@@ -7,6 +7,7 @@ export const ja = {
   introSubtitle: "テーマと子供の名前を入力すると、AIが魔法のように専用の塗り絵ブックを作成します！",
   labelTheme: "テーマ",
   labelName: "名前",
+  labelAiEngine: "魔法の脳を選ぶ",
   labelSize: "画質",
   labelStyle: "スタイル",
   labelStory: "ストーリーモード",
@@ -15,6 +16,11 @@ export const ja = {
   styleDetailed: "詳細 (高学年)",
   styleCartoon: "カートゥーン",
   styleRealistic: "リアル",
+  styleSimpleDesc: "太い線、詳細なし",
+  styleStandardDesc: "標準的な塗り絵スタイル",
+  styleDetailedDesc: "複雑な線画",
+  styleCartoonDesc: "かわいいカートゥーンデザイン",
+  styleRealisticDesc: "リアルなスケッチスタイル",
   storyModeDesc: "各ページの短い物語を生成",
   phTheme: "どんな本にしますか？",
   phName: "誰のため？",

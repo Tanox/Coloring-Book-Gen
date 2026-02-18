@@ -1,4 +1,4 @@
-/* app/components/SettingsModal.tsx v0.5.7 */
+/* app/components/SettingsModal.tsx v0.5.14 */
 import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';

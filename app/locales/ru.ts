@@ -1,4 +1,4 @@
-/* app/locales/ru.ts v1.1.7 */
+/* app/locales/ru.ts v1.1.9 */
 export const ru = {
   appTitle: "ColorMyWorld",
   selectKey: "Выбрать API ключ",
@@ -7,6 +7,7 @@ export const ru = {
   introSubtitle: "Введите тему и имя ребенка, и ИИ волшебным образом создаст раскраску!",
   labelTheme: "Тема",
   labelName: "Имя",
+  labelAiEngine: "Выберите Волшебный Мозг",
   labelSize: "Качество",
   labelStyle: "Стиль",
   labelStory: "Режим истории",
@@ -15,6 +16,11 @@ export const ru = {
   styleDetailed: "Детальный",
   styleCartoon: "Мультфильм",
   styleRealistic: "Реализм",
+  styleSimpleDesc: "Толстые линии, без деталей",
+  styleStandardDesc: "Стандартный стиль раскраски",
+  styleDetailedDesc: "Сложная штриховая графика",
+  styleCartoonDesc: "Милый мультяшный дизайн",
+  styleRealisticDesc: "Реалистичный стиль эскиза",
   storyModeDesc: "Короткая история на странице",
   phTheme: "О чем книга?",
   phName: "Для кого?",

@@ -1,4 +1,4 @@
-/* app/components/HistorySidebar.tsx v0.5.7 */
+/* app/components/HistorySidebar.tsx v0.5.14 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { BookHistoryItem } from '../types';

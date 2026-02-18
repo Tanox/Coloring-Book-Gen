@@ -1,4 +1,4 @@
-/* app/components/GeneratorForm.tsx v0.5.0 */
+/* app/components/GeneratorForm.tsx v0.5.14 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GenerationConfig, ArtStyle, ImageSize, ModelProvider } from '../types';
@@ -24,11 +24,11 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
   ];
 
   const styles = [
-    { id: ArtStyle.Simple, name: t('styleSimple'), icon: '👶', desc: '粗线条，无细节' },
-    { id: ArtStyle.Standard, name: t('styleStandard'), icon: '🎨', desc: '标准填色风格' },
-    { id: ArtStyle.Detailed, name: t('styleDetailed'), icon: '✨', desc: '精细线条装饰' },
-    { id: ArtStyle.Cartoon, name: t('styleCartoon'), icon: '🐰', desc: '可爱的卡通设计' },
-    { id: ArtStyle.Realistic, name: t('styleRealistic'), icon: '🖌️', desc: '写实白描风格' },
+    { id: ArtStyle.Simple, name: t('styleSimple'), icon: '👶', desc: t('styleSimpleDesc') },
+    { id: ArtStyle.Standard, name: t('styleStandard'), icon: '🎨', desc: t('styleStandardDesc') },
+    { id: ArtStyle.Detailed, name: t('styleDetailed'), icon: '✨', desc: t('styleDetailedDesc') },
+    { id: ArtStyle.Cartoon, name: t('styleCartoon'), icon: '🐰', desc: t('styleCartoonDesc') },
+    { id: ArtStyle.Realistic, name: t('styleRealistic'), icon: '🖌️', desc: t('styleRealisticDesc') },
   ];
 
   return (
@@ -48,7 +48,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
         <section>
           <div className="flex items-center gap-4 mb-8">
              <div className="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 font-black text-xl">1</div>
-             <label className="text-3xl font-black text-slate-800 dark:text-white tracking-wide">选择魔法大脑</label>
+             <label className="text-3xl font-black text-slate-800 dark:text-white tracking-wide">{t('labelAiEngine')}</label>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
             {providers.map(p => {

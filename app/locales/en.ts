@@ -1,4 +1,4 @@
-/* app/locales/en.ts v1.1.7 */
+/* app/locales/en.ts v1.1.9 */
 export const en = {
   appTitle: "ColorMyWorld",
   selectKey: "Select API Key",
@@ -7,6 +7,7 @@ export const en = {
   introSubtitle: "Enter a theme and your child's name, and our AI will magically generate a printable coloring book just for them!",
   labelTheme: "Theme (e.g., Space Dinosaurs)",
   labelName: "Child's Name",
+  labelAiEngine: "Choose Magic Brain",
   labelSize: "Image Quality",
   labelStyle: "Art Style",
   labelStory: "Story Mode",
@@ -15,6 +16,11 @@ export const en = {
   styleDetailed: "Detailed (Older Kids)",
   styleCartoon: "Cartoon Character",
   styleRealistic: "Realistic Sketch",
+  styleSimpleDesc: "Bold lines, no details",
+  styleStandardDesc: "Standard coloring style",
+  styleDetailedDesc: "Intricate line art",
+  styleCartoonDesc: "Cute cartoon design",
+  styleRealisticDesc: "Realistic sketch style",
   storyModeDesc: "Generate a short story for each page",
   phTheme: "What should the book be about?",
   phName: "Who is this book for?",
