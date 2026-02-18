@@ -1,5 +1,10 @@
 # 更新日志 (Changelog)
 
+## v0.5.19
+### 维护
+- **项目清理 (Housekeeping)**: 清理了项目根目录和 `openspec/` 目录中存在的冗余和过时文件 (`CHANGELOG.md`, `openspec/agents.md`, `openspec/06_changelog.md`)，以保持项目结构的整洁。
+- **版本同步 (Version Bump)**: 所有核心组件、服务及 OpenSpec 文档统一升级至 v0.5.19。
+
 ## v0.5.18
 ### 优化
 - **功能审计 (Audit)**: 对所有 AI 服务调用进行了全面审计，确认新增的图像参数（画面比例、尺寸、质量）已正确传递至对应供应商（Gemini, OpenAI 等），且功能表现符合预期。
