@@ -1,6 +1,6 @@
-/* App.tsx v0.5.16 */
+/* App.tsx v0.5.17 */
 import React, { useState, useEffect } from 'react';
-import { ImageSize, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider } from './app/types';
+import { ImageSize, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider, AspectRatio } from './app/types';
 import { getAvailableProviders, checkApiKeySelection, promptApiKeySelection, testProviderConnection, getKeys } from './app/services/aiService';
 import { generateBookPDF } from './app/services/pdfService';
 import { getHistory, deleteHistoryItem } from './app/services/storageService';
@@ -17,7 +17,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.5.16';
+const APP_VERSION = 'v0.5.17';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();
@@ -28,7 +28,9 @@ const App: React.FC = () => {
     imageSize: ImageSize.Size_1K,
     artStyle: ArtStyle.Standard,
     enableStory: false,
-    provider: ModelProvider.Gemini
+    provider: ModelProvider.Gemini,
+    aspectRatio: AspectRatio.Portrait_3_4,
+    quality: 'standard'
   });
 
   const {

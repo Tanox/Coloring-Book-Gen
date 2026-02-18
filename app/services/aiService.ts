@@ -1,5 +1,5 @@
-/* app/services/aiService.ts v0.5.16 */
-import { ImageSize, ArtStyle, ModelProvider, Language } from "../types";
+/* app/services/aiService.ts v0.5.17 */
+import { ImageSize, ArtStyle, ModelProvider, Language, GenerationConfig } from "../types";
 import { generateImage as geminiGenerateImage, generateStory as geminiGenerateStory, createChat as geminiCreateChat, testConnection as geminiTest } from './api/gemini';
 import { generateImage as openaiGenerateImage, generateStory as openaiGenerateStory, createChat as openaiCreateChat, testConnection as openaiTest } from './api/openai';
 import { generateStory as claudeGenerateStory, createChat as claudeCreateChat, testConnection as claudeTest } from './api/claude';
@@ -77,12 +77,11 @@ export const testProviderConnection = async (provider: ModelProvider): Promise<b
 
 export const generateColoringPage = async (
   promptBase: string,
-  style: ArtStyle,
-  size: ImageSize,
-  provider: ModelProvider
+  config: GenerationConfig
 ): Promise<string> => {
+  const { artStyle, provider } = config;
   const keys = getKeys();
-  const fullPrompt = `Children's coloring book page. ${promptBase}. ${getStylePrompt(style)}. NO colors, NO shading, NO text, NO watermarks. Pure white background, clean black lines only.`;
+  const fullPrompt = `Children's coloring book page. ${promptBase}. ${getStylePrompt(artStyle)}. NO colors, NO shading, NO text, NO watermarks. Pure white background, clean black lines only.`;
   const available = getAvailableProviders();
 
   const providers: ModelProvider[] = [
@@ -91,12 +90,13 @@ export const generateColoringPage = async (
   ];
   
   for (const p of providers) {
+      const providerConfig = { ...config, provider: p };
       try {
           switch (p) {
-              case ModelProvider.OpenAI: if (keys.openai) return await openaiGenerateImage(keys.openai, fullPrompt, size); break;
-              case ModelProvider.Qianwen: if (keys.qianwen) return await qianwenGenerateImage(keys.qianwen, fullPrompt); break;
-              case ModelProvider.Doubao: if (keys.doubao) return await doubaoGenerateImage(keys.doubao, fullPrompt); break;
-              case ModelProvider.Gemini: if (keys.gemini) return await geminiGenerateImage(keys.gemini, fullPrompt, size); break;
+              case ModelProvider.OpenAI: if (keys.openai) return await openaiGenerateImage(keys.openai, fullPrompt, providerConfig); break;
+              case ModelProvider.Qianwen: if (keys.qianwen) return await qianwenGenerateImage(keys.qianwen, fullPrompt, providerConfig); break;
+              case ModelProvider.Doubao: if (keys.doubao) return await doubaoGenerateImage(keys.doubao, fullPrompt, providerConfig); break;
+              case ModelProvider.Gemini: if (keys.gemini) return await geminiGenerateImage(keys.gemini, fullPrompt, providerConfig); break;
           }
       } catch (e) {
           console.warn(`Provider ${p} failed for image generation, trying next.`, e);

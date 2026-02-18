@@ -1,23 +1,25 @@
-/* app/services/api/gemini.ts v0.5.16 */
+/* app/services/api/gemini.ts v0.5.17 */
 import { GoogleGenAI } from "@google/genai";
-import { ImageSize } from "../../types";
+import { GenerationConfig, ImageSize, AspectRatio } from "../../types";
 
 const getClient = (key: string) => {
   if (!key) throw new Error("Gemini API Key missing.");
   return new GoogleGenAI({ apiKey: key });
 };
 
-export const generateImage = async (key: string, prompt: string, size: ImageSize): Promise<string> => {
+export const generateImage = async (key: string, prompt: string, config: GenerationConfig): Promise<string> => {
+    const { imageSize, aspectRatio } = config;
     const ai = getClient(key);
-    const isPro = size !== ImageSize.Size_1K;
+    const isPro = imageSize !== ImageSize.Size_1K;
     const model = isPro ? 'gemini-3-pro-image-preview' : 'gemini-2.5-flash-image';
-    const config: any = { imageConfig: { aspectRatio: "3:4" } };
-    if (isPro) config.imageConfig.imageSize = size;
+    
+    const apiConfig: any = { imageConfig: { aspectRatio: aspectRatio } };
+    if (isPro) apiConfig.imageConfig.imageSize = imageSize;
     
     const response = await ai.models.generateContent({
         model: model,
         contents: { parts: [{ text: prompt }] },
-        config: config
+        config: apiConfig
     });
     
     const part = response.candidates?.[0]?.content?.parts?.find(p => p.inlineData);

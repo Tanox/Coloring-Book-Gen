@@ -1,4 +1,4 @@
-/* app/types.ts v0.5.16 */
+/* app/types.ts v0.5.17 */
 export enum ImageSize {
   Size_1K = '1K',
   Size_2K = '2K',
@@ -20,6 +20,12 @@ export enum ModelProvider {
   Doubao = 'doubao',
   OpenAI = 'openai',
   Claude = 'claude'
+}
+
+export enum AspectRatio {
+  Portrait_3_4 = '3:4',
+  Square_1_1 = '1:1',
+  Landscape_4_3 = '4:3',
 }
 
 export interface GeneratedPage {
@@ -50,6 +56,8 @@ export interface GenerationConfig {
   artStyle: ArtStyle;
   enableStory: boolean;
   provider: ModelProvider;
+  aspectRatio: AspectRatio;
+  quality: 'standard' | 'hd';
 }
 
 export type Language = 'en' | 'zh-CN' | 'zh-TW' | 'es' | 'ar' | 'fr' | 'pt-BR' | 'de' | 'ja' | 'ko' | 'ru';

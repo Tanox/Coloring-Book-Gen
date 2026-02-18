@@ -1,4 +1,4 @@
-/* app/hooks/useBookGenerator.ts v0.5.16 */
+/* app/hooks/useBookGenerator.ts v0.5.17 */
 import { useState } from 'react';
 import { GeneratedPage, GenerationConfig, BookHistoryItem, Language } from '../types';
 import { generateColoringPage, generateStoryForPage } from '../services/aiService';
@@ -33,7 +33,7 @@ export const useBookGenerator = (config: GenerationConfig, language: Language, t
           ? `Children's coloring book cover for ${config.theme} with child name "${config.childName}"` 
           : `Coloring page: ${config.theme}, scene: ${sceneDesc}`;
 
-        const imageUrl = await generateColoringPage(prompt, config.artStyle, config.imageSize, config.provider);
+        const imageUrl = await generateColoringPage(prompt, config);
         let storyText = undefined;
 
         if (config.enableStory && i > 0) {
@@ -65,7 +65,7 @@ export const useBookGenerator = (config: GenerationConfig, language: Language, t
 
     try {
         const pageToRegen = generatedPages[pageIndex];
-        const newImageUrl = await generateColoringPage(pageToRegen.prompt, config.artStyle, config.imageSize, config.provider);
+        const newImageUrl = await generateColoringPage(pageToRegen.prompt, config);
         
         const newPages = [...generatedPages];
         newPages[pageIndex] = { ...newPages[pageIndex], imageUrl: newImageUrl };
