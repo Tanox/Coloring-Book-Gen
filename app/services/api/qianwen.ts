@@ -1,4 +1,4 @@
-/* app/services/api/qianwen.ts v0.5.15 */
+/* app/services/api/qianwen.ts v0.5.16 */
 import { apiFetch } from './utils';
 
 const API_URL_IMAGE = 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis';

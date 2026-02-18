@@ -1,11 +1,9 @@
-/* app/hooks/useBookGenerator.ts v0.5.15 */
+/* app/hooks/useBookGenerator.ts v0.5.16 */
 import { useState } from 'react';
-// FIX: Imported the Language type to correctly type the hook's parameter.
 import { GeneratedPage, GenerationConfig, BookHistoryItem, Language } from '../types';
 import { generateColoringPage, generateStoryForPage } from '../services/aiService';
 import { saveBookToHistory, getHistory } from '../services/storageService';
 
-// FIX: Changed the type of the 'language' parameter from 'string' to 'Language' to match the function signature of 'generateStoryForPage'.
 export const useBookGenerator = (config: GenerationConfig, language: Language, t: (key: string, params?: any) => string) => {
   const [generatedPages, setGeneratedPages] = useState<GeneratedPage[]>([]);
   const [currentBookId, setCurrentBookId] = useState<string | null>(null);

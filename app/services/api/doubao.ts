@@ -1,4 +1,4 @@
-/* app/services/api/doubao.ts v0.5.15 */
+/* app/services/api/doubao.ts v0.5.16 */
 import { apiFetch } from './utils';
 
 const API_URL_CHAT = 'https://ark.cn-beijing.volces.com/api/v3/chat/completions';

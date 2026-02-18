@@ -1,4 +1,4 @@
-/* app/services/aiService.ts v0.5.15 */
+/* app/services/aiService.ts v0.5.16 */
 import { ImageSize, ArtStyle, ModelProvider, Language } from "../types";
 import { generateImage as geminiGenerateImage, generateStory as geminiGenerateStory, createChat as geminiCreateChat, testConnection as geminiTest } from './api/gemini';
 import { generateImage as openaiGenerateImage, generateStory as openaiGenerateStory, createChat as openaiCreateChat, testConnection as openaiTest } from './api/openai';

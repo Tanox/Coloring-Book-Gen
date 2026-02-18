@@ -1,4 +1,4 @@
-/* app/components/ChatBot.tsx v0.5.14 */
+/* app/components/ChatBot.tsx v0.5.16 */
 import React, { useState, useEffect, useRef } from 'react';
 import { createChatSession, sendMessageToChat } from '../services/aiService';
 import { ChatMessage, ModelProvider } from '../types';

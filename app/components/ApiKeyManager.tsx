@@ -1,4 +1,4 @@
-/* app/components/ApiKeyManager.tsx v0.5.15 */
+/* app/components/ApiKeyManager.tsx v0.5.16 */
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { ModelProvider } from '../types';

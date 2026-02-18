@@ -1,4 +1,4 @@
-/* app/services/api/gemini.ts v0.5.15 */
+/* app/services/api/gemini.ts v0.5.16 */
 import { GoogleGenAI } from "@google/genai";
 import { ImageSize } from "../../types";
 

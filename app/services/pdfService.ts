@@ -1,4 +1,4 @@
-/* app/services/pdfService.ts v0.5.14 */
+/* app/services/pdfService.ts v0.5.16 */
 import { jsPDF } from "jspdf";
 import { GeneratedPage } from "../types";
 import { getCachedFont, cacheFont } from "./storageService";

@@ -1,4 +1,4 @@
-/* app/services/api/openai.ts v0.5.15 */
+/* app/services/api/openai.ts v0.5.16 */
 import { apiFetch } from './utils';
 import { ImageSize } from '../../types';
 

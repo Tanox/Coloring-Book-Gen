@@ -1,4 +1,4 @@
-/* app/components/ResultsGallery.tsx v0.5.14 */
+/* app/components/ResultsGallery.tsx v0.5.16 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GeneratedPage, GenerationConfig } from '../types';

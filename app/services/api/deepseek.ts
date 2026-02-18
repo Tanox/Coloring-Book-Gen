@@ -1,4 +1,4 @@
-/* app/services/api/deepseek.ts v0.5.15 */
+/* app/services/api/deepseek.ts v0.5.16 */
 import { apiFetch } from './utils';
 
 const API_URL = 'https://api.deepseek.com/v1/chat/completions';
