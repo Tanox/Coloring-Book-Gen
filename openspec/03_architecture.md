@@ -1,4 +1,4 @@
-# 技术架构规范：绘梦世界 (ColorMyWorld) - v0.5.16
+# 技术架构规范：绘梦世界 (ColorMyWorld) - v0.5.18
 
 ## 1. 系统拓扑
 - **前端核心**：React 18/19 (Hooks 模式) + TypeScript 5。
@@ -25,3 +25,4 @@
   1. LocalStorage (Manual) - 最高。
   2. process.env.API_KEY (System) - 次之。
 - **引擎回退**：当特定引擎失败时，系统自动切换至 Gemini 作为核心回退链路。
+- **参数化配置**：网关向下传递完整的 `GenerationConfig` 对象，包含画面比例、尺寸、质量等参数。

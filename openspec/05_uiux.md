@@ -1,4 +1,4 @@
-# UI/UX 设计规范：绘梦世界 (ColorMyWorld) - v0.5.16
+# UI/UX 设计规范：绘梦世界 (ColorMyWorld) - v0.5.18
 
 ## 1. 视觉语言：扁平拟物 (Flat & Clean)
 从 v0.4.2 起，应用全面移除传统的 `shadow-` 类样式，转而通过以下元素构建层级感：
@@ -12,6 +12,7 @@
   - Pink/Purple - 魔法与生成流。
   - Amber/Yellow - 警告与温暖。
   - Green - 成功与导出动作。
+  - Orange - 图像设置与调整。
 
 ## 3. 字体
 - **装饰/标题**：`Comic Neue` - 最小字号 16px。
