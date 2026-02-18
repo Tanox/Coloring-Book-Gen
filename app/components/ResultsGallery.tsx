@@ -79,7 +79,7 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({
   };
 
   return (
-    <div className="animate-fade-in-up mt-20">
+    <div id="results-gallery-container" className="animate-fade-in-up mt-20">
         <div className="flex flex-col md:flex-row items-center justify-between mb-14 gap-8">
             <h3 className="text-5xl md:text-6xl font-extrabold text-slate-800 dark:text-white drop-shadow-none">{t('resultsTitle')}</h3>
             <div className="flex flex-wrap items-center gap-4">
@@ -117,9 +117,9 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({
             </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div id="results-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
             {pages.map((page, idx) => (
-                <div key={idx} className="bg-white dark:bg-slate-800 p-8 rounded-[3rem] border-2 border-slate-100 dark:border-slate-700 group hover:scale-[1.03] hover:rotate-1 transition-all duration-300 flex flex-col relative overflow-hidden">
+                <div key={idx} id={`result-card-${idx}`} className="bg-white dark:bg-slate-800 p-8 rounded-[3rem] border-2 border-slate-100 dark:border-slate-700 group hover:scale-[1.03] hover:rotate-1 transition-all duration-300 flex flex-col relative overflow-hidden">
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-12 bg-yellow-200/50 rotate-2 z-10 backdrop-blur-sm rounded-b-xl"></div>
 
                     <div className="aspect-[3/4] w-full overflow-hidden rounded-[2rem] bg-slate-50 dark:bg-slate-900 mb-6 border-4 border-dashed border-slate-200 dark:border-slate-700 relative group-hover:border-indigo-300 transition-colors">

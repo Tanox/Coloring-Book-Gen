@@ -99,7 +99,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose, provider }) => {
 
   return (
     <div id="chatbot-container" className="fixed bottom-8 right-8 w-[450px] max-w-[90vw] h-[750px] max-h-[85vh] bg-white dark:bg-slate-800 rounded-[3rem] border-4 border-sky-100 dark:border-slate-700 flex flex-col z-50 overflow-hidden font-comic animate-slide-in-up">
-      <div className="bg-gradient-to-r from-sky-400 to-indigo-500 p-7 text-white flex justify-between items-center">
+      <div id="chatbot-header" className="bg-gradient-to-r from-sky-400 to-indigo-500 p-7 text-white flex justify-between items-center">
         <div className="flex flex-col">
             <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-full flex items-center justify-center border border-white/30">
@@ -118,7 +118,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose, provider }) => {
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-7 space-y-6 bg-slate-50 dark:bg-slate-900">
+      <div id="chatbot-messages-area" className="flex-1 overflow-y-auto p-7 space-y-6 bg-slate-50 dark:bg-slate-900">
         {messages.map(msg => (
           <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[88%] px-7 py-5 text-lg font-bold leading-relaxed ${msg.role === 'user' ? 'bg-sky-500 text-white rounded-[2.5rem] rounded-br-none' : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-100 border-2 border-slate-100 dark:border-slate-600 rounded-[2.5rem] rounded-bl-none'}`}>
@@ -138,7 +138,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onClose, provider }) => {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="p-7 bg-white dark:bg-slate-800 border-t-2 border-slate-100 dark:border-slate-700">
+      <div id="chatbot-input-area" className="p-7 bg-white dark:bg-slate-800 border-t-2 border-slate-100 dark:border-slate-700">
         <div className="flex gap-4">
           <input
             type="text"

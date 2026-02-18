@@ -66,7 +66,7 @@ const ApiKeyManager: React.FC<ApiKeyManagerProps> = ({ onSelectApiKey }) => {
   
   return (
     <>
-      <section className="space-y-8">
+      <section id="settings-section-apikeys" className="space-y-8">
         <div className="flex items-center justify-between pl-2">
           <h4 className="text-base font-black text-pink-500 uppercase tracking-widest">{t('settingsApiKey')}</h4>
           <button 
@@ -85,7 +85,7 @@ const ApiKeyManager: React.FC<ApiKeyManagerProps> = ({ onSelectApiKey }) => {
             const testStatus = testResults[p.id];
 
             return (
-              <div key={p.id} className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border-4 border-slate-100 dark:border-slate-800 space-y-4 relative overflow-hidden group">
+              <div key={p.id} id={`apikey-manager-${p.id}`} className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border-4 border-slate-100 dark:border-slate-800 space-y-4 relative overflow-hidden group">
                 <div className="flex justify-between items-center">
                   <div className="flex flex-wrap items-center gap-3">
                     <label className="text-xl font-black text-slate-800 dark:text-slate-100">{p.name}</label>

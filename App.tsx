@@ -149,7 +149,7 @@ const App: React.FC = () => {
   return (
     <div id="app-root" className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50 dark:from-slate-900 dark:to-indigo-950 font-comic pb-20 transition-colors duration-200">
       <Header version={APP_VERSION} onOpenHistory={() => setIsHistoryOpen(true)} onOpenSettings={() => setIsSettingsOpen(true)} onToggleChat={() => setIsChatOpen(!isChatOpen)} isChatOpen={isChatOpen} />
-      <main className="max-w-7xl mx-auto px-4 py-10">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 py-10">
         <GeneratorForm 
           config={config} 
           setConfig={setConfig} 

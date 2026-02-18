@@ -43,7 +43,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
 
 
   return (
-    <div className="max-w-5xl mx-auto text-center mb-20 px-4">
+    <div id="generator-form-container" className="max-w-5xl mx-auto text-center mb-20 px-4">
       <div className="mb-14 animate-fade-in-up">
         <h2 className="text-6xl md:text-8xl font-extrabold text-slate-800 dark:text-white mb-8 tracking-tight leading-tight">
           {t('introTitle')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500">{t('introTitleHighlight')}</span>
@@ -53,10 +53,10 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
         </p>
       </div>
 
-      <form onSubmit={onGenerate} className="bg-white/80 dark:bg-slate-800/90 backdrop-blur-xl p-10 md:p-14 rounded-[4rem] border-4 border-white dark:border-slate-700 text-left space-y-16">
+      <form id="generator-form" onSubmit={onGenerate} className="bg-white/80 dark:bg-slate-800/90 backdrop-blur-xl p-10 md:p-14 rounded-[4rem] border-4 border-white dark:border-slate-700 text-left space-y-16">
         
         {/* Step 1: AI Engine */}
-        <section>
+        <section id="section-ai-engine">
           <div className="flex items-center gap-4 mb-8">
              <div className="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 font-black text-xl">1</div>
              <label className="text-3xl font-black text-slate-800 dark:text-white tracking-wide">{t('labelAiEngine')}</label>
@@ -88,7 +88,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
         </section>
 
         {/* Step 2 & 3: Theme and Name */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <section id="section-theme-name" className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div className="space-y-5">
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-full bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center text-sky-600 font-black text-xl">2</div>
@@ -120,7 +120,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
         </section>
 
         {/* Step 4: Art Style */}
-        <section>
+        <section id="section-art-style">
           <div className="flex items-center gap-4 mb-8">
              <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 font-black text-xl">4</div>
              <label className="text-3xl font-black text-slate-800 dark:text-white tracking-wide">{t('labelStyle')}</label>
@@ -146,7 +146,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
         </section>
 
         {/* Step 5: Advanced Options */}
-        <section className="flex flex-col lg:flex-row items-center gap-10 bg-slate-50/50 dark:bg-slate-900/50 p-8 rounded-[3rem] border-2 border-slate-100 dark:border-slate-700">
+        <section id="section-advanced-options" className="flex flex-col lg:flex-row items-center gap-10 bg-slate-50/50 dark:bg-slate-900/50 p-8 rounded-[3rem] border-2 border-slate-100 dark:border-slate-700">
              <div className="flex-1 w-full space-y-5">
                 <label className="block text-xl font-black text-slate-700 dark:text-slate-200">{t('labelSize')}</label>
                 <div className="flex bg-white dark:bg-slate-800 p-2 rounded-2xl border-2 border-slate-100 dark:border-slate-700">
@@ -183,6 +183,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
         </section>
 
         <button 
+            id="generator-submit-button"
             type="submit" 
             disabled={isGenerating || !config.theme || !config.childName} 
             className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-black text-4xl py-10 rounded-[3rem] transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:grayscale disabled:hover:scale-100"

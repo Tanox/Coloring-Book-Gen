@@ -83,10 +83,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md">
-      <div className="relative bg-white dark:bg-slate-900 rounded-[3rem] w-full max-w-3xl overflow-hidden border-8 border-white dark:border-slate-700 flex flex-col max-h-[92vh]">
+    <div id="settings-modal-container" className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md">
+      <div id="settings-modal-card" className="relative bg-white dark:bg-slate-900 rounded-[3rem] w-full max-w-3xl overflow-hidden border-8 border-white dark:border-slate-700 flex flex-col max-h-[92vh]">
         
-        <div className="p-10 border-b-4 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
+        <div id="settings-modal-header" className="p-10 border-b-4 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
           <h3 className="text-4xl font-black text-slate-800 dark:text-white flex items-center gap-4">
             <span className="text-5xl">⚙️</span> {t('settingsTitle')}
           </h3>
@@ -97,9 +97,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-10 space-y-12">
+        <div id="settings-modal-content" className="flex-1 overflow-y-auto p-10 space-y-12">
           
-          <section className="space-y-8">
+          <section id="settings-section-display" className="space-y-8">
             <h4 className="text-base font-black text-indigo-500 uppercase tracking-widest pl-2">{t('settingsLanguage')} & {t('settingsTheme')}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">
@@ -127,7 +127,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
             </div>
           </section>
 
-          <section className="space-y-8">
+          <section id="settings-section-data" className="space-y-8">
             <h4 className="text-base font-black text-emerald-500 uppercase tracking-widest pl-2">{t('settingsDataManagement')}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <button 
@@ -162,7 +162,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
 
         </div>
 
-        <div className="p-10 bg-slate-50 dark:bg-slate-800 border-t-4 dark:border-slate-700">
+        <div id="settings-modal-footer" className="p-10 bg-slate-50 dark:bg-slate-800 border-t-4 dark:border-slate-700">
           <button 
             onClick={onClose} 
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-6 rounded-3xl font-black text-2xl transition-all transform active:scale-95"

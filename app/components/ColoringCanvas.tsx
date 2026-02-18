@@ -102,11 +102,11 @@ const ColoringCanvas: React.FC<ColoringCanvasProps> = ({ isOpen, onClose, imageU
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-indigo-900/60 backdrop-blur-sm font-comic">
+    <div id="coloring-canvas-container" className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-indigo-900/60 backdrop-blur-sm font-comic">
       <div className="bg-white dark:bg-slate-800 rounded-[3rem] w-full max-w-6xl h-[95vh] flex flex-col overflow-hidden border-8 border-white dark:border-slate-700">
         
         {/* Header */}
-        <div className="p-6 border-b-4 border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900">
+        <div id="canvas-header" className="p-6 border-b-4 border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900">
             <h3 className="text-3xl font-black text-indigo-900 dark:text-white flex items-center gap-4">
                 🎨 {t('canvasTitle')}
             </h3>
@@ -119,9 +119,9 @@ const ColoringCanvas: React.FC<ColoringCanvasProps> = ({ isOpen, onClose, imageU
         </div>
 
         {/* Toolbar */}
-        <div className="p-6 bg-orange-50 dark:bg-slate-800 flex flex-wrap gap-8 items-center border-b-2 border-orange-100 dark:border-slate-700 z-10">
+        <div id="canvas-toolbar" className="p-6 bg-orange-50 dark:bg-slate-800 flex flex-wrap gap-8 items-center border-b-2 border-orange-100 dark:border-slate-700 z-10">
             {/* Palette */}
-            <div className="flex gap-3 flex-wrap bg-white dark:bg-slate-700 p-4 rounded-3xl border-2 border-orange-100 dark:border-slate-600">
+            <div id="canvas-toolbar-palette" className="flex gap-3 flex-wrap bg-white dark:bg-slate-700 p-4 rounded-3xl border-2 border-orange-100 dark:border-slate-600">
                 {COLORS.map(c => (
                     <button
                         key={c}
@@ -136,7 +136,7 @@ const ColoringCanvas: React.FC<ColoringCanvasProps> = ({ isOpen, onClose, imageU
             <div className="hidden lg:block h-14 w-0.5 bg-orange-200 dark:bg-slate-600"></div>
             
             {/* Brush Size */}
-            <div className="flex items-center gap-5 bg-white dark:bg-slate-700 px-6 py-4 rounded-3xl border-2 border-orange-100 dark:border-slate-600 flex-1 min-w-[300px]">
+            <div id="canvas-toolbar-brush" className="flex items-center gap-5 bg-white dark:bg-slate-700 px-6 py-4 rounded-3xl border-2 border-orange-100 dark:border-slate-600 flex-1 min-w-[300px]">
                 <span className="text-xl font-black text-slate-700 dark:text-slate-300 whitespace-nowrap">{t('canvasBrushSize')}</span>
                 <input 
                     type="range" 
@@ -161,9 +161,10 @@ const ColoringCanvas: React.FC<ColoringCanvasProps> = ({ isOpen, onClose, imageU
         </div>
 
         {/* Canvas Container */}
-        <div ref={containerRef} className="flex-1 bg-slate-100 dark:bg-slate-950 p-8 overflow-hidden flex items-center justify-center relative touch-none bg-[url('https://www.transparenttextures.com/patterns/graphy.png')]">
+        <div id="canvas-wrapper" ref={containerRef} className="flex-1 bg-slate-100 dark:bg-slate-950 p-8 overflow-hidden flex items-center justify-center relative touch-none bg-[url('https://www.transparenttextures.com/patterns/graphy.png')]">
              <div className="bg-white p-3 rounded-2xl rotate-1">
                  <canvas
+                    id="coloring-canvas"
                     ref={canvasRef}
                     onMouseDown={startDrawing}
                     onMouseUp={stopDrawing}

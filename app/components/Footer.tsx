@@ -10,7 +10,7 @@ const Footer: React.FC<FooterProps> = ({ version }) => {
   const { t } = useLanguage();
   
   return (
-    <footer className="py-14 mt-16 border-t-4 border-slate-200 dark:border-slate-800/50 bg-white/30 dark:bg-slate-900/30 backdrop-blur-md transition-colors duration-200">
+    <footer id="app-footer" className="py-14 mt-16 border-t-4 border-slate-200 dark:border-slate-800/50 bg-white/30 dark:bg-slate-900/30 backdrop-blur-md transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10 text-slate-500 dark:text-slate-400 text-base font-bold">
         
         <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10">

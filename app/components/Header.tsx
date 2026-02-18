@@ -13,7 +13,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ version, onOpenHistory, onOpenSettings, onToggleChat, isChatOpen }) => {
   const { t } = useLanguage();
   return (
-    <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b-4 border-indigo-200 dark:border-indigo-900 sticky top-0 z-30 transition-colors duration-200">
+    <header id="app-header" className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b-4 border-indigo-200 dark:border-indigo-900 sticky top-0 z-30 transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-28 flex items-center justify-between">
           <div className="flex items-center gap-5">
             <div className="w-16 h-16 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-2xl rotate-3 flex items-center justify-center text-white font-bold text-5xl border-2 border-white dark:border-slate-700">

@@ -17,12 +17,13 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, onClose, histor
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end">
+    <div id="history-sidebar-container" className="fixed inset-0 z-50 flex justify-end">
         <div 
+            id="history-sidebar-overlay"
             className="absolute inset-0 bg-indigo-900/30 backdrop-blur-sm"
             onClick={onClose}
         ></div>
-        <div className="relative w-[450px] max-w-[90vw] bg-white dark:bg-slate-900 h-full overflow-y-auto p-10 animate-slide-in-right border-l-8 border-indigo-200 dark:border-indigo-900">
+        <div id="history-sidebar-panel" className="relative w-[450px] max-w-[90vw] bg-white dark:bg-slate-900 h-full overflow-y-auto p-10 animate-slide-in-right border-l-8 border-indigo-200 dark:border-indigo-900">
             <div className="flex justify-between items-center mb-12">
                 <h3 className="text-4xl font-black text-slate-800 dark:text-white flex items-center gap-4">
                   <span className="text-5xl">📚</span> {t('historyTitle')}
@@ -35,12 +36,12 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({ isOpen, onClose, histor
             </div>
             
             {history.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-32 text-center opacity-60">
+                <div id="history-empty-state" className="flex flex-col items-center justify-center py-32 text-center opacity-60">
                     <span className="text-8xl mb-8">🕸️</span>
                     <p className="text-2xl text-slate-500 font-black">{t('historyEmpty')}</p>
                 </div>
             ) : (
-                <div className="space-y-8">
+                <div id="history-list" className="space-y-8">
                     {history.map(item => (
                         <div key={item.id} className="bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-800 rounded-[2.5rem] p-7 border-4 border-slate-100 dark:border-slate-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-all group">
                             <h4 className="font-black text-2xl text-slate-800 dark:text-white mb-3 tracking-tight">{item.config.theme}</h4>
