@@ -1,8 +1,13 @@
-/* app/services/aiService.ts v0.5.14 */
-import { GoogleGenAI } from "@google/genai";
-import { ImageSize, ArtStyle, ModelProvider } from "../types";
+/* app/services/aiService.ts v0.5.15 */
+import { ImageSize, ArtStyle, ModelProvider, Language } from "../types";
+import { generateImage as geminiGenerateImage, generateStory as geminiGenerateStory, createChat as geminiCreateChat, testConnection as geminiTest } from './api/gemini';
+import { generateImage as openaiGenerateImage, generateStory as openaiGenerateStory, createChat as openaiCreateChat, testConnection as openaiTest } from './api/openai';
+import { generateStory as claudeGenerateStory, createChat as claudeCreateChat, testConnection as claudeTest } from './api/claude';
+import { generateStory as deepseekGenerateStory, createChat as deepseekCreateChat, testConnection as deepseekTest } from './api/deepseek';
+import { generateImage as qianwenGenerateImage, testConnection as qianwenTest } from './api/qianwen';
+import { generateImage as doubaoGenerateImage, generateStory as doubaoGenerateStory, createChat as doubaoCreateChat, testConnection as doubaoTest } from './api/doubao';
 
-const getKeys = () => ({
+export const getKeys = () => ({
   gemini: localStorage.getItem('gemini_api_key') || (typeof process !== 'undefined' ? process.env.API_KEY : '') || '',
   deepseek: localStorage.getItem('deepseek_api_key') || '',
   qianwen: localStorage.getItem('qianwen_api_key') || '',
@@ -10,39 +15,6 @@ const getKeys = () => ({
   openai: localStorage.getItem('openai_api_key') || '',
   claude: localStorage.getItem('claude_api_key') || '',
 });
-
-const apiFetch = async (
-  url: string, 
-  key: string, 
-  body: any, 
-  authScheme: 'Bearer' | 'Simple' | 'Custom', 
-  customHeaders: Record<string, string> = {}
-) => {
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    ...customHeaders
-  };
-  
-  if (authScheme === 'Bearer') {
-    headers['Authorization'] = `Bearer ${key}`;
-  } else if (authScheme === 'Simple') {
-    headers['Authorization'] = key;
-  }
-  // For 'Custom', headers are provided entirely via customHeaders.
-
-  const response = await fetch(url, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(body)
-  });
-
-  if (!response.ok) {
-    const errData = await response.json().catch(() => ({ message: `HTTP Error: ${response.status}` }));
-    const message = errData.error?.message || errData.message || errData.msg || `API Error: ${response.statusText}`;
-    throw new Error(message);
-  }
-  return response.json();
-};
 
 export const checkApiKeySelection = async (): Promise<boolean> => {
   const win = window as any;
@@ -85,64 +57,17 @@ const getStylePrompt = (style: ArtStyle): string => {
   }
 };
 
-const getGeminiClient = () => {
-  const key = getKeys().gemini;
-  if (!key) throw new Error("Gemini API Key missing.");
-  return new GoogleGenAI({ apiKey: key });
-};
-
 export const testProviderConnection = async (provider: ModelProvider): Promise<boolean> => {
     const keys = getKeys();
-    const testPrompt = "Hi";
-    
     try {
         switch (provider) {
-            case ModelProvider.Gemini:
-                const ai = getGeminiClient();
-                await ai.models.generateContent({ model: 'gemini-3-flash-preview', contents: testPrompt });
-                return true;
-            case ModelProvider.OpenAI:
-                if (!keys.openai) return false;
-                await apiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
-                    model: "gpt-3.5-turbo",
-                    messages: [{role: "user", content: testPrompt}],
-                    max_tokens: 5
-                }, 'Bearer');
-                return true;
-            case ModelProvider.Claude:
-                if (!keys.claude) return false;
-                await apiFetch('https://api.anthropic.com/v1/messages', keys.claude, {
-                    model: "claude-3-haiku-20240307",
-                    max_tokens: 5,
-                    messages: [{ role: "user", content: testPrompt }]
-                }, 'Custom', { 'anthropic-version': '2023-06-01', 'x-api-key': keys.claude });
-                return true;
-            case ModelProvider.DeepSeek:
-                if (!keys.deepseek) return false;
-                await apiFetch('https://api.deepseek.com/v1/chat/completions', keys.deepseek, {
-                    model: "deepseek-chat",
-                    messages: [{ role: "user", content: testPrompt }],
-                    max_tokens: 5
-                }, 'Bearer');
-                return true;
-            case ModelProvider.Qianwen:
-                if (!keys.qianwen) return false;
-                await apiFetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation', keys.qianwen, {
-                    model: "qwen-turbo",
-                    input: { prompt: testPrompt },
-                    parameters: { max_tokens: 5 }
-                }, 'Simple');
-                return true;
-            case ModelProvider.Doubao:
-                if (!keys.doubao) return false;
-                await apiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
-                    model: "doubao-pro-4k",
-                    messages: [{ role: "user", content: testPrompt }],
-                    max_tokens: 5
-                }, 'Bearer');
-                return true;
-            default:
-                return false;
+            case ModelProvider.Gemini: return await geminiTest(keys.gemini);
+            case ModelProvider.OpenAI: return await openaiTest(keys.openai);
+            case ModelProvider.Claude: return await claudeTest(keys.claude);
+            case ModelProvider.DeepSeek: return await deepseekTest(keys.deepseek);
+            case ModelProvider.Qianwen: return await qianwenTest(keys.qianwen);
+            case ModelProvider.Doubao: return await doubaoTest(keys.doubao);
+            default: return false;
         }
     } catch (e) {
         console.error(`Test connection failed for ${provider}:`, e);
@@ -158,194 +83,83 @@ export const generateColoringPage = async (
 ): Promise<string> => {
   const keys = getKeys();
   const fullPrompt = `Children's coloring book page. ${promptBase}. ${getStylePrompt(style)}. NO colors, NO shading, NO text, NO watermarks. Pure white background, clean black lines only.`;
+  const available = getAvailableProviders();
 
-  if (provider === ModelProvider.OpenAI && keys.openai) {
-    try {
-        const res = await apiFetch('https://api.openai.com/v1/images/generations', keys.openai, {
-            model: "dall-e-3",
-            prompt: fullPrompt,
-            n: 1,
-            size: "1024x1024",
-            quality: size === ImageSize.Size_4K ? "hd" : "standard"
-        }, 'Bearer');
-        return res.data[0].url;
-    } catch (e) { console.warn("OpenAI Image failed", e); }
-  }
-
-  if (provider === ModelProvider.Qianwen && keys.qianwen) {
-    try {
-        const res = await apiFetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', keys.qianwen, {
-          model: "wanx-v1",
-          input: { prompt: fullPrompt },
-          parameters: { style: "<auto>", size: "768*1024", n: 1 }
-        }, 'Simple');
-        if (res.output?.url) return res.output.url;
-    } catch (e) { console.warn("Qianwen failed", e); }
-  }
-
-  if (provider === ModelProvider.Doubao && keys.doubao) {
+  const providers: ModelProvider[] = [
+      provider,
+      ...Object.values(ModelProvider).filter(p => p !== provider && available.includes(p))
+  ];
+  
+  for (const p of providers) {
       try {
-          const res = await apiFetch('https://ark.cn-beijing.volces.com/api/v3/images/generations', keys.doubao, {
-              model: "cv-xl", 
-              prompt: fullPrompt,
-              n: 1,
-              size: "1024x1024"
-          }, 'Bearer');
-          if (res.data?.[0]?.url) return res.data[0].url;
-      } catch (e) { console.warn("Doubao failed", e); }
+          switch (p) {
+              case ModelProvider.OpenAI: if (keys.openai) return await openaiGenerateImage(keys.openai, fullPrompt, size); break;
+              case ModelProvider.Qianwen: if (keys.qianwen) return await qianwenGenerateImage(keys.qianwen, fullPrompt); break;
+              case ModelProvider.Doubao: if (keys.doubao) return await doubaoGenerateImage(keys.doubao, fullPrompt); break;
+              case ModelProvider.Gemini: if (keys.gemini) return await geminiGenerateImage(keys.gemini, fullPrompt, size); break;
+          }
+      } catch (e) {
+          console.warn(`Provider ${p} failed for image generation, trying next.`, e);
+      }
   }
 
-  try {
-      const ai = getGeminiClient();
-      const isPro = size !== ImageSize.Size_1K;
-      const model = isPro ? 'gemini-3-pro-image-preview' : 'gemini-2.5-flash-image';
-      const config: any = { imageConfig: { aspectRatio: "3:4" } };
-      if (isPro) config.imageConfig.imageSize = size;
-      
-      const response = await ai.models.generateContent({
-        model: model,
-        contents: { parts: [{ text: fullPrompt }] },
-        config: config
-      });
-      const part = response.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
-      if (!part) throw new Error("Gemini generation failed to return an image.");
-      return `data:image/png;base64,${part.inlineData.data}`;
-  } catch (e: any) {
-      throw new Error(`Failed to generate image with ${provider} (and Gemini fallback failed): ${e.message}`);
-  }
+  throw new Error("All available image generation providers failed.");
 };
 
 export const generateStoryForPage = async (
   theme: string,
   sceneDescription: string,
-  language: string,
+  language: Language,
   provider: ModelProvider
 ): Promise<string> => {
   const prompt = `Write a single, very short, simple, and engaging sentence for a children's book in ${language}.\nTheme: ${theme}\nScene: ${sceneDescription}\nFormat: Just the sentence.`;
   const keys = getKeys();
+  const available = getAvailableProviders();
+  
+  const providers: ModelProvider[] = [
+      provider,
+      ...Object.values(ModelProvider).filter(p => p !== provider && available.includes(p))
+  ];
 
-  if (provider === ModelProvider.Claude && keys.claude) {
-    try {
-        const res = await apiFetch('https://api.anthropic.com/v1/messages', keys.claude, {
-            model: "claude-3-5-sonnet-20240620",
-            max_tokens: 100,
-            messages: [{ role: "user", content: prompt }]
-        }, 'Custom', { 'anthropic-version': '2023-06-01', 'x-api-key': keys.claude });
-        return res.content[0].text.trim();
-    } catch (e) { console.warn("Claude story failed", e); }
-  }
-
-  if (provider === ModelProvider.DeepSeek && keys.deepseek) {
-    try {
-        const res = await apiFetch('https://api.deepseek.com/v1/chat/completions', keys.deepseek, {
-          model: "deepseek-chat",
-          messages: [{ role: "user", content: prompt }]
-        }, 'Bearer');
-        return res.choices[0].message.content.trim();
-    } catch (e) { console.warn("DeepSeek story failed", e); }
-  }
-
-  if (provider === ModelProvider.Doubao && keys.doubao) {
+  for (const p of providers) {
       try {
-          const res = await apiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
-              model: "doubao-pro-4k",
-              messages: [{ role: "user", content: prompt }]
-          }, 'Bearer');
-          return res.choices[0].message.content.trim();
-      } catch (e) { console.warn("Doubao story failed", e); }
+          switch (p) {
+              case ModelProvider.Claude: if (keys.claude) return await claudeGenerateStory(keys.claude, prompt); break;
+              case ModelProvider.DeepSeek: if (keys.deepseek) return await deepseekGenerateStory(keys.deepseek, prompt); break;
+              case ModelProvider.Doubao: if (keys.doubao) return await doubaoGenerateStory(keys.doubao, prompt); break;
+              case ModelProvider.OpenAI: if (keys.openai) return await openaiGenerateStory(keys.openai, prompt); break;
+              case ModelProvider.Gemini: if (keys.gemini) return await geminiGenerateStory(keys.gemini, prompt); break;
+          }
+      } catch (e) {
+          console.warn(`Provider ${p} failed for story generation, trying next.`, e);
+      }
   }
-
-  if (provider === ModelProvider.OpenAI && keys.openai) {
-      try {
-          const res = await apiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
-              model: "gpt-4o-mini",
-              messages: [{ role: "user", content: prompt }]
-          }, 'Bearer');
-          return res.choices[0].message.content.trim();
-      } catch (e) { console.warn("OpenAI story failed", e); }
-  }
-
-  try {
-      const ai = getGeminiClient();
-      const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: { parts: [{ text: prompt }] }
-      });
-      return response.text?.trim() || "";
-  } catch (e) {
-      console.warn("Gemini story fallback failed", e);
-      return "";
-  }
+  
+  console.warn("All story generation providers failed.");
+  return "";
 };
 
-export const createChatSession = (provider: ModelProvider = ModelProvider.Gemini) => {
+export const createChatSession = (provider: ModelProvider) => {
   const keys = getKeys();
   const systemPrompt = "You are a friendly, magical assistant for a children's coloring book app. You love helping kids and parents come up with fun ideas. Keep answers very short and super positive.";
 
-  if (provider === ModelProvider.Claude && keys.claude) {
-      return {
-          provider,
-          sendMessage: async ({ message }: { message: string }) => {
-              const res = await apiFetch('https://api.anthropic.com/v1/messages', keys.claude, {
-                  model: "claude-3-5-sonnet-20240620",
-                  max_tokens: 256,
-                  system: systemPrompt,
-                  messages: [{ role: "user", content: message }]
-              }, 'Custom', { 'anthropic-version': '2023-06-01', 'x-api-key': keys.claude });
-              return { text: res.content[0].text.trim() };
-          }
-      };
-  }
-
-  if (provider === ModelProvider.DeepSeek && keys.deepseek) {
-      return {
-          provider,
-          sendMessage: async ({ message }: { message: string }) => {
-              const res = await apiFetch('https://api.deepseek.com/v1/chat/completions', keys.deepseek, {
-                  model: "deepseek-chat",
-                  messages: [{ role: "system", content: systemPrompt }, { role: "user", content: message }]
-              }, 'Bearer');
-              return { text: res.choices[0].message.content.trim() };
-          }
-      };
-  }
-
-  if (provider === ModelProvider.Doubao && keys.doubao) {
-      return {
-          provider,
-          sendMessage: async ({ message }: { message: string }) => {
-              const res = await apiFetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions', keys.doubao, {
-                  model: "doubao-pro-4k",
-                  messages: [{ role: "system", content: systemPrompt }, { role: "user", content: message }]
-              }, 'Bearer');
-              return { text: res.choices[0].message.content.trim() };
-          }
-      };
-  }
-
-  if (provider === ModelProvider.OpenAI && keys.openai) {
-      return {
-          provider,
-          sendMessage: async ({ message }: { message: string }) => {
-              const res = await apiFetch('https://api.openai.com/v1/chat/completions', keys.openai, {
-                  model: "gpt-4o-mini",
-                  messages: [{ role: "system", content: systemPrompt }, { role: "user", content: message }]
-              }, 'Bearer');
-              return { text: res.choices[0].message.content.trim() };
-          }
-      };
-  }
-
   try {
-      const ai = getGeminiClient();
-      const session = ai.chats.create({
-        model: 'gemini-3-pro-preview',
-        config: { systemInstruction: systemPrompt }
-      });
-      return { ...session, provider: ModelProvider.Gemini };
+      switch (provider) {
+          case ModelProvider.Claude: if (keys.claude) return claudeCreateChat(keys.claude, systemPrompt);
+          case ModelProvider.DeepSeek: if (keys.deepseek) return deepseekCreateChat(keys.deepseek, systemPrompt);
+          case ModelProvider.Doubao: if (keys.doubao) return doubaoCreateChat(keys.doubao, systemPrompt);
+          case ModelProvider.OpenAI: if (keys.openai) return openaiCreateChat(keys.openai, systemPrompt);
+          case ModelProvider.Gemini:
+          default:
+              if (keys.gemini) return geminiCreateChat(keys.gemini, systemPrompt);
+              break;
+      }
   } catch (e) {
-      throw new Error("Failed to initialize chat session. Gemini API key might be missing.");
+      console.warn(`Failed to create chat with ${provider}, falling back to Gemini.`, e);
+      if (keys.gemini) return geminiCreateChat(keys.gemini, systemPrompt);
   }
+
+  throw new Error("Failed to initialize any chat session. Check API key configurations.");
 };
 
 export const sendMessageToChat = async (session: any, message: string): Promise<string> => {

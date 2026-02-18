@@ -1,5 +1,12 @@
 # 更新日志 (Changelog)
 
+## v0.5.15
+### 重构
+- **服务层模块化 (Service Layer)**：将庞大的 `aiService.ts` 拆分为一个服务网关和多个独立的 API 提供商模块（存放于 `app/services/api/`），大幅提高了代码的可维护性和可扩展性。
+- **状态逻辑分离 (State Logic)**：创建了 `useBookGenerator.ts` 自定义 Hook，将核心的“书籍生成”状态和业务逻辑从主组件 `App.tsx` 中分离出来，使主组件更加轻量和清晰。
+- **组件拆分 (Component)**：将 `SettingsModal.tsx` 中复杂的 API 密钥管理部分抽离为独立的 `ApiKeyManager.tsx` 子组件，降低了原组件的复杂度。
+- **版本同步**：全项目版本号提升至 v0.5.15 以反映此次重构。
+
 ## v0.5.14
 ### 优化
 - **项目清理**：永久删除了 `openspec/` 目录下所有废弃的空文件。
