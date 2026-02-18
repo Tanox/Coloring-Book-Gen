@@ -96,5 +96,9 @@ export const ko = {
   keyStatusSystem: "시스템",
   keyPlaceholderSystem: "시스템 기본 키가 활성화되었습니다",
   keyPlaceholderEnter: "{name} API 키 입력",
-  errorDetails: "오류: {error}"
+  errorDetails: "오류: {error}",
+  statusAvailable: "연결 성공",
+  statusTesting: "연결 테스트 중...",
+  statusUnavailable: "연결 실패",
+  statusNoKey: "API 키가 설정되지 않았습니다"
 };

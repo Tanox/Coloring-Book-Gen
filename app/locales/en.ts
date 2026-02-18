@@ -96,5 +96,9 @@ export const en = {
   keyStatusSystem: "System",
   keyPlaceholderSystem: "System default key is active",
   keyPlaceholderEnter: "Enter {name} API Key",
-  errorDetails: "Error: {error}"
+  errorDetails: "Error: {error}",
+  statusAvailable: "Connection successful",
+  statusTesting: "Testing connection...",
+  statusUnavailable: "Connection failed",
+  statusNoKey: "API Key not set"
 };

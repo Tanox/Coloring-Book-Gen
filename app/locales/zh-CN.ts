@@ -96,5 +96,9 @@ export const zhCN = {
   keyStatusSystem: "系统",
   keyPlaceholderSystem: "已启用系统预设密钥",
   keyPlaceholderEnter: "输入 {name} API Key",
-  errorDetails: "错误: {error}"
+  errorDetails: "错误: {error}",
+  statusAvailable: "连接成功",
+  statusTesting: "测试连接中...",
+  statusUnavailable: "连接失败",
+  statusNoKey: "未配置API密钥"
 };

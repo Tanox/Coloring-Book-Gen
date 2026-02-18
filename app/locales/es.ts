@@ -96,5 +96,9 @@ export const es = {
   keyStatusSystem: "Sistema",
   keyPlaceholderSystem: "Clave del sistema activa",
   keyPlaceholderEnter: "Introduce la clave API de {name}",
-  errorDetails: "Error: {error}"
+  errorDetails: "Error: {error}",
+  statusAvailable: "Conexión exitosa",
+  statusTesting: "Probando conexión...",
+  statusUnavailable: "Conexión fallida",
+  statusNoKey: "Clave API no configurada"
 };

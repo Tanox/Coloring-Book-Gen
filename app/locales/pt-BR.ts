@@ -96,5 +96,9 @@ export const ptBR = {
   keyStatusSystem: "Sistema",
   keyPlaceholderSystem: "Chave padrão do sistema ativa",
   keyPlaceholderEnter: "Insira a chave API de {name}",
-  errorDetails: "Erro: {error}"
+  errorDetails: "Erro: {error}",
+  statusAvailable: "Conexão bem-sucedida",
+  statusTesting: "Testando conexão...",
+  statusUnavailable: "Falha na conexão",
+  statusNoKey: "Chave API não configurada"
 };

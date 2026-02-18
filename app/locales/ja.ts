@@ -96,5 +96,9 @@ export const ja = {
   keyStatusSystem: "システム",
   keyPlaceholderSystem: "システムのデフォルトキーが有効です",
   keyPlaceholderEnter: "{name} APIキーを入力",
-  errorDetails: "エラー: {error}"
+  errorDetails: "エラー: {error}",
+  statusAvailable: "接続に成功しました",
+  statusTesting: "接続をテスト中...",
+  statusUnavailable: "接続に失敗しました",
+  statusNoKey: "APIキーが設定されていません"
 };

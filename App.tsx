@@ -1,7 +1,7 @@
 /* App.tsx v0.5.16 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider } from './app/types';
-import { getAvailableProviders, checkApiKeySelection, promptApiKeySelection } from './app/services/aiService';
+import { getAvailableProviders, checkApiKeySelection, promptApiKeySelection, testProviderConnection, getKeys } from './app/services/aiService';
 import { generateBookPDF } from './app/services/pdfService';
 import { getHistory, deleteHistoryItem } from './app/services/storageService';
 import { useBookGenerator } from './app/hooks/useBookGenerator';
@@ -49,11 +49,51 @@ const App: React.FC = () => {
   const [history, setHistory] = useState<BookHistoryItem[]>([]);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [canvasImage, setCanvasImage] = useState<string | null>(null);
-  const [readyProviders, setReadyProviders] = useState<ModelProvider[]>([]);
+  
+  const initialProviderStatus = Object.values(ModelProvider).reduce((acc, provider) => {
+    acc[provider] = 'not_tested';
+    return acc;
+  }, {} as Record<ModelProvider, 'available' | 'unavailable' | 'testing' | 'not_tested'>);
+
+  const [providerStatus, setProviderStatus] = useState(initialProviderStatus);
 
   const loadHistory = async () => {
     const items = await getHistory();
     setHistory(items);
+  };
+
+  const updateAndTestProviders = async () => {
+    const keys = getKeys();
+    const providersWithKeys = (Object.keys(keys) as ModelProvider[]).filter(p => !!keys[p as keyof typeof keys]);
+
+    const testingStatus: typeof providerStatus = { ...initialProviderStatus };
+    providersWithKeys.forEach(p => {
+        testingStatus[p] = 'testing';
+    });
+    setProviderStatus(testingStatus);
+
+    const testResults = await Promise.allSettled(
+      providersWithKeys.map(p => testProviderConnection(p))
+    );
+
+    const finalStatus = { ...testingStatus };
+    const newReadyProviders: ModelProvider[] = [];
+
+    providersWithKeys.forEach((provider, index) => {
+        const result = testResults[index];
+        if (result.status === 'fulfilled' && result.value) {
+            finalStatus[provider] = 'available';
+            newReadyProviders.push(provider);
+        } else {
+            finalStatus[provider] = 'unavailable';
+        }
+    });
+    
+    setProviderStatus(finalStatus);
+
+    if (!newReadyProviders.includes(config.provider)) {
+       setConfig(prev => ({ ...prev, provider: ModelProvider.Gemini }));
+    }
   };
 
   useEffect(() => {
@@ -62,18 +102,10 @@ const App: React.FC = () => {
         const geminiKey = localStorage.getItem('gemini_api_key');
         setHasApiKey(envSelected || !!geminiKey);
         loadHistory();
-        refreshProviderStatus();
+        updateAndTestProviders();
     };
     init();
   }, []);
-
-  const refreshProviderStatus = () => {
-    const available = getAvailableProviders();
-    setReadyProviders(available);
-    if (config.provider !== ModelProvider.Gemini && !available.includes(config.provider)) {
-        setConfig(prev => ({ ...prev, provider: ModelProvider.Gemini }));
-    }
-  };
 
   const handleLoadFromHistory = (item: BookHistoryItem) => {
     setConfig(item.config);
@@ -103,8 +135,8 @@ const App: React.FC = () => {
   
   const onGenerateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (config.provider !== ModelProvider.Gemini && !readyProviders.includes(config.provider)) {
-        alert(`${config.provider.toUpperCase()} API Key is missing. Please configure it in settings.`);
+    if (providerStatus[config.provider] !== 'available') {
+        alert(`${config.provider.toUpperCase()} API Key is missing or invalid. Please configure it in settings.`);
         setIsSettingsOpen(true);
         return;
     }
@@ -121,7 +153,7 @@ const App: React.FC = () => {
           setConfig={setConfig} 
           isGenerating={isGenerating} 
           onGenerate={onGenerateSubmit} 
-          readyProviders={readyProviders}
+          providerStatus={providerStatus}
         />
         <ResultsGallery 
             pages={generatedPages} 
@@ -138,7 +170,7 @@ const App: React.FC = () => {
       <ChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} provider={config.provider} />
       <SettingsModal 
         isOpen={isSettingsOpen} 
-        onClose={() => { setIsSettingsOpen(false); refreshProviderStatus(); }} 
+        onClose={() => { setIsSettingsOpen(false); updateAndTestProviders(); }} 
         hasApiKey={hasApiKey} 
         onSelectApiKey={promptApiKeySelection} 
       />

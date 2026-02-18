@@ -96,5 +96,9 @@ export const ar = {
   keyStatusSystem: "النظام",
   keyPlaceholderSystem: "مفتاح النظام الافتراضي نشط",
   keyPlaceholderEnter: "أدخل مفتاح API لـ {name}",
-  errorDetails: "خطأ: {error}"
+  errorDetails: "خطأ: {error}",
+  statusAvailable: "الاتصال ناجح",
+  statusTesting: "جاري اختبار الاتصال...",
+  statusUnavailable: "فشل الاتصال",
+  statusNoKey: "لم يتم تعيين مفتاح API"
 };

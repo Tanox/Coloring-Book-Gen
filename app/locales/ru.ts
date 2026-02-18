@@ -96,5 +96,9 @@ export const ru = {
   keyStatusSystem: "Система",
   keyPlaceholderSystem: "Активен системный ключ по умолчанию",
   keyPlaceholderEnter: "Введите API ключ для {name}",
-  errorDetails: "Ошибка: {error}"
+  errorDetails: "Ошибка: {error}",
+  statusAvailable: "Соединение успешно",
+  statusTesting: "Тестирование соединения...",
+  statusUnavailable: "Ошибка соединения",
+  statusNoKey: "API-ключ не установлен"
 };

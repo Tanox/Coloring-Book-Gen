@@ -96,5 +96,9 @@ export const zhTW = {
   keyStatusSystem: "系統",
   keyPlaceholderSystem: "已啟用系統預設金鑰",
   keyPlaceholderEnter: "輸入 {name} API 金鑰",
-  errorDetails: "錯誤: {error}"
+  errorDetails: "錯誤: {error}",
+  statusAvailable: "連線成功",
+  statusTesting: "正在測試連線...",
+  statusUnavailable: "連線失敗",
+  statusNoKey: "未設定API金鑰"
 };

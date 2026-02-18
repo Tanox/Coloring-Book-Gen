@@ -8,10 +8,10 @@ interface GeneratorFormProps {
   setConfig: (config: GenerationConfig) => void;
   isGenerating: boolean;
   onGenerate: (e: React.FormEvent) => void;
-  readyProviders: ModelProvider[];
+  providerStatus: Record<ModelProvider, 'available' | 'unavailable' | 'testing' | 'not_tested'>;
 }
 
-const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGenerating, onGenerate, readyProviders }) => {
+const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGenerating, onGenerate, providerStatus }) => {
   const { t } = useLanguage();
 
   const providers = [
@@ -30,6 +30,17 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
     { id: ArtStyle.Cartoon, name: t('styleCartoon'), icon: '🐰', desc: t('styleCartoonDesc') },
     { id: ArtStyle.Realistic, name: t('styleRealistic'), icon: '🖌️', desc: t('styleRealisticDesc') },
   ];
+  
+  const getStatusInfo = (status: 'available' | 'unavailable' | 'testing' | 'not_tested') => {
+    switch (status) {
+      case 'available': return { color: 'bg-green-500', title: t('statusAvailable') };
+      case 'testing': return { color: 'bg-yellow-500 animate-pulse', title: t('statusTesting') };
+      case 'unavailable': return { color: 'bg-red-500', title: t('statusUnavailable') };
+      case 'not_tested':
+      default: return { color: 'bg-slate-300', title: t('statusNoKey') };
+    }
+  };
+
 
   return (
     <div className="max-w-5xl mx-auto text-center mb-20 px-4">
@@ -52,7 +63,9 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
             {providers.map(p => {
-              const isReady = readyProviders.includes(p.id);
+              const status = providerStatus[p.id] || 'not_tested';
+              const statusInfo = getStatusInfo(status);
+              const isReady = status === 'available';
               return (
                 <button
                   key={p.id}
@@ -62,12 +75,12 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ config, setConfig, isGene
                     config.provider === p.id 
                     ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/40 scale-[1.05]' 
                     : 'border-slate-50 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 hover:border-indigo-200'
-                  } ${!isReady ? 'opacity-40 grayscale-[0.8]' : ''}`}
+                  } ${status === 'not_tested' ? 'opacity-40 grayscale-[0.8]' : ''}`}
                 >
                   <span className={`text-4xl transition-transform group-hover:scale-110`}>{p.icon}</span>
                   <span className="font-bold text-base dark:text-slate-200 text-center">{p.name}</span>
                   
-                  <div className={`absolute top-3 right-3 w-4 h-4 rounded-full border-2 border-white dark:border-slate-800 ${isReady ? 'bg-green-500' : 'bg-slate-300'}`}></div>
+                  <div title={statusInfo.title} className={`absolute top-3 right-3 w-4 h-4 rounded-full border-2 border-white dark:border-slate-800 ${statusInfo.color}`}></div>
                 </button>
               );
             })}
