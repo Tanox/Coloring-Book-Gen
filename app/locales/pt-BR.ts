@@ -1,4 +1,4 @@
-/* app/locales/pt-BR.ts v1.1.9 */
+/* app/locales/pt-BR.ts v0.5.20 */
 export const ptBR = {
   appTitle: "PinteMeuMundo",
   selectKey: "Chave API",

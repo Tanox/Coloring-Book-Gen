@@ -1,4 +1,4 @@
-/* app/components/ColoringCanvas.tsx v0.5.16 */
+/* app/components/ColoringCanvas.tsx v0.5.20 */
 import React, { useRef, useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 

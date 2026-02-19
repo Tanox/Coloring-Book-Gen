@@ -1,4 +1,4 @@
-/* app/hooks/useBookGenerator.ts v0.5.17 */
+/* app/hooks/useBookGenerator.ts v0.5.20 */
 import { useState } from 'react';
 import { GeneratedPage, GenerationConfig, BookHistoryItem, Language } from '../types';
 import { generateColoringPage, generateStoryForPage } from '../services/aiService';

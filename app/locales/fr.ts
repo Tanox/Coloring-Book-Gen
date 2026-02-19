@@ -1,4 +1,4 @@
-/* app/locales/fr.ts v1.1.9 */
+/* app/locales/fr.ts v0.5.20 */
 export const fr = {
   appTitle: "ColorieMonMonde",
   selectKey: "Clé API",

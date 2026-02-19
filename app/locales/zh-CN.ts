@@ -1,4 +1,4 @@
-/* app/locales/zh-CN.ts v1.1.9 */
+/* app/locales/zh-CN.ts v0.5.20 */
 export const zhCN = {
   appTitle: "绘梦世界",
   selectKey: "选择 API 密钥",

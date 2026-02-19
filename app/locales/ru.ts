@@ -1,4 +1,4 @@
-/* app/locales/ru.ts v1.1.9 */
+/* app/locales/ru.ts v0.5.20 */
 export const ru = {
   appTitle: "ColorMyWorld",
   selectKey: "Выбрать API ключ",

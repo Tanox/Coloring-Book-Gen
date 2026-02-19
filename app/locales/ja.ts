@@ -1,4 +1,4 @@
-/* app/locales/ja.ts v1.1.9 */
+/* app/locales/ja.ts v0.5.20 */
 export const ja = {
   appTitle: "ColorMyWorld",
   selectKey: "APIキー選択",

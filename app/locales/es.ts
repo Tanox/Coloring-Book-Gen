@@ -1,4 +1,4 @@
-/* app/locales/es.ts v1.1.9 */
+/* app/locales/es.ts v0.5.20 */
 export const es = {
   appTitle: "PintaMiMundo",
   selectKey: "Seleccionar Clave API",

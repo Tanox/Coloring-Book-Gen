@@ -1,4 +1,4 @@
-/* app/locales/ko.ts v1.1.9 */
+/* app/locales/ko.ts v0.5.20 */
 export const ko = {
   appTitle: "ColorMyWorld",
   selectKey: "API 키 선택",

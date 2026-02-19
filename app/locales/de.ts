@@ -1,4 +1,4 @@
-/* app/locales/de.ts v1.1.9 */
+/* app/locales/de.ts v0.5.20 */
 export const de = {
   appTitle: "MalMeineWelt",
   selectKey: "API Key wählen",

@@ -1,4 +1,4 @@
-/* app/types.ts v0.5.17 */
+/* app/types.ts v0.5.20 */
 export enum ImageSize {
   Size_1K = '1K',
   Size_2K = '2K',

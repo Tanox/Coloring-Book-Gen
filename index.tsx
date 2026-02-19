@@ -1,4 +1,4 @@
-/* index.tsx v0.5.16 */
+/* index.tsx v0.5.20 */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';

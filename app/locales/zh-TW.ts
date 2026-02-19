@@ -1,4 +1,4 @@
-/* app/locales/zh-TW.ts v1.1.9 */
+/* app/locales/zh-TW.ts v0.5.20 */
 export const zhTW = {
   appTitle: "繪夢世界",
   selectKey: "選擇 API 金鑰",

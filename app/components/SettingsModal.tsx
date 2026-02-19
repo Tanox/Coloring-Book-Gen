@@ -1,4 +1,4 @@
-/* app/components/SettingsModal.tsx v0.5.16 */
+/* app/components/SettingsModal.tsx v0.5.20 */
 import React, { useState, useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -26,7 +26,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSelect
     });
 
     const configData = {
-        version: 'v0.5.16',
+        version: 'v0.5.20',
         exportDate: new Date().toISOString(),
         keys: keysToExport,
         preferences: {

@@ -1,4 +1,4 @@
-/* app/services/storageService.ts v0.5.16 */
+/* app/services/storageService.ts v0.5.20 */
 import { BookHistoryItem } from '../types';
 
 const DB_NAME = 'ColoringBookDB';

@@ -1,4 +1,4 @@
-/* app/components/Header.tsx v0.5.16 */
+/* app/components/Header.tsx v0.5.20 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 

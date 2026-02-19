@@ -1,4 +1,4 @@
-/* app/locales/ar.ts v1.1.9 */
+/* app/locales/ar.ts v0.5.20 */
 export const ar = {
   appTitle: "لون عالمي",
   selectKey: "اختر مفتاح API",

@@ -1,4 +1,4 @@
-/* App.tsx v0.5.19 */
+/* App.tsx v0.5.20 */
 import React, { useState, useEffect } from 'react';
 import { ImageSize, GenerationConfig, ArtStyle, BookHistoryItem, ModelProvider, AspectRatio } from './app/types';
 import { getAvailableProviders, checkApiKeySelection, promptApiKeySelection, testProviderConnection, getKeys } from './app/services/aiService';
@@ -17,7 +17,7 @@ import HistorySidebar from './app/components/HistorySidebar';
 import Footer from './app/components/Footer';
 import { useLanguage } from './app/contexts/LanguageContext';
 
-const APP_VERSION = 'v0.5.19';
+const APP_VERSION = 'v0.5.20';
 
 const App: React.FC = () => {
   const { t, language } = useLanguage();

@@ -1,4 +1,4 @@
-/* app/locales/en.ts v1.1.9 */
+/* app/locales/en.ts v0.5.20 */
 export const en = {
   appTitle: "ColorMyWorld",
   selectKey: "Select API Key",

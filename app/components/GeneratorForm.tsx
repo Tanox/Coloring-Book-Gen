@@ -1,4 +1,4 @@
-/* app/components/GeneratorForm.tsx v0.5.17 */
+/* app/components/GeneratorForm.tsx v0.5.20 */
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GenerationConfig, ArtStyle, ImageSize, ModelProvider, AspectRatio } from '../types';

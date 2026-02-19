@@ -1,4 +1,4 @@
-/* app/locales/index.ts v1.0.0 */
+/* app/locales/index.ts v0.5.20 */
 import { Language } from '../types';
 import { en } from './en';
 import { zhCN } from './zh-CN';

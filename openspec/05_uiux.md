@@ -1,4 +1,4 @@
-# UI/UX 设计规范：绘梦世界 (ColorMyWorld) - v0.5.18
+# UI/UX 设计规范：绘梦世界 (ColorMyWorld) - v0.5.20
 
 ## 1. 视觉语言：扁平拟物 (Flat & Clean)
 从 v0.4.2 起，应用全面移除传统的 `shadow-` 类样式，转而通过以下元素构建层级感：

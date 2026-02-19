@@ -1,4 +1,4 @@
-/* app/services/api/qianwen.ts v0.5.17 */
+/* app/services/api/qianwen.ts v0.5.20 */
 import { apiFetch } from './utils';
 import { GenerationConfig, AspectRatio } from '../../types';
 

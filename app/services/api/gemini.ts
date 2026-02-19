@@ -1,4 +1,4 @@
-/* app/services/api/gemini.ts v0.5.17 */
+/* app/services/api/gemini.ts v0.5.20 */
 import { GoogleGenAI } from "@google/genai";
 import { GenerationConfig, ImageSize } from "../../types";
 import { withRetry } from "./utils";
