@@ -1,5 +1,5 @@
 {
-  "name": "Coloring Book Gen 绘梦世界 v0.5.20",
-  "description": "A creative tool to generate personalized children's coloring books using AI. Now with book sharing features and advanced image controls.",
+  "name": "Next.js Coloring Book Gen",
+  "description": "A creative tool to generate personalized children's coloring books using AI, powered by Next.js.",
   "requestFramePermissions": []
 }
