@@ -1,5 +1,11 @@
 # 更新日志 (Changelog)
 
+## v1.0.1
+### 重构与优化
+- **Tailwind CSS v4 迁移**: 升级项目至 Tailwind CSS v4，移除 `tailwind.config.ts`，使用 CSS-first 配置。
+- **构建修复**: 修复 `services/aiService.ts` 和 `services/pdfService.ts` 中的 TypeScript 类型错误。
+- **依赖更新**: 添加 `@tailwindcss/postcss` 插件支持。
+
 ## v0.5.20
 ### 维护
 - **项目清理 (Housekeeping)**: 彻底删除了项目根目录和 `openspec/` 目录中冗余的 `CHANGELOG.md`, `openspec/agents.md`, `openspec/06_changelog.md` 文件。
