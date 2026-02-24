@@ -1,4 +1,4 @@
-// File: /components/GeneratorForm.tsx v1.0.1
+// File: /components/GeneratorForm.tsx v1.0.2
 'use client';
 
 import React, { useState } from 'react';
@@ -27,15 +27,15 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
     onGenerate({ theme, name, resolution, aspectRatio, artStyle, storyMode, aiEngine });
   };
 
-  const inputClasses = "w-full p-3 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all outline-none text-slate-700 placeholder:text-slate-400";
-  const labelClasses = "flex items-center gap-2 text-sm font-bold text-slate-700 mb-2 ml-1";
+  const inputClasses = "w-full px-5 py-4 bg-orange-50/50 border-2 border-orange-100 rounded-2xl focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-100 transition-all text-lg font-medium placeholder:text-orange-200/70 text-slate-700";
+  const labelClasses = "flex items-center gap-2 text-sm font-bold text-slate-600 mb-2 uppercase tracking-wide";
 
   return (
-    <form id="generator-form" onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-4">
+    <form id="generator-form" onSubmit={handleSubmit} className="space-y-8">
+      <div className="space-y-6">
         <div>
           <label htmlFor="theme" className={labelClasses}>
-            <Type className="w-4 h-4 text-indigo-500" />
+            <Type className="w-5 h-5 text-orange-400" />
             {t('form_theme_label')}
           </label>
           <input
@@ -51,7 +51,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
 
         <div>
           <label htmlFor="name" className={labelClasses}>
-            <User className="w-4 h-4 text-indigo-500" />
+            <User className="w-5 h-5 text-orange-400" />
             {t('form_name_label')}
           </label>
           <input
@@ -65,50 +65,60 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-6">
           <div>
             <label htmlFor="artStyle" className={labelClasses}>
-              <PaletteIcon className="w-4 h-4 text-indigo-500" />
+              <PaletteIcon className="w-5 h-5 text-orange-400" />
               {t('form_difficulty_label')}
             </label>
-            <select
-              id="artStyle"
-              value={artStyle}
-              onChange={(e) => setArtStyle(e.target.value as ArtStyle)}
-              className={inputClasses}
-            >
-              <option value={ArtStyle.SIMPLE}>{t('form_difficulty_simple')}</option>
-              <option value={ArtStyle.STANDARD}>{t('form_difficulty_medium')}</option>
-              <option value={ArtStyle.DETAILED}>{t('form_difficulty_complex')}</option>
-            </select>
+            <div className="relative">
+              <select
+                id="artStyle"
+                value={artStyle}
+                onChange={(e) => setArtStyle(e.target.value as ArtStyle)}
+                className={`${inputClasses} appearance-none cursor-pointer`}
+              >
+                <option value={ArtStyle.SIMPLE}>{t('form_difficulty_simple')}</option>
+                <option value={ArtStyle.STANDARD}>{t('form_difficulty_medium')}</option>
+                <option value={ArtStyle.DETAILED}>{t('form_difficulty_complex')}</option>
+              </select>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-orange-400">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </div>
           </div>
           <div>
             <label htmlFor="aspectRatio" className={labelClasses}>
-              <Layout className="w-4 h-4 text-indigo-500" />
+              <Layout className="w-5 h-5 text-orange-400" />
               {t('form_layout_label')}
             </label>
-            <select
-              id="aspectRatio"
-              value={aspectRatio}
-              onChange={(e) => setAspectRatio(e.target.value as ImageAspectRatio)}
-              className={inputClasses}
-            >
-              {Object.values(ImageAspectRatio).map((ratio) => (
-                <option key={ratio} value={ratio}>{ratio}</option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                id="aspectRatio"
+                value={aspectRatio}
+                onChange={(e) => setAspectRatio(e.target.value as ImageAspectRatio)}
+                className={`${inputClasses} appearance-none cursor-pointer`}
+              >
+                {Object.values(ImageAspectRatio).map((ratio) => (
+                  <option key={ratio} value={ratio}>{ratio}</option>
+                ))}
+              </select>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-orange-400">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100/50">
+        <div className="flex items-center gap-4 p-4 bg-blue-50/50 border-2 border-blue-100 rounded-2xl cursor-pointer hover:bg-blue-50 transition-colors" onClick={() => setStoryMode(!storyMode)}>
           <input
             type="checkbox"
             id="storyMode"
             checked={storyMode}
             onChange={(e) => setStoryMode(e.target.checked)}
-            className="w-5 h-5 rounded-lg text-indigo-600 focus:ring-indigo-500 border-gray-300 cursor-pointer"
+            className="w-6 h-6 rounded-xl text-blue-500 focus:ring-blue-400 border-blue-200 cursor-pointer"
           />
-          <label htmlFor="storyMode" className="text-sm font-semibold text-indigo-900 cursor-pointer">
+          <label htmlFor="storyMode" className="text-base font-bold text-blue-900 cursor-pointer select-none flex-1">
             {t('form_include_story')}
           </label>
         </div>
@@ -117,19 +127,19 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
       <button
         type="submit"
         disabled={isLoading}
-        className="group relative w-full py-4 bg-indigo-600 text-white rounded-[1.5rem] font-bold text-lg shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:shadow-xl active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
+        className="w-full py-5 px-6 bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white rounded-2xl font-black text-xl shadow-xl shadow-orange-200 hover:shadow-2xl hover:shadow-orange-300 transform hover:-translate-y-1 active:translate-y-0 active:scale-95 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
       >
-        <div className="relative z-10 flex items-center justify-center gap-2">
-          {isLoading ? (
+        {isLoading ? (
+          <>
             <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-          ) : (
-            <>
-              <Wand2 className="w-6 h-6" />
-              {t('generate_book_button')}
-            </>
-          )}
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+            {t('generating_book_button')}
+          </>
+        ) : (
+          <>
+            <Wand2 className="w-7 h-7" />
+            {t('generate_book_button')}
+          </>
+        )}
       </button>
     </form>
   );

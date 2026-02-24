@@ -1,5 +1,12 @@
 # 更新日志 (Changelog)
 
+## v1.0.2
+### 修复与优化
+- **UI/UX 优化**: 全面调整了应用风格，使其更适合儿童。引入了 `Fredoka` 字体，使用了更鲜艳的糖果色系，增大了圆角，并添加了有趣的交互动画。
+- **国际化 (i18n)**: 修复了 `app/page.tsx`、`components/GeneratorForm.tsx`、`components/ResultsGallery.tsx` 和 `components/ChatAssistant.tsx` 中硬编码的文本，现在全面支持多语言切换。
+- **构建修复**: 修复了 `components/ChatAssistant.tsx` 中 `AnimatePresence` 未定义的引用错误，正确引入了 `motion/react`。
+- **版本同步**: 所有核心文件及 OpenSpec 文档版本号统一升级至 v1.0.2。
+
 ## v1.0.1
 ### 重构与优化
 - **Tailwind CSS v4 迁移**: 升级项目至 Tailwind CSS v4，移除 `tailwind.config.ts`，使用 CSS-first 配置。

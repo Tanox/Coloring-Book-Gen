@@ -1,4 +1,4 @@
-# 功能规范：绘梦世界 (ColorMyWorld) - v1.0.1
+# 功能规范：绘梦世界 (ColorMyWorld) - v1.0.2
 
 ## 1. 魔法生成流 (Magic Flow)
 ### 1.1 主题输入

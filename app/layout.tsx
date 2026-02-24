@@ -1,13 +1,14 @@
-// File: /app/layout.tsx v1.0.1
+// File: /app/layout.tsx v1.0.2
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Fredoka } from 'next/font/google';
 import { Language } from '../types';
 import { getTranslation } from '../services/i18n';
 
-const inter = Inter({
+const fredoka = Fredoka({
   subsets: ['latin'],
-  variable: '--font-sans',
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-fredoka',
 });
 
 export const metadata: Metadata = {
@@ -20,8 +21,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const t = getTranslation(lang);
 
   return (
-    <html lang={lang} className={`${inter.variable}`}>
-      <body className="font-sans antialiased">
+    <html lang={lang} className={`${fredoka.variable}`}>
+      <body className="font-sans antialiased bg-[#FFF9F0] text-slate-800 selection:bg-yellow-200 selection:text-orange-900">
         {children}
       </body>
     </html>

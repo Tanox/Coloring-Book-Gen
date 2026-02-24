@@ -1,4 +1,4 @@
-// File: /app/page.tsx v1.0.1
+// File: /app/page.tsx v1.0.2
 'use client';
 
 import React, { useState } from 'react';
@@ -94,24 +94,25 @@ export default function Home() {
   };
 
   return (
-    <div id="app-root" className="min-h-screen bg-[#FDFCFB] text-slate-900 font-sans selection:bg-indigo-100">
+    <div id="app-root" className="min-h-screen bg-[#FFF9F0] text-slate-800 font-sans selection:bg-yellow-200 selection:text-orange-900">
       {/* Hero Section */}
-      <header id="hero-section" className="relative overflow-hidden pt-16 pb-12 px-4">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-40">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-200 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-rose-100 rounded-full blur-[120px]" />
+      <header id="hero-section" className="relative overflow-hidden pt-20 pb-16 px-4">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-60">
+          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-yellow-200 rounded-full blur-[100px] animate-pulse" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-pink-200 rounded-full blur-[100px] animate-pulse delay-1000" />
+          <div className="absolute top-[20%] right-[10%] w-[20%] h-[20%] bg-blue-200 rounded-full blur-[80px] animate-pulse delay-500" />
         </div>
 
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-gray-100 text-indigo-600 text-sm font-bold tracking-wide uppercase">
-            <Sparkles className="w-4 h-4" />
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg shadow-orange-100 border-2 border-orange-100 text-orange-500 text-base font-bold tracking-wide uppercase transform hover:scale-105 transition-transform duration-300">
+            <Sparkles className="w-5 h-5 text-yellow-400 fill-yellow-400" />
             {t('ai_powered_creativity')}
           </div>
-          <h1 className="text-6xl md:text-7xl font-black tracking-tight text-slate-900 leading-[1.1]">
+          <h1 className="text-6xl md:text-8xl font-black tracking-tight text-slate-900 leading-[1.1] drop-shadow-sm">
             {t('hero_headline_part1')} <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">{t('hero_headline_part2')}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500">{t('hero_headline_part2')}</span>
           </h1>
-          <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
+          <p className="text-2xl text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
             {t('hero_description')}
           </p>
         </div>
@@ -121,12 +122,12 @@ export default function Home() {
         {/* Generator Section */}
         <section id="generator-section" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div className="lg:col-span-5 sticky top-8">
-            <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-indigo-500/5 border border-gray-100">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="p-3 bg-indigo-600 rounded-2xl text-white">
-                  <Palette className="w-6 h-6" />
+            <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-orange-100 border-2 border-orange-50 transform hover:scale-[1.01] transition-transform duration-500">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-4 bg-orange-100 rounded-2xl text-orange-500 rotate-3">
+                  <Palette className="w-8 h-8" />
                 </div>
-                <h2 className="text-2xl font-bold">{t('book_settings_title')}</h2>
+                <h2 className="text-3xl font-bold text-slate-800">{t('book_settings_title')}</h2>
               </div>
               <GeneratorForm onGenerate={handleGenerateBook} isLoading={isLoading} lang={lang} />
             </div>

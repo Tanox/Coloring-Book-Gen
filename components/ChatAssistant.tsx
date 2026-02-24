@@ -1,4 +1,4 @@
-// File: /components/ChatAssistant.tsx v1.0.1
+// File: /components/ChatAssistant.tsx v1.0.2
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -6,15 +6,17 @@ import { chatWithAI } from '../services/aiService';
 import { MessageSquare, Send, X, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Language } from '../types';
+import { getTranslation } from '../services/i18n';
 
 interface ChatAssistantProps {
   language: Language;
 }
 
 const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
+  const t = getTranslation(language);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
-    { role: 'assistant', content: 'Hi! I am your creative assistant. Ask me for ideas for your coloring book!' }
+    { role: 'assistant', content: t('chat_assistant_initial_message') }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -46,10 +48,10 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
       if (response.success && response.data) {
         setMessages(prev => [...prev, { role: 'assistant', content: response.data.response }]);
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I ran into an error. Please try again.' }]);
+        setMessages(prev => [...prev, { role: 'assistant', content: t('chat_assistant_error_message') }]);
       }
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Check your connection.' }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: t('chat_assistant_connection_error') }]);
     } finally {
       setIsLoading(false);
     }
@@ -60,10 +62,10 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 p-4 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition-all z-50 flex items-center justify-center"
+        className="fixed bottom-6 right-6 p-5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-full shadow-xl shadow-orange-200 hover:scale-110 hover:rotate-12 transition-all z-50 flex items-center justify-center border-4 border-white"
         id="chat-trigger"
       >
-        <Sparkles className="w-6 h-6" />
+        <Sparkles className="w-8 h-8" />
       </button>
 
       <AnimatePresence>
@@ -72,32 +74,34 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 w-80 md:w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col z-50 border border-gray-100 overflow-hidden"
+            className="fixed bottom-24 right-6 w-80 md:w-96 h-[500px] bg-white rounded-[2rem] shadow-2xl shadow-orange-100 flex flex-col z-50 border-4 border-orange-100 overflow-hidden"
             id="chat-container"
           >
             {/* Header */}
-            <div className="p-4 bg-indigo-600 text-white flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <MessageSquare className="w-5 h-5" />
-                <span className="font-semibold">Creative Assistant</span>
+            <div className="p-5 bg-orange-100 flex justify-between items-center border-b-2 border-orange-200">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-white rounded-full">
+                  <MessageSquare className="w-6 h-6 text-orange-500" />
+                </div>
+                <span className="font-black text-orange-900 text-lg">{t('chat_assistant_title')}</span>
               </div>
-              <button onClick={() => setIsOpen(false)} className="hover:bg-indigo-500 p-1 rounded">
-                <X className="w-5 h-5" />
+              <button onClick={() => setIsOpen(false)} className="hover:bg-orange-200 p-2 rounded-full transition-colors text-orange-800">
+                <X className="w-6 h-6" />
               </button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+            <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-[#FFF9F0]">
               {messages.map((msg, idx) => (
                 <div
                   key={idx}
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[80%] p-3 rounded-2xl text-sm ${
+                    className={`max-w-[85%] p-4 rounded-2xl text-base font-medium leading-relaxed shadow-sm ${
                       msg.role === 'user'
-                        ? 'bg-indigo-600 text-white rounded-tr-none'
-                        : 'bg-white text-gray-800 shadow-sm border border-gray-100 rounded-tl-none'
+                        ? 'bg-orange-500 text-white rounded-tr-none'
+                        : 'bg-white text-slate-700 border-2 border-orange-100 rounded-tl-none'
                     }`}
                   >
                     {msg.content}
@@ -106,11 +110,11 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
               ))}
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 rounded-tl-none">
-                    <div className="flex gap-1">
-                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" />
-                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]" />
-                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                  <div className="bg-white p-4 rounded-2xl shadow-sm border-2 border-orange-100 rounded-tl-none">
+                    <div className="flex gap-2">
+                      <div className="w-2 h-2 bg-orange-300 rounded-full animate-bounce" />
+                      <div className="w-2 h-2 bg-orange-300 rounded-full animate-bounce [animation-delay:0.2s]" />
+                      <div className="w-2 h-2 bg-orange-300 rounded-full animate-bounce [animation-delay:0.4s]" />
                     </div>
                   </div>
                 </div>
@@ -119,22 +123,22 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-gray-100 bg-white">
-              <div className="flex gap-2">
+            <div className="p-4 border-t-2 border-orange-100 bg-white">
+              <div className="flex gap-3">
                 <input
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Ask for ideas..."
-                  className="flex-1 p-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                  placeholder={t('chat_assistant_placeholder')}
+                  className="flex-1 p-3 bg-orange-50 border-2 border-orange-100 rounded-xl focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100 text-slate-700 font-medium placeholder:text-orange-300"
                 />
                 <button
                   onClick={handleSend}
                   disabled={isLoading}
-                  className="p-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 disabled:opacity-50"
+                  className="p-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 disabled:opacity-50 shadow-md hover:shadow-lg active:scale-95 transition-all"
                 >
-                  <Send className="w-5 h-5" />
+                  <Send className="w-6 h-6" />
                 </button>
               </div>
             </div>

@@ -1,24 +1,30 @@
-# UI/UX 设计规范：绘梦世界 (ColorMyWorld) - v1.0.1
+# UI/UX 设计规范：绘梦世界 (ColorMyWorld) - v1.0.2
 
-## 1. 视觉语言：扁平拟物 (Flat & Clean)
-从 v0.4.2 起，应用全面移除传统的 `shadow-` 类样式，转而通过以下元素构建层级感：
-- **强边界线 (Strong Borders)**：使用 `border-4` 或 `border-8` 的浅色边框来定义容器边缘。
-- **背景层级 (Background Layering)**：利用 `bg-slate-50` 与 `bg-white` 的微弱色差区分背景与主体。
-- **毛玻璃效果 (Backdrop Blur)**：在导航栏和弹窗背景使用 `backdrop-blur-md` 增强空间感。
+## 1. 视觉语言：童趣拟物 (Playful & Soft)
+从 v1.0.2 起，应用全面转向适合儿童的视觉风格：
+- **圆润造型 (Rounded Shapes)**：大量使用 `rounded-[2rem]` 或 `rounded-full`，消除尖锐棱角。
+- **柔和阴影 (Soft Shadows)**：使用多彩、扩散的阴影（如 `shadow-orange-100`）来营造温暖氛围，而非传统的黑色阴影。
+- **强对比与边框 (Contrast & Borders)**：使用 `border-2` 或 `border-4` 的柔和色边框来定义区域。
 
 ## 2. 色彩系统
-- **主调色**：Indigo (500-900) - 代表专业与科技。
-- **辅助色**：
-  - Pink/Purple - 魔法与生成流。
-  - Amber/Yellow - 警告与温暖。
-  - Green - 成功与导出动作。
-  - Orange - 图像设置与调整。
+- **背景色**：Cream (`#FFF9F0`) - 温暖、护眼的奶油色背景。
+- **主色调**：
+  - **Orange (400-500)**：活力与创造力，用于主按钮和强调元素。
+  - **Yellow (200-400)**：快乐与能量，用于装饰和高光。
+  - **Pink (200-500)**：梦幻与想象，用于渐变和辅助元素。
+  - **Blue/Indigo (400-600)**：平静与信任，用于信息展示和次要操作。
 
 ## 3. 字体
-- **装饰/标题**：`Comic Neue` - 最小字号 16px。
-- **功能/内容**：`Inter` - 用于表单、按钮文字。
+- **全局字体**：`Fredoka` (Google Fonts) - 圆润、可爱且易读，非常适合儿童应用。
+- **备用字体**：`ui-sans-serif`, `system-ui`。
 
 ## 4. 交互准则
-- **按钮状态**：Hover 时轻微旋转或缩放，Active 时提供物理压感模拟 (scale-95)。
-- **加载体验**：动画跳动笔刷 (animate-bounce) + 实时进度条。
-- **禁止项**：禁止使用盒阴影 (box-shadow)，保持界面纯净。
+- **按钮状态**：
+  - **Hover**：轻微上浮 (`-translate-y-1`) 或放大 (`scale-105`)，配合阴影加深。
+  - **Active**：明显的缩放回弹 (`scale-95`)，模拟按压物理按钮的感觉。
+- **加载体验**：
+  - 使用旋转的加载指示器或跳动的圆点。
+  - 按钮在加载状态下显示动画并禁用。
+- **动画**：
+  - 使用 `animate-pulse` 和 `animate-bounce` 增加界面的活力。
+  - 页面元素入场使用淡入和上滑效果。

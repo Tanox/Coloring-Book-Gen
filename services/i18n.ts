@@ -1,4 +1,4 @@
-// File: /services/i18n.ts v1.0.1
+// File: /services/i18n.ts v1.0.2
 
 import { Language } from '../types';
 

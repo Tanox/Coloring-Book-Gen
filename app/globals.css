@@ -1,2 +1,6 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-fredoka), ui-sans-serif, system-ui, sans-serif;
+}
+
