@@ -9,6 +9,8 @@ import { generateStory, generateImage } from '../services/aiService';
 import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 import { Sparkles, Palette } from 'lucide-react';
+import { getTranslation } from '../services/i18n';
+import { Language } from '../types';
 
 const NUMBER_OF_PAGES = 5;
 
@@ -16,6 +18,8 @@ export default function Home() {
   const [book, setBook] = useState<ColoringBook | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const lang: Language = 'en'; // TODO: Get language from context or props
+  const t = getTranslation(lang);
 
   const handleGenerateBook = async (config: { theme: string; name: string; resolution: ImageResolution; aspectRatio: ImageAspectRatio; artStyle: ArtStyle; storyMode: boolean; aiEngine: AiEngine }) => {
     setIsLoading(true);
@@ -101,15 +105,14 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-gray-100 text-indigo-600 text-sm font-bold tracking-wide uppercase">
             <Sparkles className="w-4 h-4" />
-            AI-Powered Creativity
+            {t('ai_powered_creativity')}
           </div>
           <h1 className="text-6xl md:text-7xl font-black tracking-tight text-slate-900 leading-[1.1]">
-            Dream. Color. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">Explore.</span>
+            {t('hero_headline_part1')} <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">{t('hero_headline_part2')}</span>
           </h1>
           <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
-            Create personalized coloring books for your little ones in seconds. 
-            Just pick a theme, add a name, and let the magic happen.
+            {t('hero_description')}
           </p>
         </div>
       </header>
@@ -123,14 +126,14 @@ export default function Home() {
                 <div className="p-3 bg-indigo-600 rounded-2xl text-white">
                   <Palette className="w-6 h-6" />
                 </div>
-                <h2 className="text-2xl font-bold">Book Settings</h2>
+                <h2 className="text-2xl font-bold">{t('book_settings_title')}</h2>
               </div>
-              <GeneratorForm onGenerate={handleGenerateBook} isLoading={isLoading} />
+              <GeneratorForm onGenerate={handleGenerateBook} isLoading={isLoading} lang={lang} />
             </div>
           </div>
 
           <div className="lg:col-span-7">
-            <ResultsGallery book={book} onRegeneratePage={handleRegeneratePage} isLoading={isLoading} />
+            <ResultsGallery book={book} onRegeneratePage={handleRegeneratePage} isLoading={isLoading} lang={lang} />
           </div>
         </section>
 
@@ -145,13 +148,13 @@ export default function Home() {
       <footer className="border-t border-gray-100 py-12 bg-white">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-slate-400 text-sm font-medium">
-            &copy; 2024 Next.js Coloring Book Gen. Crafted with magic.
+            {t('footer_text')}
           </p>
         </div>
       </footer>
 
       {/* Chat Assistant */}
-      <ChatAssistant language="en" />
+      <ChatAssistant language={lang} />
     </div>
   );
 }

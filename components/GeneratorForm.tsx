@@ -2,15 +2,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle } from '../types';
+import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../types';
 import { Wand2, User, Type, Layout, Palette as PaletteIcon, Layers } from 'lucide-react';
+import { getTranslation } from '../services/i18n';
 
 interface GeneratorFormProps {
   onGenerate: (config: { theme: string; name: string; resolution: ImageResolution; aspectRatio: ImageAspectRatio; artStyle: ArtStyle; storyMode: boolean; aiEngine: AiEngine }) => void;
   isLoading: boolean;
+  lang: Language;
 }
 
-const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading }) => {
+const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, lang }) => {
+  const t = getTranslation(lang);
   const [theme, setTheme] = useState('');
   const [name, setName] = useState('');
   const [resolution, setResolution] = useState<ImageResolution>(ImageResolution['1K']);
@@ -33,12 +36,12 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading }) 
         <div>
           <label htmlFor="theme" className={labelClasses}>
             <Type className="w-4 h-4 text-indigo-500" />
-            Theme
+            {t('form_theme_label')}
           </label>
           <input
             type="text"
             id="theme"
-            placeholder="e.g. Space Dinosaurs"
+            placeholder={t('form_theme_placeholder')}
             value={theme}
             onChange={(e) => setTheme(e.target.value)}
             required
@@ -49,12 +52,12 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading }) 
         <div>
           <label htmlFor="name" className={labelClasses}>
             <User className="w-4 h-4 text-indigo-500" />
-            Child&apos;s Name
+            {t('form_name_label')}
           </label>
           <input
             type="text"
             id="name"
-            placeholder="e.g. Leo"
+            placeholder={t('form_name_placeholder')}
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -66,7 +69,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading }) 
           <div>
             <label htmlFor="artStyle" className={labelClasses}>
               <PaletteIcon className="w-4 h-4 text-indigo-500" />
-              Difficulty
+              {t('form_difficulty_label')}
             </label>
             <select
               id="artStyle"
@@ -74,15 +77,15 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading }) 
               onChange={(e) => setArtStyle(e.target.value as ArtStyle)}
               className={inputClasses}
             >
-              <option value={ArtStyle.SIMPLE}>Simple (Toddlers)</option>
-              <option value={ArtStyle.STANDARD}>Medium (Kids)</option>
-              <option value={ArtStyle.DETAILED}>Complex (Advanced)</option>
+              <option value={ArtStyle.SIMPLE}>{t('form_difficulty_simple')}</option>
+              <option value={ArtStyle.STANDARD}>{t('form_difficulty_medium')}</option>
+              <option value={ArtStyle.DETAILED}>{t('form_difficulty_complex')}</option>
             </select>
           </div>
           <div>
             <label htmlFor="aspectRatio" className={labelClasses}>
               <Layout className="w-4 h-4 text-indigo-500" />
-              Layout
+              {t('form_layout_label')}
             </label>
             <select
               id="aspectRatio"
@@ -106,7 +109,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading }) 
             className="w-5 h-5 rounded-lg text-indigo-600 focus:ring-indigo-500 border-gray-300 cursor-pointer"
           />
           <label htmlFor="storyMode" className="text-sm font-semibold text-indigo-900 cursor-pointer">
-            Include AI-generated story
+            {t('form_include_story')}
           </label>
         </div>
       </div>
@@ -122,7 +125,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading }) 
           ) : (
             <>
               <Wand2 className="w-6 h-6" />
-              Generate Book
+              {t('generate_book_button')}
             </>
           )}
         </div>
