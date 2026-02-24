@@ -1,4 +1,4 @@
-// File: /services/pdfService.ts v1.0.2
+// File: /app/services/pdfService.ts v1.0.2
 import { jsPDF } from 'jspdf';
 import { ColoringBook } from '../app/types';
 

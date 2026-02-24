@@ -1,4 +1,4 @@
-// File: /services/aiService.ts v1.0.2
+// File: /app/services/aiService.ts v1.0.2
 
 import { GoogleGenAI, GenerateContentResponse, Type, ThinkingLevel, Modality } from '@google/genai';
 import { AiEngine, AiServiceResponse, AiImageResponseData, AiStoryResponseData, AiChatResponseData, ImageResolution, ImageAspectRatio, ArtStyle, AiEngineConfig, Language } from '../../app/types';

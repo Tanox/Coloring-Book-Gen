@@ -1,9 +1,11 @@
 // File: /app/layout.tsx v1.0.2
+'use client';
+
 import './globals.css';
 import type { Metadata } from 'next';
 import { Fredoka } from 'next/font/google';
+import { TranslationProvider, useTranslation } from './locales/TranslationProvider';
 import { Language } from '../types';
-import { getTranslation } from '../services/i18n';
 
 const fredoka = Fredoka({
   subsets: ['latin'],
@@ -11,20 +13,29 @@ const fredoka = Fredoka({
   variable: '--font-fredoka',
 });
 
-export const metadata: Metadata = {
-  title: 'ColorMyWorld',
-  description: 'Generate coloring books with AI',
-};
+// Metadata will be set dynamically in the component
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const lang: Language = 'en'; // TODO: Implement actual language detection
-  const t = getTranslation(lang);
+function AppContent({ children }: { children: React.ReactNode }) {
+  const { t, currentLanguage } = useTranslation();
 
   return (
-    <html lang={lang} className={`${fredoka.variable}`}>
+    <html lang={currentLanguage} className={`${fredoka.variable}`}>
+      <head>
+        <title>{t('app_title')}</title>
+      </head>
       <body className="font-sans antialiased bg-[#FFF9F0] text-slate-800 selection:bg-yellow-200 selection:text-orange-900">
         {children}
       </body>
     </html>
+  );
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const initialLanguage: Language = 'en'; // TODO: Implement actual language detection
+
+  return (
+    <TranslationProvider initialLanguage={initialLanguage}>
+      <AppContent>{children}</AppContent>
+    </TranslationProvider>
   );
 }

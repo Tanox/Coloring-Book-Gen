@@ -2,15 +2,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import GeneratorForm from '../components/GeneratorForm';
-import ResultsGallery from '../components/ResultsGallery';
-import ChatAssistant from '../components/ChatAssistant';
-import { generateStory, generateImage } from '../services/aiService';
-import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine } from '../types';
+import GeneratorForm from './components/GeneratorForm';
+import ResultsGallery from './components/ResultsGallery';
+import ChatAssistant from './components/ChatAssistant';
+import { generateStory, generateImage } from './services/aiService';
+import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine } from './types';
 import { v4 as uuidv4 } from 'uuid';
 import { Sparkles, Palette } from 'lucide-react';
-import { getTranslation } from '../services/i18n';
-import { Language } from '../types';
+import { useTranslation } from './locales/TranslationProvider';
+import { Language } from './types';
 
 const NUMBER_OF_PAGES = 5;
 
@@ -18,8 +18,7 @@ export default function Home() {
   const [book, setBook] = useState<ColoringBook | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const lang: Language = 'en'; // TODO: Get language from context or props
-  const t = getTranslation(lang);
+  const { t, currentLanguage: lang } = useTranslation();
 
   const handleGenerateBook = async (config: { theme: string; name: string; resolution: ImageResolution; aspectRatio: ImageAspectRatio; artStyle: ArtStyle; storyMode: boolean; aiEngine: AiEngine }) => {
     setIsLoading(true);
