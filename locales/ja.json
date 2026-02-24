@@ -1,5 +1,5 @@
 {
-  "app_title": "Next.js 塗り絵ブックジェネレーター v1.0.2",
+  "app_title": "ColorMyWorld v1.0.2",
   "app_description": "AIで塗り絵ブックを生成",
   "ai_powered_creativity": "AIを活用した創造性",
   "hero_headline_part1": "夢を。色を。",
@@ -25,7 +25,7 @@
   "page_label": "ページ",
   "redraw_button": "描き直し",
   "error_message_prefix": "エラー:",
-  "footer_text": "© 2024 Next.js 塗り絵ブックジェネレーター。魔法を込めて作成。",
+  "footer_text": "© 2024 ColorMyWorld. Crafted with magic.",
   "chat_assistant_title": "クリエイティブアシスタント",
   "chat_assistant_placeholder": "アイデアを尋ねる...",
   "chat_assistant_initial_message": "こんにちは！私はあなたのクリエイティブアシスタントです。塗り絵ブックのアイデアを私に尋ねてください！",

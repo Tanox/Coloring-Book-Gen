@@ -1,5 +1,5 @@
 {
-  "app_title": "Генератор раскрасок Next.js v1.0.2",
+  "app_title": "ColorMyWorld v1.0.2",
   "app_description": "Генерируйте раскраски с помощью ИИ",
   "ai_powered_creativity": "Креативность на базе ИИ",
   "hero_headline_part1": "Мечтайте. Раскрашивайте.",
@@ -25,7 +25,7 @@
   "page_label": "Страница",
   "redraw_button": "Перерисовать",
   "error_message_prefix": "Ошибка:",
-  "footer_text": "© 2024 Генератор раскрасок Next.js. Создано с магией.",
+  "footer_text": "© 2024 ColorMyWorld. Crafted with magic.",
   "chat_assistant_title": "Креативный помощник",
   "chat_assistant_placeholder": "Спросите идеи...",
   "chat_assistant_initial_message": "Привет! Я ваш креативный помощник. Спросите меня идеи для вашей раскраски!",

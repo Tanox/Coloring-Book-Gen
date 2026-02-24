@@ -1,5 +1,5 @@
 {
-  "app_title": "Next.js 색칠 공부 책 생성기 v1.0.2",
+  "app_title": "ColorMyWorld v1.0.2",
   "app_description": "AI로 색칠 공부 책 생성",
   "ai_powered_creativity": "AI 기반 창의성",
   "hero_headline_part1": "꿈을. 색칠을.",
@@ -25,7 +25,7 @@
   "page_label": "페이지",
   "redraw_button": "다시 그리기",
   "error_message_prefix": "오류:",
-  "footer_text": "© 2024 Next.js 색칠 공부 책 생성기. 마법으로 제작.",
+  "footer_text": "© 2024 ColorMyWorld. Crafted with magic.",
   "chat_assistant_title": "창의적인 도우미",
   "chat_assistant_placeholder": "아이디어를 물어보세요...",
   "chat_assistant_initial_message": "안녕하세요! 저는 당신의 창의적인 도우미입니다. 색칠 공부 책 아이디어를 물어보세요!",

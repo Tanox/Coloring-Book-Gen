@@ -1,5 +1,5 @@
 {
-  "app_title": "Next.js Coloring Book Gen v1.0.2",
+  "app_title": "ColorMyWorld v1.0.2",
   "app_description": "Generate coloring books with AI",
   "ai_powered_creativity": "AI-Powered Creativity",
   "hero_headline_part1": "Dream. Color.",
@@ -25,7 +25,7 @@
   "page_label": "Page",
   "redraw_button": "Redraw",
   "error_message_prefix": "Error:",
-  "footer_text": "© 2024 Next.js Coloring Book Gen. Crafted with magic.",
+  "footer_text": "© 2024 ColorMyWorld. Crafted with magic.",
   "chat_assistant_title": "Creative Assistant",
   "chat_assistant_placeholder": "Ask for ideas...",
   "chat_assistant_initial_message": "Hi! I am your creative assistant. Ask me for ideas for your coloring book!",

@@ -12,7 +12,7 @@ const fredoka = Fredoka({
 });
 
 export const metadata: Metadata = {
-  title: 'Next.js Coloring Book Gen',
+  title: 'ColorMyWorld',
   description: 'Generate coloring books with AI',
 };
 

@@ -1,5 +1,5 @@
 {
-  "app_title": "Next.js 涂色书生成器 v1.0.2",
+  "app_title": "绘梦世界 v1.0.2",
   "app_description": "使用 AI 生成涂色书",
   "ai_powered_creativity": "AI 驱动的创造力",
   "hero_headline_part1": "梦想。涂色。",
@@ -25,7 +25,7 @@
   "page_label": "页",
   "redraw_button": "重绘",
   "error_message_prefix": "错误:",
-  "footer_text": "© 2024 Next.js 涂色书生成器。用心灵手巧打造。",
+  "footer_text": "© 2024 绘梦世界。用心灵手巧打造。",
   "chat_assistant_title": "创意助手",
   "chat_assistant_placeholder": "询问想法...",
   "chat_assistant_initial_message": "嗨！我是您的创意助手。向我询问涂色书的想法吧！",

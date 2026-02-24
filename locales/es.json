@@ -1,5 +1,5 @@
 {
-  "app_title": "Generador de Libros para Colorear Next.js v1.0.2",
+  "app_title": "ColorMyWorld v1.0.2",
   "app_description": "Genera libros para colorear con IA",
   "ai_powered_creativity": "Creatividad impulsada por IA",
   "hero_headline_part1": "Sueña. Colorea.",
@@ -25,7 +25,7 @@
   "page_label": "Página",
   "redraw_button": "Volver a dibujar",
   "error_message_prefix": "Error:",
-  "footer_text": "© 2024 Generador de Libros para Colorear Next.js. Creado con magia.",
+  "footer_text": "© 2024 ColorMyWorld. Crafted with magic.",
   "chat_assistant_title": "Asistente Creativo",
   "chat_assistant_placeholder": "Pide ideas...",
   "chat_assistant_initial_message": "¡Hola! Soy tu asistente creativo. ¡Pídeme ideas para tu libro para colorear!",

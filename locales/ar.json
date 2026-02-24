@@ -1,5 +1,5 @@
 {
-  "app_title": "Next.js مولد كتب التلوين v1.0.2",
+  "app_title": "ColorMyWorld v1.0.2",
   "app_description": "إنشاء كتب تلوين بالذكاء الاصطناعي",
   "ai_powered_creativity": "إبداع مدعوم بالذكاء الاصطناعي",
   "hero_headline_part1": "احلم. لون.",
@@ -25,7 +25,7 @@
   "page_label": "صفحة",
   "redraw_button": "إعادة الرسم",
   "error_message_prefix": "خطأ:",
-  "footer_text": "© 2024 Next.js مولد كتب التلوين. صُنع بالسحر.",
+  "footer_text": "© 2024 ColorMyWorld. Crafted with magic.",
   "chat_assistant_title": "المساعد الإبداعي",
   "chat_assistant_placeholder": "اطلب أفكارًا...",
   "chat_assistant_initial_message": "مرحبًا! أنا مساعدك الإبداعي. اطلب مني أفكارًا لكتاب التلوين الخاص بك!",

@@ -1,5 +1,5 @@
 {
-  "app_title": "Next.js Malbuch-Generator v1.0.2",
+  "app_title": "ColorMyWorld v1.0.2",
   "app_description": "Malbücher mit KI generieren",
   "ai_powered_creativity": "KI-gesteuerte Kreativität",
   "hero_headline_part1": "Träumen. Malen.",
@@ -25,7 +25,7 @@
   "page_label": "Seite",
   "redraw_button": "Neu zeichnen",
   "error_message_prefix": "Fehler:",
-  "footer_text": "© 2024 Next.js Malbuch-Generator. Mit Magie erstellt.",
+  "footer_text": "© 2024 ColorMyWorld. Crafted with magic.",
   "chat_assistant_title": "Kreativer Assistent",
   "chat_assistant_placeholder": "Ideen erfragen...",
   "chat_assistant_initial_message": "Hallo! Ich bin Ihr kreativer Assistent. Fragen Sie mich nach Ideen für Ihr Malbuch!",
