@@ -1,13 +1,23 @@
-// File: /services/aiService.ts v1.0.0
+// File: /services/aiService.ts v1.0.1
 
 import { GoogleGenAI, GenerateContentResponse, Type, ThinkingLevel, Modality } from '@google/genai';
-import { AiEngine, AiServiceResponse, AiImageResponseData, AiStoryResponseData, AiChatResponseData, ImageResolution, ImageAspectRatio, ArtStyle, AiEngineConfig } from '../types';
+import { AiEngine, AiServiceResponse, AiImageResponseData, AiStoryResponseData, AiChatResponseData, ImageResolution, ImageAspectRatio, ArtStyle, AiEngineConfig, Language } from '../types';
 
 // Placeholder for API keys, will be replaced by actual environment variables or user-provided keys
 const getApiKey = (engine: AiEngine): string | undefined => {
   switch (engine) {
     case AiEngine.GEMINI:
       return process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    case AiEngine.OPENAI:
+      return process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+    case AiEngine.DEEPSEEK:
+      return process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY;
+    case AiEngine.CLAUDE:
+      return process.env.NEXT_PUBLIC_CLAUDE_API_KEY;
+    case AiEngine.DOUBAO:
+      return process.env.NEXT_PUBLIC_DOUBAO_API_KEY;
+    case AiEngine.QIANWEN:
+      return process.env.NEXT_PUBLIC_QIANWEN_API_KEY;
     // Add other AI engine API keys here if needed
     default:
       return undefined;
@@ -26,6 +36,7 @@ export const aiEngines: Record<AiEngine, AiEngineConfig> = {
   [AiEngine.GEMINI]: {
     model: 'gemini-3-flash-preview',
     apiKeyEnvVar: 'NEXT_PUBLIC_GEMINI_API_KEY',
+    maxOutputTokens: 1000,
     supportsImageGeneration: true,
     supportsStoryGeneration: true,
     supportsChat: true,
@@ -47,6 +58,7 @@ export const aiEngines: Record<AiEngine, AiEngineConfig> = {
   [AiEngine.DEEPSEEK]: {
     model: 'deepseek-chat',
     apiKeyEnvVar: 'NEXT_PUBLIC_DEEPSEEK_API_KEY',
+    maxOutputTokens: 1000,
     supportsImageGeneration: false,
     supportsStoryGeneration: true,
     supportsChat: true,
@@ -57,6 +69,7 @@ export const aiEngines: Record<AiEngine, AiEngineConfig> = {
   [AiEngine.CLAUDE]: {
     model: 'claude-3-opus-20240229',
     apiKeyEnvVar: 'NEXT_PUBLIC_CLAUDE_API_KEY',
+    maxOutputTokens: 1000,
     supportsImageGeneration: false,
     supportsStoryGeneration: true,
     supportsChat: true,
@@ -67,6 +80,7 @@ export const aiEngines: Record<AiEngine, AiEngineConfig> = {
   [AiEngine.DOUBAO]: {
     model: 'doubao-lite',
     apiKeyEnvVar: 'NEXT_PUBLIC_DOUBAO_API_KEY',
+    maxOutputTokens: 1000,
     supportsImageGeneration: false,
     supportsStoryGeneration: true,
     supportsChat: true,
@@ -77,6 +91,7 @@ export const aiEngines: Record<AiEngine, AiEngineConfig> = {
   [AiEngine.QIANWEN]: {
     model: 'qwen-turbo',
     apiKeyEnvVar: 'NEXT_PUBLIC_QIANWEN_API_KEY',
+    maxOutputTokens: 1000,
     supportsImageGeneration: false,
     supportsStoryGeneration: true,
     supportsChat: true,
@@ -89,7 +104,7 @@ export const aiEngines: Record<AiEngine, AiEngineConfig> = {
 export async function generateStory(
   theme: string,
   name: string,
-  language: string,
+  language: Language,
   apiKey?: string
 ): Promise<AiServiceResponse> {
   try {
@@ -154,7 +169,7 @@ export async function generateImage(
     }
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-image-preview', // Use pro image model for better quality and resolution options
+      model: aiEngines[AiEngine.GEMINI].model, // Use pro image model for better quality and resolution options
       contents: { parts: [{ text: finalPrompt }] },
       config: {
         imageConfig: {
@@ -189,7 +204,7 @@ export async function generateImage(
 export async function chatWithAI(
   message: string,
   history: { role: string; parts: { text: string }[] }[],
-  language: string,
+  language: Language,
   apiKey?: string
 ): Promise<AiServiceResponse> {
   try {

@@ -1,9 +1,9 @@
-# 技术架构规范：绘梦世界 (ColorMyWorld) - v0.5.20
+# 技术架构规范：绘梦世界 (ColorMyWorld) - v1.0.1
 
 ## 1. 系统拓扑
-- **前端核心**：React 18/19 (Hooks 模式) + TypeScript 5。
-- **样式引擎**：Tailwind CSS (JIT 编译模式)。
-- **构建/运行**：基于 ES Modules 的原生浏览器运行环境。
+- **前端核心**：Next.js 15 (App Router) + React 18/19 + TypeScript 5。
+- **样式引擎**：Tailwind CSS v4 (CSS-first configuration)。
+- **构建/运行**：Next.js Build System。
 
 ## 2. 存储设计 (Storage Strategy)
 ### 2.1 LocalStorage

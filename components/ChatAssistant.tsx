@@ -4,10 +4,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { chatWithAI } from '../services/aiService';
 import { MessageSquare, Send, X, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { Language } from '../types';
 
 interface ChatAssistantProps {
-  language: string;
+  language: Language;
 }
 
 const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {

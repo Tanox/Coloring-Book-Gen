@@ -29,11 +29,11 @@
 
 ### 🛠 Tech Stack
 
-*   **Frontend**: React 19, TypeScript
-*   **Styling**: Tailwind CSS
+*   **Frontend**: Next.js 15 (App Router), React 18/19, TypeScript
+*   **Styling**: Tailwind CSS v4
 *   **AI Integration**: Google GenAI SDK (`@google/genai`)
 *   **Utilities**: `jspdf` (PDF generation), IndexedDB (Storage)
-*   **Build/Runtime**: ES Modules (via `esm.sh` imports)
+*   **Build/Runtime**: Next.js Build System
 
 ### 🚀 Getting Started
 
@@ -76,11 +76,11 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ### 🛠 技术栈
 
-*   **前端**: React 19, TypeScript
-*   **样式**: Tailwind CSS
+*   **前端**: Next.js 15 (App Router), React 18/19, TypeScript
+*   **样式**: Tailwind CSS v4
 *   **AI 集成**: Google GenAI SDK (`@google/genai`)
 *   **工具库**: `jspdf` (PDF 生成), IndexedDB (本地存储)
-*   **构建/运行**: ES Modules (通过 `esm.sh` 引用)
+*   **构建/运行**: Next.js 构建系统
 
 ### 🚀 快速开始
 

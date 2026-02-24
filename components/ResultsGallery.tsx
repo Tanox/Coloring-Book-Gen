@@ -28,8 +28,8 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({ book, onRegeneratePage,
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+    <div id="results-gallery" className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div id="gallery-header" className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">
             {book.theme} <span className="text-indigo-600">for {book.name}</span>
@@ -37,6 +37,7 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({ book, onRegeneratePage,
           <p className="text-gray-500 text-sm">Created with love and AI magic</p>
         </div>
         <button
+          id="download-pdf-button"
           onClick={handleDownload}
           className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-2xl font-semibold hover:bg-indigo-700 transition-all shadow-md hover:shadow-lg active:scale-95"
         >
@@ -62,7 +63,7 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({ book, onRegeneratePage,
             {page.story && (
               <div className="mt-6 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100/50">
                 <p className="text-gray-800 text-sm leading-relaxed italic font-serif">
-                  "{page.story}"
+                  &quot;{page.story}&quot;
                 </p>
               </div>
             )}

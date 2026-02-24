@@ -12,16 +12,15 @@
   "dependencies": {
     "@google/genai": "latest",
     "@tailwindcss/postcss": "^4.2.0",
-    "autoprefixer": "^10.4.19",
-    "framer-motion": "^12.34.3",
+    "autoprefixer": "^10.4.24",
     "jspdf": "^2.5.1",
     "lucide-react": "^0.575.0",
     "motion": "^12.34.3",
     "next": "^14.2.5",
-    "postcss": "^8.4.39",
+    "postcss": "^8.5.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwindcss": "^3.4.4",
+    "tailwindcss": "^4.2.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {

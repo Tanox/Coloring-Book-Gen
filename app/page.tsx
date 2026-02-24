@@ -90,9 +90,9 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] text-slate-900 font-sans selection:bg-indigo-100">
+    <div id="app-root" className="min-h-screen bg-[#FDFCFB] text-slate-900 font-sans selection:bg-indigo-100">
       {/* Hero Section */}
-      <header className="relative overflow-hidden pt-16 pb-12 px-4">
+      <header id="hero-section" className="relative overflow-hidden pt-16 pb-12 px-4">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-40">
           <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-200 rounded-full blur-[120px]" />
           <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-rose-100 rounded-full blur-[120px]" />
@@ -114,9 +114,9 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 pb-24 space-y-16">
+      <main id="main-content" className="max-w-6xl mx-auto px-4 pb-24 space-y-16">
         {/* Generator Section */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <section id="generator-section" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div className="lg:col-span-5 sticky top-8">
             <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-indigo-500/5 border border-gray-100">
               <div className="flex items-center gap-3 mb-8">
@@ -135,7 +135,7 @@ export default function Home() {
         </section>
 
         {error && (
-          <div className="p-4 bg-red-50 border border-red-100 text-red-600 rounded-2xl text-center font-medium">
+          <div id="error-message" className="p-4 bg-red-50 border border-red-100 text-red-600 rounded-2xl text-center font-medium">
             {error}
           </div>
         )}

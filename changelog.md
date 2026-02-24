@@ -4,7 +4,8 @@
 ### 重构与优化
 - **Tailwind CSS v4 迁移**: 升级项目至 Tailwind CSS v4，移除 `tailwind.config.ts`，使用 CSS-first 配置。
 - **构建修复**: 修复 `services/aiService.ts` 和 `services/pdfService.ts` 中的 TypeScript 类型错误。
-- **依赖更新**: 添加 `@tailwindcss/postcss` 插件支持。
+- **代码规范**: 添加 `.eslintrc.json` 配置，修复 React 实体转义问题，并为关键 UI 元素添加 `id` 属性以增强调试能力。
+- **依赖更新**: 升级 `tailwindcss` 至 v4 稳定版，并更新相关 PostCSS 依赖。
 
 ## v0.5.20
 ### 维护
