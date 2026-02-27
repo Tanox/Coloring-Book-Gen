@@ -1,7 +1,7 @@
 // File: /app/services/aiService.ts v1.0.2
 
 import { GoogleGenAI, GenerateContentResponse, Type, ThinkingLevel, Modality } from '@google/genai';
-import { AiEngine, AiServiceResponse, AiImageResponseData, AiStoryResponseData, AiChatResponseData, ImageResolution, ImageAspectRatio, ArtStyle, AiEngineConfig, Language } from '../../app/types';
+import { AiEngine, AiServiceResponse, AiImageResponseData, AiStoryResponseData, AiChatResponseData, ImageResolution, ImageAspectRatio, ArtStyle, AiEngineConfig, Language } from '../../types';
 
 // Placeholder for API keys, will be replaced by actual environment variables or user-provided keys
 const getApiKey = (engine: AiEngine): string | undefined => {
@@ -101,15 +101,16 @@ export const aiEngines: Record<AiEngine, AiEngineConfig> = {
   },
 };
 
-export async function generateStory(
+export async function generateStories(
   theme: string,
   name: string,
   language: Language,
+  numPages: number,
   apiKey?: string
 ): Promise<AiServiceResponse> {
   try {
     const ai = getGeminiInstance(apiKey);
-    const prompt = `Generate a short, simple, and age-appropriate story for a coloring book. The story should be about '${theme}' and feature a child named '${name}'. Make it encouraging and creative. The story should be in ${language}.`;
+    const prompt = `Generate a short, simple, and age-appropriate story for a coloring book. The story should be about '${theme}' and feature a child named '${name}'. The story should be divided into ${numPages} short scenes. Make it encouraging and creative, and encourage imaginative play as the child colors the scenes. The story should be in ${language}.`;
 
     const response: GenerateContentResponse = await ai.models.generateContent({
       model: aiEngines[AiEngine.GEMINI].model,
@@ -117,10 +118,14 @@ export async function generateStory(
       config: {
         responseMimeType: 'application/json',
         responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            story: { type: Type.STRING, description: 'The short story for the coloring book page.' },
-          },
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              story: { type: Type.STRING, description: 'The short story text for this specific coloring page scene.' },
+              imagePrompt: { type: Type.STRING, description: 'A visual description of this scene to be used for generating the coloring page image.' }
+            }
+          }
         },
         thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
       },
@@ -130,12 +135,12 @@ export async function generateStory(
     if (!jsonStr) {
       throw new Error('AI returned an empty story response.');
     }
-    const result: AiStoryResponseData = JSON.parse(jsonStr);
+    const result = JSON.parse(jsonStr);
 
-    return { success: true, message: 'Story generated successfully', data: result };
+    return { success: true, message: 'Stories generated successfully', data: result };
   } catch (error: any) {
-    console.error('Error generating story:', error);
-    return { success: false, message: 'Failed to generate story', error: error.message };
+    console.error('Error generating stories:', error);
+    return { success: false, message: 'Failed to generate stories', error: error.message };
   }
 }
 

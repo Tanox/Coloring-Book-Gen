@@ -6,11 +6,11 @@ import GeneratorForm from './components/GeneratorForm';
 import ResultsGallery from './components/ResultsGallery';
 import ChatAssistant from './components/ChatAssistant';
 import { generateStory, generateImage } from './services/aiService';
-import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine } from './types';
+import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 import { Sparkles, Palette } from 'lucide-react';
 import { useTranslation } from './locales/TranslationProvider';
-import { Language } from './types';
+import { Language } from '../types';
 
 const NUMBER_OF_PAGES = 5;
 

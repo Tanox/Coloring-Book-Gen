@@ -5,7 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { chatWithAI } from '../services/aiService';
 import { MessageSquare, Send, X, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Language } from '../../app/types';
+import { Language } from '../../types';
 import { useTranslation } from '../../app/locales/TranslationProvider';
 
 interface ChatAssistantProps {

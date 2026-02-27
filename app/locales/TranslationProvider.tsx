@@ -2,7 +2,8 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Language } from '../types';
+import { Language } from '../../types';
+import { translations as allTranslations } from './translations';
 
 interface TranslationContextType {
   t: (key: string) => string;
@@ -19,21 +20,18 @@ export const TranslationProvider: React.FC<{ children: ReactNode; initialLanguag
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadTranslations = async () => {
+    const loadTranslations = () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`/app/locales/${currentLanguage}.json`);
-        if (!response.ok) {
+        const data = allTranslations[currentLanguage];
+        if (!data) {
           throw new Error(`Failed to load translations for ${currentLanguage}`);
         }
-        const data = await response.json();
         setTranslations(data);
       } catch (error) {
         console.error('Error loading translations:', error);
-        // Fallback to English or show an error message
-        const response = await fetch(`/app/locales/en.json`);
-        const data = await response.json();
-        setTranslations(data);
+        // Fallback to English
+        setTranslations(allTranslations['en']);
       } finally {
         setIsLoading(false);
       }

@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../../app/types';
+import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../../types';
 import { Wand2, User, Type, Layout, Palette as PaletteIcon, Layers } from 'lucide-react';
 import { useTranslation } from '../../app/locales/TranslationProvider';
 
