@@ -1,6 +1,6 @@
 // File: /app/services/pdfService.ts v1.0.2
 import { jsPDF } from 'jspdf';
-import { ColoringBook } from '../../types';
+import { ColoringBook } from '../types';
 
 export const exportToPdf = async (book: ColoringBook): Promise<void> => {
   const pdf = new jsPDF({

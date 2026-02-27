@@ -1,5 +1,18 @@
 # 更新日志 (Changelog)
 
+## v1.0.4
+### 修复与优化
+- **UI 修复 (Fix)**: 恢复了丢失的顶部导航栏 (`Header`)，现在包含应用 Logo 和语言切换器。
+- **功能增强 (Feature)**: 新增了支持 21 种语言的下拉切换菜单，方便用户在不同语言环境间切换。
+- **代码结构**: 将 `Header` 组件独立封装至 `app/components/Header.tsx`，并在主页中引入。
+
+## v1.0.3
+### 重构与修复
+- **性能优化 (Performance)**: 将故事生成逻辑从逐页生成 (`generateStory`) 重构为批量生成 (`generateStories`)，显著减少了 API 调用次数并提升了故事的一致性。
+- **目录结构清理 (Cleanup)**: 移除了根目录下冗余的 `components` 和 `services` 目录，统一将代码归档至 `app/components` 和 `app/services`，符合 Next.js App Router 最佳实践。
+- **类型修复 (Fix)**: 修正了 `app/services/aiService.ts` 及其他文件中的类型定义导入路径错误。
+- **国际化 (i18n)**: 修复了故事生成功能中语言参数硬编码为英文的问题，现在能够正确使用当前选定的语言生成故事。
+
 ## v1.0.2
 ### 修复与优化
 - **UI/UX 优化**: 全面调整了应用风格，使其更适合儿童。引入了 `Fredoka` 字体，使用了更鲜艳的糖果色系，增大了圆角，并添加了有趣的交互动画。

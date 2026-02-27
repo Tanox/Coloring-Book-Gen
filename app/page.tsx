@@ -5,12 +5,13 @@ import React, { useState } from 'react';
 import GeneratorForm from './components/GeneratorForm';
 import ResultsGallery from './components/ResultsGallery';
 import ChatAssistant from './components/ChatAssistant';
-import { generateStory, generateImage } from './services/aiService';
-import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine } from '../types';
+import Header from './components/Header';
+import { generateStories, generateImage } from './services/aiService';
+import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine } from './types';
 import { v4 as uuidv4 } from 'uuid';
 import { Sparkles, Palette } from 'lucide-react';
 import { useTranslation } from './locales/TranslationProvider';
-import { Language } from '../types';
+import { Language } from './types';
 
 const NUMBER_OF_PAGES = 5;
 
@@ -40,16 +41,23 @@ export default function Home() {
         createdAt: Date.now(),
       };
 
+      let stories: { story: string, imagePrompt: string }[] = [];
+      if (config.storyMode) {
+        const storyResponse = await generateStories(config.theme, config.name, lang, NUMBER_OF_PAGES);
+        if (storyResponse.success && storyResponse.data) {
+          stories = storyResponse.data;
+        } else {
+          throw new Error('Failed to generate stories.');
+        }
+      }
+
       for (let i = 0; i < NUMBER_OF_PAGES; i++) {
         let pagePrompt = `${config.theme} for ${config.name}, coloring book page, ${config.artStyle} style, bold black outlines, white background, no shading`;
         let story: string | undefined;
 
-        if (config.storyMode) {
-          const storyResponse = await generateStory(config.theme, config.name, 'en');
-          if (storyResponse.success && storyResponse.data) {
-            story = storyResponse.data.story;
-            pagePrompt = `${story}. Coloring book page, ${config.artStyle} style, bold black outlines, white background, no shading`;
-          }
+        if (config.storyMode && stories[i]) {
+          story = stories[i].story;
+          pagePrompt = `${stories[i].imagePrompt}. Coloring book page, ${config.artStyle} style, bold black outlines, white background, no shading`;
         }
 
         const imageResponse = await generateImage(pagePrompt, config.resolution, config.aspectRatio, config.artStyle);
@@ -94,6 +102,7 @@ export default function Home() {
 
   return (
     <div id="app-root" className="min-h-screen bg-[#FFF9F0] text-slate-800 font-sans selection:bg-yellow-200 selection:text-orange-900">
+      <Header />
       {/* Hero Section */}
       <header id="hero-section" className="relative overflow-hidden pt-20 pb-16 px-4">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-60">

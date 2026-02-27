@@ -5,7 +5,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Fredoka } from 'next/font/google';
 import { TranslationProvider, useTranslation } from './locales/TranslationProvider';
-import { Language } from '../types';
+import { Language } from './types';
 
 const fredoka = Fredoka({
   subsets: ['latin'],
@@ -31,10 +31,8 @@ function AppContent({ children }: { children: React.ReactNode }) {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const initialLanguage: Language = 'en'; // TODO: Implement actual language detection
-
   return (
-    <TranslationProvider initialLanguage={initialLanguage}>
+    <TranslationProvider>
       <AppContent>{children}</AppContent>
     </TranslationProvider>
   );

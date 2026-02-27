@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { ColoringBook, Language } from '../../types';
+import { ColoringBook, Language } from '../types';
 import { Download, RefreshCw, BookOpen } from 'lucide-react';
 import { exportToPdf } from '../services/pdfService';
 import { useTranslation } from '../../app/locales/TranslationProvider';

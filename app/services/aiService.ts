@@ -1,7 +1,7 @@
 // File: /app/services/aiService.ts v1.0.2
 
 import { GoogleGenAI, GenerateContentResponse, Type, ThinkingLevel, Modality } from '@google/genai';
-import { AiEngine, AiServiceResponse, AiImageResponseData, AiStoryResponseData, AiChatResponseData, ImageResolution, ImageAspectRatio, ArtStyle, AiEngineConfig, Language } from '../../types';
+import { AiEngine, AiServiceResponse, AiImageResponseData, AiStoryResponseData, AiChatResponseData, ImageResolution, ImageAspectRatio, ArtStyle, AiEngineConfig, Language } from '../types';
 
 // Placeholder for API keys, will be replaced by actual environment variables or user-provided keys
 const getApiKey = (engine: AiEngine): string | undefined => {
