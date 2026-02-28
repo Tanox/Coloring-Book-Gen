@@ -1,10 +1,12 @@
 // File: /components/GeneratorForm.tsx v1.0.2
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../types';
 import { Wand2, User, Type, Layout, Palette as PaletteIcon, Layers } from 'lucide-react';
 import { useTranslation } from '../../app/locales/TranslationProvider';
+import { useConfig } from '../contexts/ConfigContext';
+import { FormInputField, FormSelectField } from './FormFields';
 
 interface GeneratorFormProps {
   onGenerate: (config: { theme: string; name: string; resolution: ImageResolution; aspectRatio: ImageAspectRatio; artStyle: ArtStyle; storyMode: boolean; aiEngine: AiEngine }) => void;
@@ -14,100 +16,73 @@ interface GeneratorFormProps {
 
 const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, lang }) => {
   const { t } = useTranslation();
+  const config = useConfig();
+  
   const [theme, setTheme] = useState('');
   const [name, setName] = useState('');
-  const [resolution, setResolution] = useState<ImageResolution>(ImageResolution['1K']);
-  const [aspectRatio, setAspectRatio] = useState<ImageAspectRatio>(ImageAspectRatio['1:1']);
-  const [artStyle, setArtStyle] = useState<ArtStyle>(ArtStyle.STANDARD);
-  const [storyMode, setStoryMode] = useState(true);
-  const [aiEngine, setAiEngine] = useState<AiEngine>(AiEngine.GEMINI);
+  const [resolution, setResolution] = useState<ImageResolution>(config.resolution);
+  const [aspectRatio, setAspectRatio] = useState<ImageAspectRatio>(config.aspectRatio);
+  const [artStyle, setArtStyle] = useState<ArtStyle>(config.artStyle);
+  const [storyMode, setStoryMode] = useState(config.storyMode);
+  const [aiEngine, setAiEngine] = useState<AiEngine>(config.aiEngine);
+
+  // Sync with global config when it changes (e.g. from settings modal)
+  useEffect(() => {
+    setResolution(config.resolution);
+    setAspectRatio(config.aspectRatio);
+    setArtStyle(config.artStyle);
+    setStoryMode(config.storyMode);
+    setAiEngine(config.aiEngine);
+  }, [config.resolution, config.aspectRatio, config.artStyle, config.storyMode, config.aiEngine]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onGenerate({ theme, name, resolution, aspectRatio, artStyle, storyMode, aiEngine });
   };
 
-  const inputClasses = "w-full px-5 py-4 bg-orange-50/50 border-2 border-orange-100 rounded-2xl focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-100 transition-all text-lg font-medium placeholder:text-orange-200/70 text-slate-700";
-  const labelClasses = "flex items-center gap-2 text-sm font-bold text-slate-600 mb-2 uppercase tracking-wide";
-
   return (
     <form id="generator-form" onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-6">
-        <div>
-          <label htmlFor="theme" className={labelClasses}>
-            <Type className="w-5 h-5 text-orange-400" />
-            {t('form_theme_label')}
-          </label>
-          <input
-            type="text"
-            id="theme"
-            placeholder={t('form_theme_placeholder')}
-            value={theme}
-            onChange={(e) => setTheme(e.target.value)}
-            required
-            className={inputClasses}
-          />
-        </div>
+        <FormInputField
+          id="theme"
+          icon={Type}
+          label={t('form_theme_label')}
+          placeholder={t('form_theme_placeholder')}
+          value={theme}
+          onChange={setTheme}
+        />
 
-        <div>
-          <label htmlFor="name" className={labelClasses}>
-            <User className="w-5 h-5 text-orange-400" />
-            {t('form_name_label')}
-          </label>
-          <input
-            type="text"
-            id="name"
-            placeholder={t('form_name_placeholder')}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className={inputClasses}
-          />
-        </div>
+        <FormInputField
+          id="name"
+          icon={User}
+          label={t('form_name_label')}
+          placeholder={t('form_name_placeholder')}
+          value={name}
+          onChange={setName}
+        />
 
         <div className="grid grid-cols-2 gap-6">
-          <div>
-            <label htmlFor="artStyle" className={labelClasses}>
-              <PaletteIcon className="w-5 h-5 text-orange-400" />
-              {t('form_difficulty_label')}
-            </label>
-            <div className="relative">
-              <select
-                id="artStyle"
-                value={artStyle}
-                onChange={(e) => setArtStyle(e.target.value as ArtStyle)}
-                className={`${inputClasses} appearance-none cursor-pointer`}
-              >
-                <option value={ArtStyle.SIMPLE}>{t('form_difficulty_simple')}</option>
-                <option value={ArtStyle.STANDARD}>{t('form_difficulty_medium')}</option>
-                <option value={ArtStyle.DETAILED}>{t('form_difficulty_complex')}</option>
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-orange-400">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-              </div>
-            </div>
-          </div>
-          <div>
-            <label htmlFor="aspectRatio" className={labelClasses}>
-              <Layout className="w-5 h-5 text-orange-400" />
-              {t('form_layout_label')}
-            </label>
-            <div className="relative">
-              <select
-                id="aspectRatio"
-                value={aspectRatio}
-                onChange={(e) => setAspectRatio(e.target.value as ImageAspectRatio)}
-                className={`${inputClasses} appearance-none cursor-pointer`}
-              >
-                {Object.values(ImageAspectRatio).map((ratio) => (
-                  <option key={ratio} value={ratio}>{ratio}</option>
-                ))}
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-orange-400">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-              </div>
-            </div>
-          </div>
+          <FormSelectField
+            id="artStyle"
+            icon={PaletteIcon}
+            label={t('form_difficulty_label')}
+            value={artStyle}
+            onChange={(val) => setArtStyle(val as ArtStyle)}
+            options={[
+              { value: ArtStyle.SIMPLE, label: t('form_difficulty_simple') },
+              { value: ArtStyle.STANDARD, label: t('form_difficulty_medium') },
+              { value: ArtStyle.DETAILED, label: t('form_difficulty_complex') },
+            ]}
+          />
+
+          <FormSelectField
+            id="aspectRatio"
+            icon={Layout}
+            label={t('form_layout_label')}
+            value={aspectRatio}
+            onChange={(val) => setAspectRatio(val as ImageAspectRatio)}
+            options={Object.values(ImageAspectRatio).map(r => ({ value: r, label: r }))}
+          />
         </div>
 
         <div className="flex items-center gap-4 p-4 bg-blue-50/50 border-2 border-blue-100 rounded-2xl cursor-pointer hover:bg-blue-50 transition-colors" onClick={() => setStoryMode(!storyMode)}>

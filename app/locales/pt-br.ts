@@ -1,5 +1,5 @@
 export const pt_BR = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.0",
   ai_powered_creativity: "Criatividade impulsionada por IA",
   hero_headline_part1: "Crie o seu próprio",
   hero_headline_part2: "Livro de Colorir",
@@ -28,5 +28,14 @@ export const pt_BR = {
   chat_assistant_placeholder: "Digite uma mensagem...",
   chat_assistant_error_message: "Desculpe, encontrei um erro.",
   chat_assistant_connection_error: "Erro de conexão. Por favor, tente novamente.",
-  footer_text: "© 2026 ColorMyWorld. Todos os direitos reservados."
+  footer_text: "© 2026 ColorMyWorld. Todos os direitos reservados.",
+  settings_title: "Configurações",
+  settings_language: "Idioma",
+  settings_ai_engine: "Motor de IA",
+  settings_art_style: "Estilo de arte",
+  settings_resolution: "Resolução",
+  settings_aspect_ratio: "Proporção",
+  settings_story_mode: "Modo história",
+  settings_version: "Versão",
+  settings_close: "Fechar",
 };

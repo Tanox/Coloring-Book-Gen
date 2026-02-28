@@ -1,5 +1,5 @@
 export const ja = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.0",
   ai_powered_creativity: "AIを活用した創造性",
   hero_headline_part1: "自分だけの",
   hero_headline_part2: "塗り絵を作る",
@@ -28,5 +28,14 @@ export const ja = {
   chat_assistant_placeholder: "メッセージを入力...",
   chat_assistant_error_message: "申し訳ありません、エラーが発生しました。",
   chat_assistant_connection_error: "接続エラー。もう一度お試しください。",
-  footer_text: "© 2026 ColorMyWorld. 無断複写・転載を禁じます。"
+  footer_text: "© 2026 ColorMyWorld. 無断複写・転載を禁じます。",
+  settings_title: "設定",
+  settings_language: "言語",
+  settings_ai_engine: "AIエンジン",
+  settings_art_style: "アートスタイル",
+  settings_resolution: "解像度",
+  settings_aspect_ratio: "アスペクト比",
+  settings_story_mode: "ストーリーモード",
+  settings_version: "バージョン",
+  settings_close: "閉じる",
 };

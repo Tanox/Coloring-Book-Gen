@@ -1,5 +1,5 @@
 export const tr = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.0",
   ai_powered_creativity: "Yapay Zeka Destekli Yaratıcılık",
   hero_headline_part1: "Kendi Kitabını Oluştur",
   hero_headline_part2: "Boyama Kitabı",
@@ -28,5 +28,14 @@ export const tr = {
   chat_assistant_placeholder: "Bir mesaj yazın...",
   chat_assistant_error_message: "Üzgünüm, bir hatayla karşılaştım.",
   chat_assistant_connection_error: "Bağlantı hatası. Lütfen tekrar deneyin.",
-  footer_text: "© 2026 ColorMyWorld. Tüm hakları saklıdır."
+  footer_text: "© 2026 ColorMyWorld. Tüm hakları saklıdır.",
+  settings_title: "Ayarlar",
+  settings_language: "Dil",
+  settings_ai_engine: "Yapay Zeka Motoru",
+  settings_art_style: "Sanat Stili",
+  settings_resolution: "Çözünürlük",
+  settings_aspect_ratio: "En Boy Oranı",
+  settings_story_mode: "Hikaye Modu",
+  settings_version: "Versiyon",
+  settings_close: "Kapat",
 };

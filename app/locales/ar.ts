@@ -1,5 +1,5 @@
 export const ar = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.0",
   ai_powered_creativity: "إبداع مدعوم بالذكاء الاصطناعي",
   hero_headline_part1: "اصنع بنفسك",
   hero_headline_part2: "كتاب التلوين",
@@ -28,5 +28,14 @@ export const ar = {
   chat_assistant_placeholder: "اكتب رسالة...",
   chat_assistant_error_message: "عذراً، واجهت خطأ.",
   chat_assistant_connection_error: "خطأ في الاتصال. يرجى المحاولة مرة أخرى.",
-  footer_text: "© 2026 ColorMyWorld. جميع الحقوق محفوظة."
+  footer_text: "© 2026 ColorMyWorld. جميع الحقوق محفوظة.",
+  settings_title: "الإعدادات",
+  settings_language: "اللغة",
+  settings_ai_engine: "محرك الذكاء الاصطناعي",
+  settings_art_style: "نمط الفن",
+  settings_resolution: "الدقة",
+  settings_aspect_ratio: "نسبة العرض إلى الارتفاع",
+  settings_story_mode: "وضع القصة",
+  settings_version: "الإصدار",
+  settings_close: "إغلاق",
 };

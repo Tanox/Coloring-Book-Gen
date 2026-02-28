@@ -1,6 +1,23 @@
 # 更新日志 (Changelog)
 
-## v1.0.4
+## v1.1.1
+### 优化与重构
+- **代码拆分 (Code Splitting)**：对过长的代码文件进行了重构，以降低 token 消耗并提高代码可维护性。
+  - 将 `app/components/ChatAssistant.tsx` 中的状态管理和 API 调用逻辑提取到新的自定义 Hook `app/hooks/useChatAssistant.ts` 中。
+  - 将 `app/components/SettingsModal.tsx` 中的表单字段提取到新的可复用组件 `app/components/SettingsFields.tsx` 中。
+  - 将 `app/components/GeneratorForm.tsx` 中的表单字段提取到新的可复用组件 `app/components/FormFields.tsx` 中。
+
+## v1.1.0
+### 功能增强 (Feature)
+- **设置中心 (Settings Center)**: 完善了设置选项，现在用户可以自定义默认的 AI 引擎、艺术风格、分辨率、纵横比以及故事模式开关。
+- **全局配置管理 (Global Config)**: 引入了 `ConfigContext`，实现设置选项的全局同步与持久化存储（LocalStorage）。
+- **表单联动**: 生成表单现在会自动同步设置中的默认选项，提升了用户体验。
+- **国际化支持**: 为设置界面添加了中英文翻译，并同步更新了所有语言文件的版本号。
+- **水合修复**: 解决了浏览器语言自动检测导致的水合（Hydration）错误。
+- **代码重构**: 进一步拆分了长文件，优化了项目结构。
+- **文档同步**: 同步更新了 `openspec` 项目文档。
+
+## v1.0.5
 ### 修复与优化
 - **UI 修复 (Fix)**: 恢复了丢失的顶部导航栏 (`Header`)，现在包含应用 Logo 和语言切换器。
 - **功能增强 (Feature)**: 新增了支持 21 种语言的下拉切换菜单，方便用户在不同语言环境间切换。

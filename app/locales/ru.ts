@@ -1,5 +1,5 @@
 export const ru = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.0",
   ai_powered_creativity: "Творчество с помощью ИИ",
   hero_headline_part1: "Создайте свою",
   hero_headline_part2: "Книжку-раскраску",
@@ -28,5 +28,14 @@ export const ru = {
   chat_assistant_placeholder: "Введите сообщение...",
   chat_assistant_error_message: "Извините, произошла ошибка.",
   chat_assistant_connection_error: "Ошибка подключения. Пожалуйста, попробуйте еще раз.",
-  footer_text: "© 2026 ColorMyWorld. Все права защищены."
+  footer_text: "© 2026 ColorMyWorld. Все права защищены.",
+  settings_title: "Настройки",
+  settings_language: "Язык",
+  settings_ai_engine: "ИИ-движок",
+  settings_art_style: "Художественный стиль",
+  settings_resolution: "Разрешение",
+  settings_aspect_ratio: "Соотношение сторон",
+  settings_story_mode: "Режим истории",
+  settings_version: "Версия",
+  settings_close: "Закрыть",
 };

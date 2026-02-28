@@ -1,5 +1,5 @@
 export const hi = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.0",
   ai_powered_creativity: "AI-संचालित रचनात्मकता",
   hero_headline_part1: "अपना खुद का बनाएं",
   hero_headline_part2: "रंग भरने वाली किताब",
@@ -28,5 +28,14 @@ export const hi = {
   chat_assistant_placeholder: "एक संदेश टाइप करें...",
   chat_assistant_error_message: "क्षमा करें, मुझे एक त्रुटि का सामना करना पड़ा।",
   chat_assistant_connection_error: "कनेक्शन त्रुटि। कृपया पुनः प्रयास करें।",
-  footer_text: "© 2026 ColorMyWorld. सर्वाधिकार सुरक्षित।"
+  footer_text: "© 2026 ColorMyWorld. सर्वाधिकार सुरक्षित।",
+  settings_title: "सेटिंग्स",
+  settings_language: "भाषा",
+  settings_ai_engine: "AI इंजन",
+  settings_art_style: "कला शैली",
+  settings_resolution: "रिज़ॉल्यूशन",
+  settings_aspect_ratio: "आस्पेक्ट रेशियो",
+  settings_story_mode: "कहानी मोड",
+  settings_version: "संस्करण",
+  settings_close: "बंद करें",
 };

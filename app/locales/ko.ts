@@ -1,5 +1,5 @@
 export const ko = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.0",
   ai_powered_creativity: "AI 기반 창의성",
   hero_headline_part1: "나만의",
   hero_headline_part2: "색칠 공부 책 만들기",
@@ -28,5 +28,14 @@ export const ko = {
   chat_assistant_placeholder: "메시지 입력...",
   chat_assistant_error_message: "죄송합니다. 오류가 발생했습니다.",
   chat_assistant_connection_error: "연결 오류. 다시 시도해 주세요.",
-  footer_text: "© 2026 ColorMyWorld. 판권 소유."
+  footer_text: "© 2026 ColorMyWorld. 판권 소유.",
+  settings_title: "설정",
+  settings_language: "언어",
+  settings_ai_engine: "AI 엔진",
+  settings_art_style: "아트 스타일",
+  settings_resolution: "해상도",
+  settings_aspect_ratio: "가로세로 비율",
+  settings_story_mode: "스토리 모드",
+  settings_version: "버전",
+  settings_close: "닫기",
 };

@@ -5,6 +5,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Fredoka } from 'next/font/google';
 import { TranslationProvider, useTranslation } from './locales/TranslationProvider';
+import { ConfigProvider } from './contexts/ConfigContext';
 import { Language } from './types';
 
 const fredoka = Fredoka({
@@ -33,7 +34,9 @@ function AppContent({ children }: { children: React.ReactNode }) {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <TranslationProvider>
-      <AppContent>{children}</AppContent>
+      <ConfigProvider>
+        <AppContent>{children}</AppContent>
+      </ConfigProvider>
     </TranslationProvider>
   );
 }

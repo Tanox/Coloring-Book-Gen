@@ -2,11 +2,11 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { chatWithAI } from '../services/aiService';
 import { MessageSquare, Send, X, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Language } from '../types';
 import { useTranslation } from '../../app/locales/TranslationProvider';
+import { useChatAssistant } from '../hooks/useChatAssistant';
 
 interface ChatAssistantProps {
   language: Language;
@@ -15,12 +15,12 @@ interface ChatAssistantProps {
 const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ role: string; content: string }[]>([
-    { role: 'assistant', content: t('chat_assistant_initial_message') }
-  ]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const { messages, input, setInput, isLoading, handleSend } = useChatAssistant(
+    language,
+    t('chat_assistant_initial_message')
+  );
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -30,31 +30,8 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
-
-    const userMessage = input.trim();
-    setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-    setIsLoading(true);
-
-    try {
-      const history = messages.map(msg => ({
-        role: msg.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: msg.content }]
-      }));
-
-      const response = await chatWithAI(userMessage, history, language);
-      if (response.success && response.data) {
-        setMessages(prev => [...prev, { role: 'assistant', content: response.data.response }]);
-      } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: t('chat_assistant_error_message') }]);
-      }
-    } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: t('chat_assistant_connection_error') }]);
-    } finally {
-      setIsLoading(false);
-    }
+  const onSend = () => {
+    handleSend(t('chat_assistant_error_message'), t('chat_assistant_connection_error'));
   };
 
   return (
@@ -129,12 +106,12 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                  onKeyPress={(e) => e.key === 'Enter' && onSend()}
                   placeholder={t('chat_assistant_placeholder')}
                   className="flex-1 p-3 bg-orange-50 border-2 border-orange-100 rounded-xl focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100 text-slate-700 font-medium placeholder:text-orange-300"
                 />
                 <button
-                  onClick={handleSend}
+                  onClick={onSend}
                   disabled={isLoading}
                   className="p-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 disabled:opacity-50 shadow-md hover:shadow-lg active:scale-95 transition-all"
                 >

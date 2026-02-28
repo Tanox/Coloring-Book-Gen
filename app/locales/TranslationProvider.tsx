@@ -30,29 +30,27 @@ const getInitialLanguage = (): Language => {
 };
 
 export const TranslationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentLanguage, setCurrentLanguage] = useState<Language>(getInitialLanguage());
-  const [translations, setTranslations] = useState<Record<string, string>>({});
+  const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
+  const [translations, setTranslations] = useState<Record<string, string>>(allTranslations['en']);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    const loadTranslations = () => {
-      setIsLoading(true);
-      try {
-        const data = allTranslations[currentLanguage];
-        if (!data) {
-          throw new Error(`Failed to load translations for ${currentLanguage}`);
-        }
-        setTranslations(data);
-      } catch (error) {
-        console.error('Error loading translations:', error);
-        setTranslations(allTranslations['en']); // Fallback to English
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    setIsMounted(true);
+    const lang = getInitialLanguage();
+    setCurrentLanguage(lang);
+    setIsLoading(false);
+  }, []);
 
-    loadTranslations();
-  }, [currentLanguage]);
+  useEffect(() => {
+    if (!isMounted) return;
+    const data = allTranslations[currentLanguage];
+    if (data) {
+      setTranslations(data);
+    } else {
+      setTranslations(allTranslations['en']);
+    }
+  }, [currentLanguage, isMounted]);
 
   const t = (key: string): string => {
     return translations[key] || key;
@@ -65,6 +63,10 @@ export const TranslationProvider: React.FC<{ children: ReactNode }> = ({ childre
     }
   };
 
+  // To prevent hydration mismatch on text content, we could optionally
+  // not render the children until mounted, but since this wraps the whole app
+  // including html/body, we must render children. The hydration mismatch
+  // is avoided because initial render on client uses 'en' (same as server).
   return (
     <TranslationContext.Provider value={{ t, setLanguage, currentLanguage, isLoading }}>
       {children}

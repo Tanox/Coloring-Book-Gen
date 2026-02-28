@@ -1,5 +1,5 @@
 export const zh_TW = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.0",
   ai_powered_creativity: "AI 驅動的創造力",
   hero_headline_part1: "創建你自己的",
   hero_headline_part2: "著色本",
@@ -28,5 +28,14 @@ export const zh_TW = {
   chat_assistant_placeholder: "輸入訊息...",
   chat_assistant_error_message: "抱歉，遇到錯誤。",
   chat_assistant_connection_error: "連接錯誤，請重試。",
-  footer_text: "© 2026 ColorMyWorld. 保留所有權利。"
+  footer_text: "© 2026 ColorMyWorld. 保留所有權利。",
+  settings_title: "設置",
+  settings_language: "語言",
+  settings_ai_engine: "AI 引擎",
+  settings_art_style: "藝術風格",
+  settings_resolution: "解析度",
+  settings_aspect_ratio: "縱橫比",
+  settings_story_mode: "故事模式",
+  settings_version: "版本",
+  settings_close: "關閉",
 };
