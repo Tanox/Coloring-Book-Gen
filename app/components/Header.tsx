@@ -36,6 +36,7 @@ const Header: React.FC = () => {
   const { t, setLanguage, currentLanguage } = useTranslation();
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleLangDropdown = () => setIsLangOpen(!isLangOpen);
@@ -46,6 +47,7 @@ const Header: React.FC = () => {
   };
 
   useEffect(() => {
+    setMounted(true);
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsLangOpen(false);
@@ -78,7 +80,7 @@ const Header: React.FC = () => {
                 className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-orange-50 transition-colors text-slate-600 font-medium text-sm border border-transparent hover:border-orange-100"
               >
                 <Globe className="w-4 h-4" />
-                <span>{languages.find(l => l.code === currentLanguage)?.label || 'Language'}</span>
+                <span>{mounted ? (languages.find(l => l.code === currentLanguage)?.label || 'Language') : 'English'}</span>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isLangOpen ? 'rotate-180' : ''}`} />
               </button>
 
