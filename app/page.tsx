@@ -14,7 +14,7 @@ import { useBookGenerator } from './hooks/useBookGenerator';
 
 export default function Home() {
   const { t, currentLanguage: lang } = useTranslation();
-  const { book, isLoading, error, generateBook, regeneratePage } = useBookGenerator(lang);
+  const { book, isLoading, error, generatedPages, totalPages, generateBook, regeneratePage } = useBookGenerator(lang);
 
   return (
     <div id="app-root" className="min-h-screen bg-[#FFF9F0] text-slate-800 font-sans selection:bg-yellow-200 selection:text-orange-900">
@@ -32,7 +32,7 @@ export default function Home() {
                 </div>
                 <h2 className="text-3xl font-bold text-slate-800">{t('book_settings_title')}</h2>
               </div>
-              <GeneratorForm onGenerate={generateBook} isLoading={isLoading} lang={lang} />
+              <GeneratorForm onGenerate={generateBook} isLoading={isLoading} lang={lang} generatedPages={generatedPages} totalPages={totalPages} />
             </div>
           </div>
 

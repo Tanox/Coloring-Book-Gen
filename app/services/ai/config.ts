@@ -87,3 +87,32 @@ export const getApiKey = (engine: AiEngine): string | undefined => {
       return undefined;
   }
 };
+
+export const validateApiKey = (engine: AiEngine): { valid: boolean; message: string } => {
+  const apiKey = getApiKey(engine);
+  
+  if (!apiKey || apiKey.trim() === '') {
+    return { 
+      valid: false, 
+      message: `API key for ${engine.toUpperCase()} is not set. Please configure it in your environment variables.` 
+    };
+  }
+
+  if (apiKey.length < 10) {
+    return { 
+      valid: false, 
+      message: `${engine.toUpperCase()} API key appears to be invalid (too short).` 
+    };
+  }
+
+  return { valid: true, message: `${engine.toUpperCase()} API key is configured.` };
+};
+
+export const getEngineCapabilities = (engine: AiEngine) => {
+  const config = aiEngines[engine];
+  return {
+    canGenerateImages: config.supportsImageGeneration,
+    canGenerateStories: config.supportsStoryGeneration,
+    canChat: config.supportsChat,
+  };
+};

@@ -1,5 +1,4 @@
-// File: /app/services/ai/gemini.ts v1.0.4
-import { GoogleGenAI, GenerateContentResponse, Type, ThinkingLevel } from '@google/genai';
+import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
 import { AiEngine, AiServiceResponse, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../../types';
 import { aiEngines, getApiKey } from './config';
 
@@ -28,16 +27,15 @@ export async function generateStories(
       config: {
         responseMimeType: 'application/json',
         responseSchema: {
-          type: Type.ARRAY,
+          type: 'array',
           items: {
-            type: Type.OBJECT,
+            type: 'object',
             properties: {
-              story: { type: Type.STRING, description: 'The short story text for this specific coloring page scene.' },
-              imagePrompt: { type: Type.STRING, description: 'A visual description of this scene to be used for generating the coloring page image.' }
+              story: { type: 'string', description: 'The short story text for this specific coloring page scene.' },
+              imagePrompt: { type: 'string', description: 'A visual description of this scene to be used for generating the coloring page image.' }
             }
           }
         },
-        thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
       },
     });
 
@@ -45,9 +43,9 @@ export async function generateStories(
     if (!jsonStr) {
       throw new Error('AI returned an empty story response.');
     }
-    const result = JSON.parse(jsonStr);
+    const data = JSON.parse(jsonStr);
 
-    return { success: true, message: 'Stories generated successfully', data: result };
+    return { success: true, message: 'Stories generated successfully', data };
   } catch (error: any) {
     console.error('Error generating stories:', error);
     return { success: false, message: 'Failed to generate stories', error: error.message };
@@ -91,7 +89,6 @@ export async function generateImage(
           aspectRatio: aspectRatio,
           imageSize: resolution,
         },
-        tools: [{ googleSearch: {} }],
       },
     });
 
@@ -127,7 +124,6 @@ export async function chatWithAI(
       history: history,
       config: {
         systemInstruction: `You are a creative assistant for a coloring book generator. Provide helpful and inspiring responses in ${language}.`,
-        thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
       },
     });
 

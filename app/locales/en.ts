@@ -38,4 +38,5 @@ export const en = {
   settings_story_mode: "Story Mode",
   settings_version: "Version",
   settings_close: "Close",
+  api_key_configured: "API Key configured",
 };
