@@ -2,7 +2,7 @@
   "name": "colormyworld",
   "version": "1.0.2",
   "private": true,
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

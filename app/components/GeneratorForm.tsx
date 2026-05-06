@@ -3,18 +3,21 @@
 
 import React, { useState, useEffect } from 'react';
 import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../types';
-import { Wand2, User, Type, Layout, Palette as PaletteIcon, Layers } from 'lucide-react';
+import { Wand2, User, Type, Layout, Palette as PaletteIcon, AlertCircle, CheckCircle } from 'lucide-react';
 import { useTranslation } from '../../app/locales/TranslationProvider';
 import { useConfig } from '../contexts/ConfigContext';
 import { FormInputField, FormSelectField } from './FormFields';
+import { validateApiKey, getEngineCapabilities } from '../services/ai/config';
 
 interface GeneratorFormProps {
   onGenerate: (config: { theme: string; name: string; resolution: ImageResolution; aspectRatio: ImageAspectRatio; artStyle: ArtStyle; storyMode: boolean; aiEngine: AiEngine }) => void;
   isLoading: boolean;
   lang: Language;
+  generatedPages?: number;
+  totalPages?: number;
 }
 
-const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, lang }) => {
+const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, lang, generatedPages = 0, totalPages = 5 }) => {
   const { t } = useTranslation();
   const config = useConfig();
   
@@ -25,6 +28,19 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
   const [artStyle, setArtStyle] = useState<ArtStyle>(config.artStyle);
   const [storyMode, setStoryMode] = useState(config.storyMode);
   const [aiEngine, setAiEngine] = useState<AiEngine>(config.aiEngine);
+  const [apiKeyValid, setApiKeyValid] = useState<{ valid: boolean; message: string }>({ valid: true, message: '' });
+
+  useEffect(() => {
+    const validation = validateApiKey(aiEngine);
+    setApiKeyValid(validation);
+  }, [aiEngine]);
+
+  useEffect(() => {
+    const capabilities = getEngineCapabilities(aiEngine);
+    if (!capabilities.canGenerateImages) {
+      setStoryMode(false);
+    }
+  }, [aiEngine]);
 
   // Sync with global config when it changes (e.g. from settings modal)
   useEffect(() => {
@@ -37,7 +53,18 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onGenerate({ theme, name, resolution, aspectRatio, artStyle, storyMode, aiEngine });
+    
+    if (!apiKeyValid.valid) {
+      return;
+    }
+    
+    const capabilities = getEngineCapabilities(aiEngine);
+    if (!capabilities.canGenerateImages) {
+      return;
+    }
+    
+    const shouldIncludeStory = storyMode && capabilities.canGenerateStories;
+    onGenerate({ theme, name, resolution, aspectRatio, artStyle, storyMode: shouldIncludeStory, aiEngine });
   };
 
   return (
@@ -97,17 +124,32 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
             {t('form_include_story')}
           </label>
         </div>
+
+        {!apiKeyValid.valid && (
+          <div className="flex items-start gap-3 p-4 bg-red-50 border-2 border-red-100 rounded-2xl">
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-red-700 font-medium">{apiKeyValid.message}</p>
+          </div>
+        )}
+
+        {apiKeyValid.valid && (
+          <div className="flex items-center gap-3 p-3 bg-green-50 border border-green-100 rounded-xl">
+            <CheckCircle className="w-4 h-4 text-green-500" />
+            <span className="text-xs text-green-700 font-medium">{t('api_key_configured')}</span>
+          </div>
+        )}
       </div>
 
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full py-5 px-6 bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white rounded-2xl font-black text-xl shadow-xl shadow-orange-200 hover:shadow-2xl hover:shadow-orange-300 transform hover:-translate-y-1 active:translate-y-0 active:scale-95 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+        className="w-full py-5 px-6 bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white rounded-2xl font-black text-xl shadow-xl shadow-orange-200 hover:shadow-2xl hover:shadow-orange-300 transform hover:-translate-y-1 active:translate-y-0 active:scale-95 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3 relative overflow-hidden"
       >
         {isLoading ? (
           <>
             <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-            {t('generating_book_button')}
+            <span>{t('generating_book_button')} {generatedPages}/{totalPages}</span>
+            <div className="absolute bottom-0 left-0 h-1 bg-white/30 transition-all duration-300" style={{ width: `${(generatedPages / totalPages) * 100}%` }} />
           </>
         ) : (
           <>

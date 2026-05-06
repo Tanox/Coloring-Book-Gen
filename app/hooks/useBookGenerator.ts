@@ -4,16 +4,19 @@ import { generateStories, generateImage } from '../services/aiService';
 import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine, Language } from '../types';
 
 const NUMBER_OF_PAGES = 5;
+const CONCURRENT_REQUESTS = 2;
 
 export const useBookGenerator = (lang: Language) => {
   const [book, setBook] = useState<ColoringBook | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [generatedPages, setGeneratedPages] = useState<number>(0);
 
   const generateBook = async (config: { theme: string; name: string; resolution: ImageResolution; aspectRatio: ImageAspectRatio; artStyle: ArtStyle; storyMode: boolean; aiEngine: AiEngine }) => {
     setIsLoading(true);
     setError(null);
     setBook(null);
+    setGeneratedPages(0);
 
     try {
       const newBook: ColoringBook = {
@@ -21,7 +24,7 @@ export const useBookGenerator = (lang: Language) => {
         theme: config.theme,
         name: config.name,
         pages: [],
-        language: 'en',
+        language: lang,
         aiEngine: config.aiEngine,
         imageResolution: config.resolution,
         imageAspectRatio: config.aspectRatio,
@@ -40,7 +43,7 @@ export const useBookGenerator = (lang: Language) => {
         }
       }
 
-      for (let i = 0; i < NUMBER_OF_PAGES; i++) {
+      const pageConfigs = Array.from({ length: NUMBER_OF_PAGES }, (_, i) => {
         let pagePrompt = `${config.theme} for ${config.name}, coloring book page, ${config.artStyle} style, bold black outlines, white background, no shading`;
         let story: string | undefined;
 
@@ -49,21 +52,76 @@ export const useBookGenerator = (lang: Language) => {
           pagePrompt = `${stories[i].imagePrompt}. Coloring book page, ${config.artStyle} style, bold black outlines, white background, no shading`;
         }
 
-        const imageResponse = await generateImage(pagePrompt, config.resolution, config.aspectRatio, config.artStyle);
+        return {
+          index: i,
+          pagePrompt,
+          story,
+        };
+      });
 
+      const generatePageImage = async (pageConfig: { index: number; pagePrompt: string; story?: string }) => {
+        const imageResponse = await generateImage(pageConfig.pagePrompt, config.resolution, config.aspectRatio, config.artStyle);
+        
         if (imageResponse.success && imageResponse.data) {
-          newBook.pages.push({
-            pageNumber: i + 1,
-            imageUrl: imageResponse.data.imageUrl,
-            story: story,
-            prompt: pagePrompt,
-          });
-          setBook({ ...newBook });
+          return {
+            index: pageConfig.index,
+            page: {
+              pageNumber: pageConfig.index + 1,
+              imageUrl: imageResponse.data.imageUrl,
+              story: pageConfig.story,
+              prompt: pageConfig.pagePrompt,
+            },
+          };
         } else {
-          throw new Error(`Failed to generate image for page ${i + 1}: ${imageResponse.error}`);
+          throw new Error(`Failed to generate image for page ${pageConfig.index + 1}: ${imageResponse.error}`);
         }
-      }
-      setBook(newBook);
+      };
+
+      const generateWithConcurrency = async (tasks: typeof pageConfigs) => {
+        const results: { index: number; page: any }[] = [];
+        let running = 0;
+        let taskIndex = 0;
+        const taskQueue = [...tasks];
+
+        return new Promise<void>((resolve, reject) => {
+          const runNext = async () => {
+            if (taskIndex >= taskQueue.length && running === 0) {
+              results.sort((a, b) => a.index - b.index);
+              newBook.pages = results.map(r => r.page);
+              setBook({ ...newBook });
+              resolve();
+              return;
+            }
+
+            while (running < CONCURRENT_REQUESTS && taskIndex < taskQueue.length) {
+              const currentTask = taskQueue[taskIndex];
+              const currentTaskIndex = taskIndex;
+              running++;
+              taskIndex++;
+
+              try {
+                const result = await generatePageImage(currentTask);
+                results.push(result);
+                setGeneratedPages(results.length);
+                
+                newBook.pages[currentTaskIndex] = result.page;
+                setBook({ ...newBook });
+              } catch (err) {
+                reject(err);
+                return;
+              } finally {
+                running--;
+                runNext();
+              }
+            }
+          };
+
+          runNext();
+        });
+      };
+
+      await generateWithConcurrency(pageConfigs);
+
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -93,6 +151,8 @@ export const useBookGenerator = (lang: Language) => {
     book,
     isLoading,
     error,
+    generatedPages,
+    totalPages: NUMBER_OF_PAGES,
     generateBook,
     regeneratePage,
   };

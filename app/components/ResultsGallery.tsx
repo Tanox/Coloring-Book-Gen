@@ -2,11 +2,12 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { ColoringBook, Language } from '../types';
 import { Download, RefreshCw, BookOpen } from 'lucide-react';
 import { exportToPdf } from '../services/pdfService';
 import { useTranslation } from '../../app/locales/TranslationProvider';
+import PageSkeleton from './PageSkeleton';
+import LazyImage from './LazyImage';
 
 interface ResultsGalleryProps {
   book: ColoringBook | null;
@@ -17,6 +18,11 @@ interface ResultsGalleryProps {
 
 const ResultsGallery: React.FC<ResultsGalleryProps> = ({ book, onRegeneratePage, isLoading, lang }) => {
   const { t } = useTranslation();
+
+  if (isLoading) {
+    return <PageSkeleton count={5} />;
+  }
+
   if (!book) {
     return (
       <div className="flex flex-col items-center justify-center p-12 border-4 border-dashed border-orange-200 rounded-[2.5rem] bg-white/60">
@@ -55,7 +61,7 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({ book, onRegeneratePage,
         {book.pages.map((page, index) => (
           <div key={index} className="group relative bg-white p-6 rounded-[2.5rem] shadow-lg shadow-slate-200/50 border-2 border-slate-100 hover:shadow-2xl hover:shadow-orange-100 hover:border-orange-200 transition-all duration-500 hover:-translate-y-2">
             <div className="relative aspect-[3/4] w-full bg-slate-50 rounded-[2rem] overflow-hidden border-2 border-slate-100 group-hover:border-orange-100 transition-colors">
-              <Image 
+              <LazyImage 
                 src={page.imageUrl} 
                 alt={`Coloring page ${page.pageNumber}`} 
                 fill 
