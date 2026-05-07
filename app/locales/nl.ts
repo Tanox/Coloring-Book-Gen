@@ -1,5 +1,5 @@
 export const nl = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "AI-aangedreven creativiteit",
   hero_headline_part1: "Maak je eigen",
   hero_headline_part2: "Kleurboek",
@@ -28,5 +28,15 @@ export const nl = {
   chat_assistant_placeholder: "Typ een bericht...",
   chat_assistant_error_message: "Sorry, er is een fout opgetreden.",
   chat_assistant_connection_error: "Verbindingsfout. Probeer het opnieuw.",
-  footer_text: "© 2026 ColorMyWorld. Alle rechten voorbehouden."
+  footer_text: "© 2026 ColorMyWorld. Alle rechten voorbehouden.",
+  settings_title: "Instellingen",
+  settings_language: "Taal",
+  settings_ai_engine: "AI-motor",
+  settings_art_style: "Kunststijl",
+  settings_resolution: "Resolutie",
+  settings_aspect_ratio: "Verhouding",
+  settings_story_mode: "Verhaalmodus",
+  settings_version: "Versie",
+  settings_close: "Sluiten",
+  api_key_configured: "API-sleutel geconfigureerd",
 };

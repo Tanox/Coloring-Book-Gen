@@ -1,5 +1,5 @@
 export const cs = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "Kreativita poháněná AI",
   hero_headline_part1: "Vytvořte si vlastní",
   hero_headline_part2: "Omalovánky",
@@ -28,5 +28,15 @@ export const cs = {
   chat_assistant_placeholder: "Napište zprávu...",
   chat_assistant_error_message: "Omlouvám se, došlo k chybě.",
   chat_assistant_connection_error: "Chyba připojení. Zkuste to prosím znovu.",
-  footer_text: "© 2026 ColorMyWorld. Všechna práva vyhrazena."
+  footer_text: "© 2026 ColorMyWorld. Všechna práva vyhrazena.",
+  settings_title: "Nastavení",
+  settings_language: "Jazyk",
+  settings_ai_engine: "AI engine",
+  settings_art_style: "Umělecký styl",
+  settings_resolution: "Rozlišení",
+  settings_aspect_ratio: "Poměr stran",
+  settings_story_mode: "Příběhový režim",
+  settings_version: "Verze",
+  settings_close: "Zavřít",
+  api_key_configured: "API klíč je nakonfigurován",
 };

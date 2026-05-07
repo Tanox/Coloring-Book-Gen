@@ -1,5 +1,5 @@
 export const tr = {
-  app_title: "ColorMyWorld v1.1.0",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "Yapay Zeka Destekli Yaratıcılık",
   hero_headline_part1: "Kendi Kitabını Oluştur",
   hero_headline_part2: "Boyama Kitabı",
@@ -38,4 +38,5 @@ export const tr = {
   settings_story_mode: "Hikaye Modu",
   settings_version: "Versiyon",
   settings_close: "Kapat",
+  api_key_configured: "API Anahtarı yapılandırıldı",
 };

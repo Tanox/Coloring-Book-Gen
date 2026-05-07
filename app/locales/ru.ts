@@ -1,5 +1,5 @@
 export const ru = {
-  app_title: "ColorMyWorld v1.1.0",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "Творчество с помощью ИИ",
   hero_headline_part1: "Создайте свою",
   hero_headline_part2: "Книжку-раскраску",
@@ -38,4 +38,5 @@ export const ru = {
   settings_story_mode: "Режим истории",
   settings_version: "Версия",
   settings_close: "Закрыть",
+  api_key_configured: "API-ключ настроен",
 };

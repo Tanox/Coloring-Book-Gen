@@ -1,5 +1,5 @@
 export const vi = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "Sáng tạo được hỗ trợ bởi AI",
   hero_headline_part1: "Tạo riêng của bạn",
   hero_headline_part2: "Sách tô màu",
@@ -28,5 +28,15 @@ export const vi = {
   chat_assistant_placeholder: "Nhập tin nhắn...",
   chat_assistant_error_message: "Xin lỗi, tôi đã gặp lỗi.",
   chat_assistant_connection_error: "Lỗi kết nối. Vui lòng thử lại.",
-  footer_text: "© 2026 ColorMyWorld. Bảo lưu mọi quyền."
+  footer_text: "© 2026 ColorMyWorld. Bảo lưu mọi quyền.",
+  settings_title: "Cài đặt",
+  settings_language: "Ngôn ngữ",
+  settings_ai_engine: "Động cơ AI",
+  settings_art_style: "Phong cách nghệ thuật",
+  settings_resolution: "Độ phân giải",
+  settings_aspect_ratio: "Tỷ lệ",
+  settings_story_mode: "Chế độ Câu chuyện",
+  settings_version: "Phiên bản",
+  settings_close: "Đóng",
+  api_key_configured: "Khóa API đã được cấu hình",
 };

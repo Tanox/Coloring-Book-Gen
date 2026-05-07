@@ -1,5 +1,5 @@
 export const th = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "ความคิดสร้างสรรค์ด้วย AI",
   hero_headline_part1: "สร้างของคุณเอง",
   hero_headline_part2: "สมุดระบายสี",
@@ -28,5 +28,15 @@ export const th = {
   chat_assistant_placeholder: "พิมพ์ข้อความ...",
   chat_assistant_error_message: "ขออภัย ฉันพบข้อผิดพลาด",
   chat_assistant_connection_error: "ข้อผิดพลาดในการเชื่อมต่อ โปรดลองอีกครั้ง",
-  footer_text: "© 2026 ColorMyWorld. สงวนลิขสิทธิ์"
+  footer_text: "© 2026 ColorMyWorld. สงวนลิขสิทธิ์",
+  settings_title: "การตั้งค่า",
+  settings_language: "ภาษา",
+  settings_ai_engine: "เครื่องยนต์ AI",
+  settings_art_style: "รูปแบบศิลปะ",
+  settings_resolution: "ความละเอียด",
+  settings_aspect_ratio: "อัตราส่วน",
+  settings_story_mode: "โหมดเรื่องราว",
+  settings_version: "เวอร์ชัน",
+  settings_close: "ปิด",
+  api_key_configured: "คีย์ API ถูกกำหนดค่าแล้ว",
 };

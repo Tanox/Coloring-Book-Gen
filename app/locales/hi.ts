@@ -1,5 +1,5 @@
 export const hi = {
-  app_title: "ColorMyWorld v1.1.0",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "AI-संचालित रचनात्मकता",
   hero_headline_part1: "अपना खुद का बनाएं",
   hero_headline_part2: "रंग भरने वाली किताब",
@@ -38,4 +38,5 @@ export const hi = {
   settings_story_mode: "कहानी मोड",
   settings_version: "संस्करण",
   settings_close: "बंद करें",
+  api_key_configured: "API कुंजि कॉन्फ़िगर की गई है",
 };
