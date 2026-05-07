@@ -1,5 +1,5 @@
 export const id = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "Kreativitas Bertenaga AI",
   hero_headline_part1: "Buat Sendiri",
   hero_headline_part2: "Buku Mewarnai",
@@ -28,5 +28,15 @@ export const id = {
   chat_assistant_placeholder: "Ketik pesan...",
   chat_assistant_error_message: "Maaf, saya mengalami kesalahan.",
   chat_assistant_connection_error: "Kesalahan koneksi. Silakan coba lagi.",
-  footer_text: "© 2026 ColorMyWorld. Hak cipta dilindungi undang-undang."
+  footer_text: "© 2026 ColorMyWorld. Hak cipta dilindungi undang-undang.",
+  settings_title: "Pengaturan",
+  settings_language: "Bahasa",
+  settings_ai_engine: "Mesin AI",
+  settings_art_style: "Gaya seni",
+  settings_resolution: "Resolusi",
+  settings_aspect_ratio: "Rasio aspek",
+  settings_story_mode: "Mode Cerita",
+  settings_version: "Versi",
+  settings_close: "Tutup",
+  api_key_configured: "Kunci API dikonfigurasi",
 };

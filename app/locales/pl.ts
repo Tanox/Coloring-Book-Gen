@@ -1,5 +1,5 @@
 export const pl = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "Kreatywność wspierana przez AI",
   hero_headline_part1: "Stwórz własną",
   hero_headline_part2: "Kolorowankę",
@@ -28,5 +28,15 @@ export const pl = {
   chat_assistant_placeholder: "Wpisz wiadomość...",
   chat_assistant_error_message: "Przepraszam, napotkałem błąd.",
   chat_assistant_connection_error: "Błąd połączenia. Spróbuj ponownie.",
-  footer_text: "© 2026 ColorMyWorld. Wszelkie prawa zastrzeżone."
+  footer_text: "© 2026 ColorMyWorld. Wszelkie prawa zastrzeżone.",
+  settings_title: "Ustawienia",
+  settings_language: "Język",
+  settings_ai_engine: "Silnik AI",
+  settings_art_style: "Styl artystyczny",
+  settings_resolution: "Rozdzielczość",
+  settings_aspect_ratio: "Proporcja",
+  settings_story_mode: "Tryb opowieści",
+  settings_version: "Wersja",
+  settings_close: "Zamknij",
+  api_key_configured: "Klucz API skonfigurowany",
 };

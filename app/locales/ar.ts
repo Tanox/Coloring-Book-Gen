@@ -1,5 +1,5 @@
 export const ar = {
-  app_title: "ColorMyWorld v1.1.0",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "إبداع مدعوم بالذكاء الاصطناعي",
   hero_headline_part1: "اصنع بنفسك",
   hero_headline_part2: "كتاب التلوين",
@@ -38,4 +38,5 @@ export const ar = {
   settings_story_mode: "وضع القصة",
   settings_version: "الإصدار",
   settings_close: "إغلاق",
+  api_key_configured: "مفتاح API مُعِدّ",
 };

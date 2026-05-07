@@ -1,5 +1,5 @@
 export const sv = {
-  app_title: "ColorMyWorld v1.0.4",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "AI-driven kreativitet",
   hero_headline_part1: "Skapa din egen",
   hero_headline_part2: "Målarbok",
@@ -28,5 +28,15 @@ export const sv = {
   chat_assistant_placeholder: "Skriv ett meddelande...",
   chat_assistant_error_message: "Tyvärr, jag stötte på ett fel.",
   chat_assistant_connection_error: "Anslutningsfel. Försök igen.",
-  footer_text: "© 2026 ColorMyWorld. Alla rättigheter förbehållna."
+  footer_text: "© 2026 ColorMyWorld. Alla rättigheter förbehållna.",
+  settings_title: "Inställningar",
+  settings_language: "Språk",
+  settings_ai_engine: "AI-motor",
+  settings_art_style: "Konststil",
+  settings_resolution: "Upplösning",
+  settings_aspect_ratio: "Proportion",
+  settings_story_mode: "Berättelseläge",
+  settings_version: "Version",
+  settings_close: "Stäng",
+  api_key_configured: "API-nyckel konfigurerad",
 };

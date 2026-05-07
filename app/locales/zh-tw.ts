@@ -1,5 +1,5 @@
 export const zh_TW = {
-  app_title: "ColorMyWorld v1.1.0",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "AI 驅動的創造力",
   hero_headline_part1: "創建你自己的",
   hero_headline_part2: "著色本",
@@ -38,4 +38,5 @@ export const zh_TW = {
   settings_story_mode: "故事模式",
   settings_version: "版本",
   settings_close: "關閉",
+  api_key_configured: "API 金鑰已配置",
 };

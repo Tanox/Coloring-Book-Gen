@@ -1,5 +1,5 @@
 export const ja = {
-  app_title: "ColorMyWorld v1.1.0",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "AIを活用した創造性",
   hero_headline_part1: "自分だけの",
   hero_headline_part2: "塗り絵を作る",
@@ -38,4 +38,5 @@ export const ja = {
   settings_story_mode: "ストーリーモード",
   settings_version: "バージョン",
   settings_close: "閉じる",
+  api_key_configured: "APIキーが設定されています",
 };

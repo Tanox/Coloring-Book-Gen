@@ -1,5 +1,5 @@
 export const de = {
-  app_title: "ColorMyWorld v1.1.0",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "KI-gestützte Kreativität",
   hero_headline_part1: "Erstelle dein eigenes",
   hero_headline_part2: "Malbuch",
@@ -38,4 +38,5 @@ export const de = {
   settings_story_mode: "Story-Modus",
   settings_version: "Version",
   settings_close: "Schließen",
+  api_key_configured: "API-Schlüssel konfiguriert",
 };

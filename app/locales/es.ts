@@ -1,5 +1,5 @@
 export const es = {
-  app_title: "ColorMyWorld v1.1.0",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "Creatividad impulsada por IA",
   hero_headline_part1: "Crea tu propio",
   hero_headline_part2: "Libro para colorear",
@@ -38,4 +38,5 @@ export const es = {
   settings_story_mode: "Modo historia",
   settings_version: "Versión",
   settings_close: "Cerrar",
+  api_key_configured: "Clave API configurada",
 };

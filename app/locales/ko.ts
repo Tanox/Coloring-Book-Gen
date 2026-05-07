@@ -1,5 +1,5 @@
 export const ko = {
-  app_title: "ColorMyWorld v1.1.0",
+  app_title: "ColorMyWorld v1.1.1",
   ai_powered_creativity: "AI 기반 창의성",
   hero_headline_part1: "나만의",
   hero_headline_part2: "색칠 공부 책 만들기",
@@ -38,4 +38,5 @@ export const ko = {
   settings_story_mode: "스토리 모드",
   settings_version: "버전",
   settings_close: "닫기",
+  api_key_configured: "API 키가 구성되었습니다",
 };
