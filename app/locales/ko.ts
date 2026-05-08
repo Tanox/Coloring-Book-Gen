@@ -1,5 +1,6 @@
+// File: /app/locales/ko.ts v1.1.2
 export const ko = {
-  app_title: "ColorMyWorld v1.1.1",
+  app_title: "ColorMyWorld v1.1.2",
   ai_powered_creativity: "AI 기반 창의성",
   hero_headline_part1: "나만의",
   hero_headline_part2: "색칠 공부 책 만들기",

@@ -1,6 +1,7 @@
+// File: /app/hooks/useBookGenerator.ts v1.1.2
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { generateStories, generateImage } from '../services/aiService';
+import { generateStories, generateImage } from '../services/ai/gemini';
 import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine, Language } from '../types';
 
 const NUMBER_OF_PAGES = 5;

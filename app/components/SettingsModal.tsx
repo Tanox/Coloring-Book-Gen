@@ -124,7 +124,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
                   <Info className="w-3 h-3" />
                   <span>{t('settings_version')}</span>
                 </div>
-                <span>v1.1.1</span>
+                <span>v1.1.2</span>
               </div>
             </div>
 

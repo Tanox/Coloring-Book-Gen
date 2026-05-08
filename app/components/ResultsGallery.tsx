@@ -1,11 +1,11 @@
-// File: /components/ResultsGallery.tsx v1.0.2
+// File: /components/ResultsGallery.tsx v1.1.2
 'use client';
 
 import React from 'react';
 import { ColoringBook, Language } from '../types';
 import { Download, RefreshCw, BookOpen } from 'lucide-react';
 import { exportToPdf } from '../services/pdfService';
-import { useTranslation } from '../../app/locales/TranslationProvider';
+import { useTranslation } from '../locales/TranslationProvider';
 import PageSkeleton from './PageSkeleton';
 import LazyImage from './LazyImage';
 

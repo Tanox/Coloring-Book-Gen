@@ -1,5 +1,6 @@
+// File: /app/locales/ar.ts v1.1.2
 export const ar = {
-  app_title: "ColorMyWorld v1.1.1",
+  app_title: "ColorMyWorld v1.1.2",
   ai_powered_creativity: "إبداع مدعوم بالذكاء الاصطناعي",
   hero_headline_part1: "اصنع بنفسك",
   hero_headline_part2: "كتاب التلوين",
