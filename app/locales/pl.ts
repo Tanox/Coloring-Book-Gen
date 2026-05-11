@@ -1,5 +1,6 @@
+// File: /app/locales/pl.ts v1.1.2
 export const pl = {
-  app_title: "ColorMyWorld v1.1.1",
+  app_title: "ColorMyWorld v1.1.2",
   ai_powered_creativity: "Kreatywność wspierana przez AI",
   hero_headline_part1: "Stwórz własną",
   hero_headline_part2: "Kolorowankę",

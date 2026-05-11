@@ -1,5 +1,6 @@
+// File: /app/locales/tr.ts v1.1.2
 export const tr = {
-  app_title: "ColorMyWorld v1.1.1",
+  app_title: "ColorMyWorld v1.1.2",
   ai_powered_creativity: "Yapay Zeka Destekli Yaratıcılık",
   hero_headline_part1: "Kendi Kitabını Oluştur",
   hero_headline_part2: "Boyama Kitabı",

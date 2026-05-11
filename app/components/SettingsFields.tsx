@@ -1,3 +1,4 @@
+// File: /app/components/SettingsFields.tsx v1.1.2
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
 

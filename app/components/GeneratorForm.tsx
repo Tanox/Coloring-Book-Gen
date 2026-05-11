@@ -1,10 +1,10 @@
-// File: /components/GeneratorForm.tsx v1.0.2
+// File: /components/GeneratorForm.tsx v1.1.2
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../types';
 import { Wand2, User, Type, Layout, Palette as PaletteIcon, AlertCircle, CheckCircle } from 'lucide-react';
-import { useTranslation } from '../../app/locales/TranslationProvider';
+import { useTranslation } from '../locales/TranslationProvider';
 import { useConfig } from '../contexts/ConfigContext';
 import { FormInputField, FormSelectField } from './FormFields';
 import { validateApiKey, getEngineCapabilities } from '../services/ai/config';

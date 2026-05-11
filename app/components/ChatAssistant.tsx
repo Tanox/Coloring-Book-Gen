@@ -1,11 +1,11 @@
-// File: /components/ChatAssistant.tsx v1.0.2
+// File: /components/ChatAssistant.tsx v1.1.2
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, Send, X, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Language } from '../types';
-import { useTranslation } from '../../app/locales/TranslationProvider';
+import { useTranslation } from '../locales/TranslationProvider';
 import { useChatAssistant } from '../hooks/useChatAssistant';
 
 interface ChatAssistantProps {

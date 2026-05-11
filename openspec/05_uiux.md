@@ -1,4 +1,4 @@
-# UI/UX 设计规范：绘梦世界 (ColorMyWorld) - v1.1.0
+# UI/UX 设计规范：绘梦世界 (ColorMyWorld) - v1.1.2
 
 ## 1. 视觉语言：童趣拟物 (Playful & Soft)
 从 v1.0.2 起，应用全面转向适合儿童的视觉风格：
