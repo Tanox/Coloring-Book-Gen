@@ -1,4 +1,4 @@
-// File: /app/services/aiService.ts v1.0.4
+// File: /workspace/app/services/aiService.ts v1.1.2
 
 export * from './ai/config';
 export * from './ai/gemini';

@@ -1,3 +1,4 @@
+// File: /workspace/app/components/PageSkeleton.tsx v1.1.2
 'use client';
 
 import React from 'react';

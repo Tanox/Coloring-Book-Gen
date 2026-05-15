@@ -1,4 +1,4 @@
-// File: /app/components/Hero.tsx v1.1.2
+// File: /workspace/app/components/Hero.tsx v1.1.2
 'use client';
 
 import React from 'react';

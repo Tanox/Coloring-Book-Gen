@@ -1,4 +1,4 @@
-// File: /app/contexts/ConfigContext.tsx v1.0.4
+// File: /workspace/app/contexts/ConfigContext.tsx v1.1.2
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';

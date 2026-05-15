@@ -1,4 +1,4 @@
-// File: /app/locales/de.ts v1.1.2
+// File: /workspace/app/locales/de.ts v1.1.2
 export const de = {
   app_title: "ColorMyWorld v1.1.2",
   ai_powered_creativity: "KI-gestützte Kreativität",

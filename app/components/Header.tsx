@@ -1,4 +1,4 @@
-// File: /app/components/Header.tsx v1.1.2
+// File: /workspace/app/components/Header.tsx v1.1.2
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';

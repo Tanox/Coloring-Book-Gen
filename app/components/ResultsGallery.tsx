@@ -1,4 +1,4 @@
-// File: /components/ResultsGallery.tsx v1.1.2
+// File: /workspace/app/components/ResultsGallery.tsx v1.1.2
 'use client';
 
 import React from 'react';

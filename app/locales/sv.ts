@@ -1,4 +1,4 @@
-// File: /app/locales/sv.ts v1.1.2
+// File: /workspace/app/locales/sv.ts v1.1.2
 export const sv = {
   app_title: "ColorMyWorld v1.1.2",
   ai_powered_creativity: "AI-driven kreativitet",

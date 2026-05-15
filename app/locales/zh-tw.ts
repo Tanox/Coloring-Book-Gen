@@ -1,4 +1,4 @@
-// File: /app/locales/zh-tw.ts v1.1.2
+// File: /workspace/app/locales/zh-tw.ts v1.1.2
 export const zh_TW = {
   app_title: "ColorMyWorld v1.1.2",
   ai_powered_creativity: "AI 驅動的創造力",

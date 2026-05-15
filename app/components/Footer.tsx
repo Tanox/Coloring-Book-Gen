@@ -1,4 +1,4 @@
-// File: /app/components/Footer.tsx v1.1.2
+// File: /workspace/app/components/Footer.tsx v1.1.2
 'use client';
 
 import React from 'react';

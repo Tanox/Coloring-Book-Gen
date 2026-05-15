@@ -1,4 +1,4 @@
-// File: /app/components/SettingsModal.tsx v1.0.4
+// File: /workspace/app/components/SettingsModal.tsx v1.1.2
 'use client';
 
 import React from 'react';

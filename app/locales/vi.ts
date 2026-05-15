@@ -1,4 +1,4 @@
-// File: /app/locales/vi.ts v1.1.2
+// File: /workspace/app/locales/vi.ts v1.1.2
 export const vi = {
   app_title: "ColorMyWorld v1.1.2",
   ai_powered_creativity: "Sáng tạo được hỗ trợ bởi AI",
