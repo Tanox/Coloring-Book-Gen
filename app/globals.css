@@ -1,8 +1,14 @@
-/* File: /workspace/app/globals.css v1.1.2 */
+/* File: /workspace/app/globals.css v1.1.3 */
 @import "tailwindcss";
 
 @theme {
   --font-sans: var(--font-fredoka), ui-sans-serif, system-ui, sans-serif;
+  --color-orange-primary: #f97316;
+  --color-orange-secondary: #fb923c;
+  --color-orange-light: #ffedd5;
+  --color-pink-primary: #ec4899;
+  --color-pink-secondary: #f472b6;
+  --color-pink-light: #fce7f3;
 }
 
 @keyframes shimmer {
@@ -14,7 +20,115 @@
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .animate-shimmer {
   animation: shimmer 2s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #fef3c7;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #fb923c;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #f97316;
+}
+
+/* Selection styling */
+::selection {
+  background-color: #fef3c7;
+  color: #9a3412;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid #fb923c;
+  outline-offset: 2px;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Improved text rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Button base styles */
+button {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active {
+  transform: scale(0.98);
 }
 

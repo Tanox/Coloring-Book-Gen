@@ -1,4 +1,4 @@
-// File: /workspace/app/components/SettingsModal.tsx v1.1.2
+// File: /workspace/app/components/SettingsModal.tsx v1.1.3
 'use client';
 
 import React from 'react';
@@ -32,35 +32,36 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] bg-gradient-to-br from-black/40 via-purple-900/20 to-black/40 backdrop-blur-xl flex items-center justify-center p-4"
           onClick={onClose}
         >
           <motion.div
-            initial={{ scale: 0.9, y: 20 }}
-            animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.9, y: 20 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden relative border-4 border-orange-50"
+            initial={{ scale: 0.85, y: 30, rotate: -1 }}
+            animate={{ scale: 1, y: 0, rotate: 0 }}
+            exit={{ scale: 0.85, y: 30, rotate: 1 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+            className="bg-white rounded-[3rem] shadow-2xl w-full max-w-xl overflow-hidden relative border-4 border-orange-50"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-orange-400 to-pink-500 p-6 flex items-center justify-between text-white">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/20 rounded-xl backdrop-blur-md">
-                  <Maximize className="w-6 h-6" />
+            <div className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 p-7 flex items-center justify-between text-white">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-white/25 rounded-2xl backdrop-blur-md shadow-inner">
+                  <Maximize className="w-7 h-7" />
                 </div>
-                <h2 className="text-2xl font-black tracking-tight">{t('settings_title')}</h2>
+                <h2 className="text-3xl font-black tracking-tight">{t('settings_title')}</h2>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 rounded-full hover:bg-white/20 transition-colors"
+                className="group p-3 rounded-2xl hover:bg-white/30 transition-all duration-300 hover:rotate-90"
+                aria-label="Close settings"
               >
-                <X className="w-6 h-6" />
+                <X className="w-7 h-7" />
               </button>
             </div>
 
             {/* Content */}
-            <div className="p-6 max-h-[70vh] overflow-y-auto space-y-6 custom-scrollbar">
+            <div className="p-7 max-h-[70vh] overflow-y-auto space-y-7 custom-scrollbar">
               <SelectField
                 icon={Globe}
                 iconColor="text-orange-500"
@@ -79,7 +80,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
                 options={Object.values(AiEngine).map(e => ({ value: e, label: e.toUpperCase() }))}
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <SelectField
                   icon={Palette}
                   iconColor="text-pink-500"
@@ -99,7 +100,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <SelectField
                   icon={Layout}
                   iconColor="text-indigo-500"
@@ -119,20 +120,20 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
               </div>
 
               {/* Version Info */}
-              <div className="flex items-center justify-between pt-4 border-t border-slate-100 text-slate-400 text-xs font-bold uppercase tracking-widest">
-                <div className="flex items-center gap-2">
-                  <Info className="w-3 h-3" />
+              <div className="flex items-center justify-between pt-5 border-t border-slate-200 text-slate-400 text-xs font-black uppercase tracking-widest">
+                <div className="flex items-center gap-3">
+                  <Info className="w-4 h-4" />
                   <span>{t('settings_version')}</span>
                 </div>
-                <span>v1.1.2</span>
+                <span className="px-4 py-2 bg-gradient-to-r from-orange-100 to-pink-100 text-orange-600 rounded-full text-sm">v1.1.3</span>
               </div>
             </div>
 
             {/* Footer */}
-            <div className="p-6 bg-slate-50 border-t border-slate-100 flex justify-end">
+            <div className="p-7 bg-gradient-to-r from-slate-50 to-orange-50 border-t border-slate-200 flex justify-end">
               <button
                 onClick={onClose}
-                className="px-8 py-3 bg-slate-800 text-white rounded-2xl font-bold hover:bg-slate-900 transition-all shadow-lg shadow-slate-200 active:scale-95"
+                className="group px-10 py-4 bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-2xl font-black text-lg hover:from-slate-900 hover:to-slate-800 transition-all duration-300 shadow-xl shadow-slate-300 hover:shadow-2xl active:scale-[0.97]"
               >
                 {t('settings_close')}
               </button>

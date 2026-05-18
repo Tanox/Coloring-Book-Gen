@@ -1,4 +1,4 @@
-// File: /workspace/app/components/GeneratorForm.tsx v1.1.2
+// File: /workspace/app/components/GeneratorForm.tsx v1.1.3
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -68,7 +68,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
   };
 
   return (
-    <form id="generator-form" onSubmit={handleSubmit} className="space-y-8">
+    <form id="generator-form" onSubmit={handleSubmit} className="space-y-7">
       <div className="space-y-6">
         <FormInputField
           id="theme"
@@ -88,7 +88,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
           onChange={setName}
         />
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <FormSelectField
             id="artStyle"
             icon={PaletteIcon}
@@ -112,48 +112,74 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
           />
         </div>
 
-        <div className="flex items-center gap-4 p-4 bg-blue-50/50 border-2 border-blue-100 rounded-2xl cursor-pointer hover:bg-blue-50 transition-colors" onClick={() => setStoryMode(!storyMode)}>
-          <input
-            type="checkbox"
-            id="storyMode"
-            checked={storyMode}
-            onChange={(e) => setStoryMode(e.target.checked)}
-            className="w-6 h-6 rounded-xl text-blue-500 focus:ring-blue-400 border-blue-200 cursor-pointer"
-          />
+        {/* Story Mode Toggle */}
+        <div 
+          className="group flex items-center gap-4 p-5 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-100 rounded-2xl cursor-pointer hover:from-blue-100/50 hover:to-indigo-100/50 transition-all duration-300 hover:shadow-md hover:shadow-blue-100/30"
+          onClick={() => setStoryMode(!storyMode)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setStoryMode(!storyMode);
+            }
+          }}
+        >
+          <div className="relative">
+            <input
+              type="checkbox"
+              id="storyMode"
+              checked={storyMode}
+              onChange={(e) => setStoryMode(e.target.checked)}
+              className="w-7 h-7 rounded-xl text-blue-500 focus:ring-2 focus:ring-blue-400/50 border-blue-200 cursor-pointer bg-white"
+            />
+            {storyMode && (
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-xl animate-pulse-soft opacity-20" />
+            )}
+          </div>
           <label htmlFor="storyMode" className="text-base font-bold text-blue-900 cursor-pointer select-none flex-1">
             {t('form_include_story')}
           </label>
         </div>
 
+        {/* Error Message */}
         {!apiKeyValid.valid && (
-          <div className="flex items-start gap-3 p-4 bg-red-50 border-2 border-red-100 rounded-2xl">
-            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-            <p className="text-sm text-red-700 font-medium">{apiKeyValid.message}</p>
+          <div className="flex items-start gap-4 p-5 bg-gradient-to-r from-red-50 to-rose-50 border-2 border-red-100 rounded-2xl animate-shake">
+            <AlertCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-red-700 font-medium leading-relaxed">{apiKeyValid.message}</p>
           </div>
         )}
 
+        {/* Success Message */}
         {apiKeyValid.valid && (
-          <div className="flex items-center gap-3 p-3 bg-green-50 border border-green-100 rounded-xl">
-            <CheckCircle className="w-4 h-4 text-green-500" />
-            <span className="text-xs text-green-700 font-medium">{t('api_key_configured')}</span>
+          <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-100 rounded-2xl">
+            <CheckCircle className="w-5 h-5 text-green-500" />
+            <span className="text-xs sm:text-sm text-green-700 font-medium">{t('api_key_configured')}</span>
           </div>
         )}
       </div>
 
+      {/* Generate Button */}
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full py-5 px-6 bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white rounded-2xl font-black text-xl shadow-xl shadow-orange-200 hover:shadow-2xl hover:shadow-orange-300 transform hover:-translate-y-1 active:translate-y-0 active:scale-95 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3 relative overflow-hidden"
+        className="group w-full py-6 px-6 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 hover:from-orange-500 hover:via-pink-600 hover:to-purple-600 text-white rounded-2xl font-black text-xl shadow-xl shadow-orange-200 hover:shadow-2xl hover:shadow-orange-300/50 transform hover:-translate-y-1 active:translate-y-0 active:scale-[0.98] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3 relative overflow-hidden"
       >
+        {/* Button shine effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+        
         {isLoading ? (
           <>
-            <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-            <span>{t('generating_book_button')} {generatedPages}/{totalPages}</span>
-            <div className="absolute bottom-0 left-0 h-1 bg-white/30 transition-all duration-300" style={{ width: `${(generatedPages / totalPages) * 100}%` }} />
+            <div className="w-7 h-7 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+            <span className="flex items-center gap-2">
+              {t('generating_book_button')} <span className="font-bold">{generatedPages}/{totalPages}</span>
+            </span>
+            {/* Progress bar */}
+            <div className="absolute bottom-0 left-0 h-1.5 bg-white/40 transition-all duration-300" style={{ width: `${(generatedPages / totalPages) * 100}%` }} />
           </>
         ) : (
           <>
-            <Wand2 className="w-7 h-7" />
+            <Wand2 className="w-7 h-7 group-hover:scale-110 transition-transform duration-200" />
             {t('generate_book_button')}
           </>
         )}
