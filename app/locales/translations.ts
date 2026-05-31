@@ -1,4 +1,4 @@
-// File: /workspace/app/locales/translations.ts v1.1.2
+// File: /workspace/app/locales/translations.ts v1.1.3
 import { Language } from '../types';
 import { en } from './en';
 import { zh_CN } from './zh-cn';

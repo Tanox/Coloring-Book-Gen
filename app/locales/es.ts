@@ -1,6 +1,6 @@
-// File: /workspace/app/locales/es.ts v1.1.2
+// File: /workspace/app/locales/es.ts v1.1.3
 export const es = {
-  app_title: "ColorMyWorld v1.1.2",
+  app_title: "ColorMyWorld v1.1.3",
   ai_powered_creativity: "Creatividad impulsada por IA",
   hero_headline_part1: "Crea tu propio",
   hero_headline_part2: "Libro para colorear",

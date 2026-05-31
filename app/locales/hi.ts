@@ -1,6 +1,6 @@
-// File: /workspace/app/locales/hi.ts v1.1.2
+// File: /workspace/app/locales/hi.ts v1.1.3
 export const hi = {
-  app_title: "ColorMyWorld v1.1.2",
+  app_title: "ColorMyWorld v1.1.3",
   ai_powered_creativity: "AI-संचालित रचनात्मकता",
   hero_headline_part1: "अपना खुद का बनाएं",
   hero_headline_part2: "रंग भरने वाली किताब",

@@ -1,6 +1,6 @@
-// File: /workspace/app/locales/ar.ts v1.1.2
+// File: /workspace/app/locales/ar.ts v1.1.3
 export const ar = {
-  app_title: "ColorMyWorld v1.1.2",
+  app_title: "ColorMyWorld v1.1.3",
   ai_powered_creativity: "إبداع مدعوم بالذكاء الاصطناعي",
   hero_headline_part1: "اصنع بنفسك",
   hero_headline_part2: "كتاب التلوين",
