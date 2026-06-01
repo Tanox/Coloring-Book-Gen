@@ -142,4 +142,4 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ---
 
-**Version**: 1.1.2
+**Version**: 1.1.3

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorMyWorld - 绘梦世界 - Prototype v1.1.3</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --orange-400: #fb923c; --orange-500: #f97316; --orange-100: #ffedd5;
+            --pink-400: #f472b6; --pink-500: #ec4899; --purple-500: #a855f7;
+            --slate-500: #64748b; --slate-600: #475569; --slate-800: #1e293b;
+            --cream: #FFF9F0;
+        }
+        body { font-family: 'Fredoka', system-ui, sans-serif; background: var(--cream); color: var(--slate-800); }
+        
+        /* Prototype Header */
+        .prototype-header {
+            background: linear-gradient(135deg, var(--slate-800), #0f172a);
+            color: white; padding: 20px 30px; position: sticky; top: 0; z-index: 1000;
+        }
+        .prototype-header-content {
+            max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 16px;
+        }
+        .prototype-title { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .prototype-title span {
+            background: linear-gradient(135deg, var(--orange-400), var(--pink-500));
+            padding: 4px 12px; border-radius: 8px; font-size: 0.85rem;
+        }
+        .nav-btn {
+            padding: 8px 16px; border: 2px solid rgba(255,255,255,0.3);
+            background: transparent; color: white; border-radius: 10px;
+            cursor: pointer; font-family: inherit; font-weight: 600; font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover, .nav-btn.active { background: rgba(255,255,255,0.15); }
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--orange-500), var(--pink-500));
+            border-color: transparent;
+        }
+        .prototype-content { max-width: 1200px; margin: 0 auto; padding: 40px 30px 60px; }
+        .prototype-section { display: none; animation: fadeIn 0.4s ease-out; }
+        .prototype-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
+        .section-desc { color: var(--slate-500); margin-bottom: 32px; font-size: 1.1rem; }
+        
+        /* Device Frame */
+        .device-frame {
+            background: #1e293b; border-radius: 24px; padding: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        .device-header {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 16px; padding-bottom: 12px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+        .device-dots { display: flex; gap: 6px; }
+        .device-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #eab308; }
+        .dot-green { background: #22c55e; }
+        .device-name { color: rgba(255,255,255,0.6); font-size: 0.9rem; font-weight: 600; }
+        .device-content { background: white; border-radius: 16px; overflow: hidden; height: 700px; overflow-y: auto; }
+        
+        /* View Controls */
+        .view-controls {
+            background: white; border-radius: 20px; padding: 16px 20px;
+            margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        .view-btn {
+            padding: 10px 18px; background: #f1f5f9; border: 2px solid #e2e8f0;
+            border-radius: 12px; font-family: inherit; font-weight: 700; cursor: pointer;
+            transition: all 0.3s ease; color: var(--slate-600);
+        }
+        .view-btn:hover { background: var(--orange-100); border-color: #fdba74; color: #ea580c; }
+        .view-btn.active {
+            background: linear-gradient(135deg, var(--orange-400), var(--pink-500));
+            color: white; border-color: transparent;
+        }
+        .view-state { display: none; }
+        .view-state.active { display: block; }
+        
+        /* App UI */
+        .app-header {
+            position: sticky; top: 0; background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--orange-100);
+            padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; z-index: 100;
+        }
+        .app-logo { display: flex; align-items: center; gap: 10px; }
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--orange-400), var(--pink-500), var(--purple-500));
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 900; font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+        }
+        .logo-text { font-size: 1.4rem; font-weight: 900; color: var(--slate-800); }
+        .lang-selector {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 16px; background: var(--orange-100);
+            border-radius: 14px; font-weight: 600; color: var(--orange-500);
+        }
+        .settings-btn {
+            width: 46px; height: 46px; border-radius: 14px; background: var(--orange-100);
+            border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: var(--slate-600); font-size: 1.2rem;
+        }
+        .app-hero { padding: 60px 24px 40px; text-align: center; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 12px 24px; background: rgba(255,255,255,0.9);
+            border: 2px solid var(--orange-100); border-radius: 50px;
+            font-weight: 700; color: var(--orange-500); margin-bottom: 24px;
+        }
+        .hero-title {
+            font-size: 2.5rem; font-weight: 900; line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .hero-title span {
+            background: linear-gradient(135deg, var(--orange-400), var(--pink-500), var(--purple-500));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-desc { font-size: 1.15rem; color: var(--slate-500); max-width: 600px; margin: 0 auto; }
+        .app-main {
+            padding: 0 24px 40px; display: grid; grid-template-columns: 400px 1fr;
+            gap: 30px; max-width: 1100px; margin: 0 auto;
+        }
+        .form-card {
+            background: white; border-radius: 32px; padding: 30px;
+            box-shadow: 0 20px 60px rgba(249,115,22,0.15);
+            border: 2px solid var(--orange-100); height: fit-content;
+            position: sticky; top: 100px;
+        }
+        .form-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+        .form-icon {
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, var(--orange-100), var(--pink-100));
+            border-radius: 18px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem;
+        }
+        .form-title { font-size: 1.5rem; font-weight: 900; }
+        .form-group { margin-bottom: 20px; }
+        .form-label {
+            display: flex; align-items: center; gap: 8px; font-weight: 700;
+            font-size: 0.9rem; color: var(--slate-700); margin-bottom: 10px;
+        }
+        .form-input, .form-select {
+            width: 100%; padding: 16px 18px; border: 2px solid var(--orange-100);
+            border-radius: 16px; font-family: inherit; font-size: 1rem;
+            background: linear-gradient(135deg, var(--orange-100), rgba(236,72,153,0.05));
+            color: var(--slate-800);
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .generate-btn {
+            width: 100%; padding: 20px; margin-top: 10px;
+            background: linear-gradient(135deg, var(--orange-400), var(--pink-500), var(--purple-500));
+            color: white; border: none; border-radius: 20px; font-family: inherit;
+            font-size: 1.1rem; font-weight: 900; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+        }
+        .empty-state {
+            background: rgba(255,255,255,0.7); border: 4px dashed #fdba74;
+            border-radius: 48px; padding: 60px 40px; text-align: center;
+        }
+        .empty-icon {
+            width: 100px; height: 100px;
+            background: linear-gradient(135deg, var(--orange-100), var(--pink-100));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; margin: 0 auto 24px;
+        }
+        .chat-trigger {
+            position: fixed; bottom: 24px; right: 24px; width: 72px; height: 72px;
+            background: linear-gradient(135deg, #facc15, var(--orange-500), var(--pink-500));
+            border-radius: 50%; border: 4px solid white;
+            box-shadow: 0 16px 50px rgba(249,115,22,0.4);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; z-index: 100;
+        }
+        .chat-window {
+            position: relative; background: white; border-radius: 32px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+            border: 4px solid var(--orange-100); display: flex; flex-direction: column;
+            overflow: hidden; max-width: 420px; margin: 30px auto;
+        }
+        .chat-header {
+            background: linear-gradient(135deg, var(--orange-100), var(--pink-100));
+            padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid #fdba74;
+        }
+        .chat-avatar {
+            width: 48px; height: 48px; background: white; border-radius: 18px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(249,115,22,0.2);
+        }
+        .chat-title { font-weight: 900; font-size: 1.25rem; color: #7c2d12; }
+        .chat-messages {
+            flex: 1; padding: 20px; overflow-y: auto; min-height: 300px;
+            background: linear-gradient(180deg, var(--cream), white);
+        }
+        .message-bubble {
+            padding: 16px 20px; border-radius: 20px; font-weight: 500;
+            margin-bottom: 16px; max-width: 85%;
+        }
+        .message-bubble.assistant {
+            background: white; border: 3px solid var(--orange-100);
+            color: var(--slate-700); border-bottom-left-radius: 6px;
+        }
+        .message-bubble.user {
+            background: linear-gradient(135deg, var(--orange-500), var(--pink-500));
+            color: white; margin-left: auto; border-bottom-right-radius: 6px;
+        }
+        .typing-dots {
+            display: flex; gap: 8px; padding: 20px; background: white;
+            border: 3px solid var(--orange-100); border-radius: 20px;
+            border-bottom-left-radius: 6px; width: fit-content;
+        }
+        .typing-dot {
+            width: 12px; height: 12px;
+            background: linear-gradient(135deg, var(--orange-400), var(--pink-400));
+            border-radius: 50%; animation: bounce 1.4s ease-in-out infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-14px); }
+        }
+        .chat-input-area {
+            padding: 18px; border-top: 3px solid var(--orange-100);
+            background: white; display: flex; gap: 12px;
+        }
+        .chat-input {
+            flex: 1; padding: 14px 18px; border: 3px solid var(--orange-100);
+            border-radius: 18px; background: linear-gradient(135deg, var(--orange-100), rgba(236,72,153,0.05));
+            font-family: inherit; font-size: 1rem; color: var(--slate-800);
+        }
+        .chat-send {
+            width: 54px; height: 54px;
+            background: linear-gradient(135deg, var(--orange-500), var(--pink-500));
+            border: none; border-radius: 18px; color: white; font-size: 1.3rem;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+        }
+        .review-panel {
+            background: white; border-radius: 20px; padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1); margin-top: 24px;
+        }
+        .review-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 20px;
+        }
+        .review-item {
+            padding: 20px; background: linear-gradient(135deg, #fef7ff, #fff7ed);
+            border-radius: 16px; border: 2px solid var(--orange-100);
+        }
+        .review-item h4 {
+            font-size: 1.1rem; font-weight: 700; margin-bottom: 10px;
+            color: var(--slate-800);
+        }
+        .review-item.priority-high h4::before { content: '🔴 '; }
+        .review-item.priority-medium h4::before { content: '🟡 '; }
+        .review-item.priority-low h4::before { content: '🟢 '; }
+        .results-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
+        .page-card {
+            background: white; border-radius: 32px; padding: 22px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1); border: 2px solid #e2e8f0;
+        }
+        .page-image {
+            aspect-ratio: 3/4; background: linear-gradient(135deg, #f1f5f9, #fef3c7);
+            border-radius: 24px; display: flex; align-items: center; justify-content: center;
+            font-size: 5rem; margin-bottom: 18px; border: 3px solid #e2e8f0;
+        }
+        .page-footer { display: flex; justify-content: space-between; align-items: center; }
+        .page-number {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--orange-100), var(--pink-100));
+            border: 3px solid #fdba74; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; color: #c2410c;
+        }
+        .regenerate-btn {
+            padding: 12px 20px; background: transparent; color: var(--orange-500);
+            border: 2px solid transparent; border-radius: 16px; font-family: inherit;
+            font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px;
+        }
+        .results-header {
+            background: white; border-radius: 32px; padding: 26px 30px;
+            margin-bottom: 24px; box-shadow: 0 10px 40px rgba(249,115,22,0.12);
+            border: 2px solid var(--orange-100); display: flex; justify-content: space-between;
+            align-items: center; gap: 20px; flex-wrap: wrap;
+        }
+        .download-btn {
+            padding: 16px 28px;
+            background: linear-gradient(135deg, #60a5fa, #6366f1);
+            color: white; border: none; border-radius: 18px; font-family: inherit;
+            font-size: 1rem; font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; gap: 10px;
+        }
+        @media (max-width: 768px) {
+            .app-main { grid-template-columns: 1fr; }
+            .form-card { position: static; }
+            .results-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="prototype-header">
+        <div class="prototype-header-content">
+            <div class="prototype-title">🎨 ColorMyWorld Prototype <span>v1.1.3</span></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="nav-btn active" data-section="main">🌐 主界面</button>
+                <button class="nav-btn" data-section="chat">💬 聊天助手</button>
+                <button class="nav-btn" data-section="results">🖼️ 结果展示</button>
+                <button class="nav-btn" data-section="review">📝 设计评审</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="prototype-content">
+        <!-- Main Section -->
+        <section class="prototype-section active" id="main">
+            <h1 class="section-title">🎨 主界面 - 用户旅程</h1>
+            <p class="section-desc">从空状态到填写表单的完整交互体验</p>
+
+            <div class="view-controls">
+                <button class="view-btn active" data-view="empty">📭 空状态</button>
+                <button class="view-btn" data-view="filled">📝 表单已填</button>
+            </div>
+
+            <div class="device-frame">
+                <div class="device-header">
+                    <div class="device-dots">
+                        <div class="device-dot dot-red"></div>
+                        <div class="device-dot dot-yellow"></div>
+                        <div class="device-dot dot-green"></div>
+                    </div>
+                    <span class="device-name">Preview</span>
+                </div>
+                <div class="device-content">
+                    <div class="view-state active" id="view-empty">
+                        <header class="app-header">
+                            <div class="app-logo"><div class="logo-icon">C</div><span class="logo-text">ColorMyWorld</span></div>
+                            <div style="display:flex;gap:10px;align-items:center">
+                                <div class="lang-selector">🌐 English</div>
+                                <button class="settings-btn">⚙️</button>
+                            </div>
+                        </header>
+                        <section class="app-hero">
+                            <div class="hero-badge">✨ AI-Powered Creativity</div>
+                            <h1 class="hero-title">Create Your Own<br><span>Coloring Book</span></h1>
+                            <p class="hero-desc">Turn your imagination into beautiful coloring pages with a personalized story.</p>
+                        </section>
+                        <main class="app-main">
+                            <div class="form-card">
+                                <div class="form-header">
+                                    <div class="form-icon">🎨</div>
+                                    <h2 class="form-title">Book Settings</h2>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">🎯 Theme</label>
+                                    <input type="text" class="form-input" placeholder="e.g., Dinosaurs in space">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">👤 Child's Name</label>
+                                    <input type="text" class="form-input" placeholder="e.g., Alex">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">🎨 Difficulty</label>
+                                        <select class="form-select">
+                                            <option>Simple</option>
+                                            <option>Standard</option>
+                                            <option>Detailed</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">📐 Layout</label>
+                                        <select class="form-select">
+                                            <option>3:4</option>
+                                            <option>1:1</option>
+                                            <option>4:3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="generate-btn">✨ Generate Book</button>
+                            </div>
+                            <div>
+                                <div class="empty-state">
+                                    <div class="empty-icon">📖</div>
+                                    <h3 style="font-weight:800;margin-bottom:8px">Your coloring book will appear here.</h3>
+                                </div>
+                            </div>
+                        </main>
+                        <button class="chat-trigger">✨</button>
+                    </div>
+                    <div class="view-state" id="view-filled">
+                        <header class="app-header">
+                            <div class="app-logo"><div class="logo-icon">C</div><span class="logo-text">ColorMyWorld</span></div>
+                            <div style="display:flex;gap:10px;align-items:center">
+                                <div class="lang-selector">🌐 English</div>
+                                <button class="settings-btn">⚙️</button>
+                            </div>
+                        </header>
+                        <section class="app-hero">
+                            <div class="hero-badge">✨ AI-Powered Creativity</div>
+                            <h1 class="hero-title">Create Your Own<br><span>Coloring Book</span></h1>
+                            <p class="hero-desc">Turn your imagination into beautiful coloring pages with a personalized story.</p>
+                        </section>
+                        <main class="app-main">
+                            <div class="form-card">
+                                <div class="form-header">
+                                    <div class="form-icon">🎨</div>
+                                    <h2 class="form-title">Book Settings</h2>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">🎯 Theme</label>
+                                    <input type="text" class="form-input" value="Princesses in magical forest">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">👤 Child's Name</label>
+                                    <input type="text" class="form-input" value="Sophie">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">🎨 Difficulty</label>
+                                        <select class="form-select">
+                                            <option selected>Standard</option>
+                                            <option>Simple</option>
+                                            <option>Detailed</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">📐 Layout</label>
+                                        <select class="form-select">
+                                            <option selected>3:4</option>
+                                            <option>1:1</option>
+                                            <option>4:3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="generate-btn">✨ Generate Book</button>
+                            </div>
+                            <div>
+                                <div class="empty-state">
+                                    <div class="empty-icon">📖</div>
+                                    <h3 style="font-weight:800;margin-bottom:8px">Ready to start? Click Generate!</h3>
+                                </div>
+                            </div>
+                        </main>
+                        <button class="chat-trigger">✨</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat Section -->
+        <section class="prototype-section" id="chat">
+            <h1 class="section-title">💬 聊天助手</h1>
+            <p class="section-desc">AI 助手提供创意建议和功能帮助</p>
+
+            <div class="device-frame">
+                <div class="device-header">
+                    <div class="device-dots">
+                        <div class="device-dot dot-red"></div>
+                        <div class="device-dot dot-yellow"></div>
+                        <div class="device-dot dot-green"></div>
+                    </div>
+                    <span class="device-name">Chat Preview</span>
+                </div>
+                <div class="device-content" style="height:600px;background:linear-gradient(180deg,#FFF9F0,white)">
+                    <header class="app-header">
+                        <div class="app-logo"><div class="logo-icon">C</div><span class="logo-text">ColorMyWorld</span></div>
+                        <div style="display:flex;gap:10px;align-items:center">
+                            <div class="lang-selector">🌐 English</div>
+                            <button class="settings-btn">⚙️</button>
+                        </div>
+                    </header>
+                    <div style="padding:24px">
+                        <h2 style="font-size:1.6rem;font-weight:900;margin-bottom:8px">🎯 Chat Example</h2>
+                        <p style="color:var(--slate-500);margin-bottom:20px">Interactive conversation preview</p>
+                    </div>
+                    <div class="chat-window" style="position:relative">
+                        <div class="chat-header">
+                            <div style="display:flex;align-items:center;gap:14px">
+                                <div class="chat-avatar">✨</div>
+                                <div class="chat-title">AI Assistant</div>
+                            </div>
+                            <button style="background:transparent;border:none;color:#7c2d12;font-size:1.5rem;cursor:pointer">✕</button>
+                        </div>
+                        <div class="chat-messages">
+                            <div class="message-bubble assistant">
+                                Hi there! 👋 I'm here to help you create amazing coloring books! What theme would you like?
+                            </div>
+                            <div class="message-bubble user">
+                                Can you suggest some fun themes for a 5-year-old?
+                            </div>
+                            <div class="message-bubble assistant">
+                                Of course! 🎉 Here are some great ideas:<br><br>
+                                🦄 Unicorns in Rainbow Land<br>
+                                🐉 Friendly baby dragons<br>
+                                🚀 Space adventure with cute aliens<br>
+                                🧜‍♀️ Underwater mermaids and friends<br><br>
+                                Which one sounds fun?
+                            </div>
+                            <div class="typing-dots">
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" class="chat-input" placeholder="Ask me anything...">
+                            <button class="chat-send">➤</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="prototype-section" id="results">
+            <h1 class="section-title">🖼️ 结果展示</h1>
+            <p class="section-desc">生成完成后的结果页面和 PDF 导出</p>
+
+            <div class="device-frame">
+                <div class="device-header">
+                    <div class="device-dots">
+                        <div class="device-dot dot-red"></div>
+                        <div class="device-dot dot-yellow"></div>
+                        <div class="device-dot dot-green"></div>
+                    </div>
+                    <span class="device-name">Results Preview</span>
+                </div>
+                <div class="device-content">
+                    <header class="app-header">
+                        <div class="app-logo"><div class="logo-icon">C</div><span class="logo-text">ColorMyWorld</span></div>
+                        <div style="display:flex;gap:10px;align-items:center">
+                            <div class="lang-selector">🌐 English</div>
+                            <button class="settings-btn">⚙️</button>
+                        </div>
+                    </header>
+                    <main style="padding:0 24px 40px;max-width:1000px;margin:0 auto">
+                        <div class="results-header">
+                            <div>
+                                <h2 style="font-size:1.7rem;font-weight:900">✨ Sophie's Book</h2>
+                                <p style="color:var(--slate-500);font-weight:500">Princesses in magical forest</p>
+                            </div>
+                            <button class="download-btn">📥 Download PDF</button>
+                        </div>
+                        <div class="results-grid">
+                            <div class="page-card">
+                                <div class="page-image">🏰</div>
+                                <div class="page-footer">
+                                    <div class="page-number">01</div>
+                                    <button class="regenerate-btn">🔄 Regenerate</button>
+                                </div>
+                            </div>
+                            <div class="page-card">
+                                <div class="page-image">🦄</div>
+                                <div class="page-footer">
+                                    <div class="page-number">02</div>
+                                    <button class="regenerate-btn">🔄 Regenerate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </section>
+
+        <!-- Review Section -->
+        <section class="prototype-section" id="review">
+            <h1 class="section-title">📝 设计评审报告</h1>
+            <p class="section-desc">从顶尖 Web 设计师视角审视的改进建议</p>
+
+            <div class="review-panel">
+                <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px">
+                    <span style="width:40px;height:40px;background:linear-gradient(135deg,var(--orange-400),var(--pink-500));border-radius:10px;display:flex;align-items:center;justify-content:center;color:white">🎨</span>
+                    设计改进建议
+                </h2>
+                <div class="review-grid">
+                    <div class="review-item priority-high">
+                        <h4>视觉层次强化</h4>
+                        <p style="color:var(--slate-600);line-height:1.7">
+                            当前设计已非常出色，但可以进一步强化内容区域和装饰元素的层次对比。
+                            建议增强卡片阴影的层次感，以及背景装饰元素的透明度控制。
+                        </p>
+                    </div>
+                    <div class="review-item priority-high">
+                        <h4>微交互细节优化</h4>
+                        <p style="color:var(--slate-600);line-height:1.7">
+                            按钮悬停动画可以增加弹性曲线效果，而非简单的线性过渡。
+                            输入框聚焦状态可以加入轻微的抖动动画来增强反馈感。
+                        </p>
+                    </div>
+                    <div class="review-item priority-medium">
+                        <h4>响应式断点调整</h4>
+                        <p style="color:var(--slate-600);line-height:1.7">
+                            建议在平板模式采用单列布局，或调整表单与结果区域的比例为 35:65，
+                            以获得更好的内容展示效果。
+                        </p>
+                    </div>
+                    <div class="review-item priority-medium">
+                        <h4>无障碍优化</h4>
+                        <p style="color:var(--slate-600);line-height:1.7">
+                            建议增加焦点指示器的对比度，以及为所有交互元素添加 ARIA 标签。
+                            当前设计的色彩对比度已满足 WCAG AA 标准。
+                        </p>
+                    </div>
+                    <div class="review-item priority-low">
+                        <h4>动画连贯性</h4>
+                        <p style="color:var(--slate-600);line-height:1.7">
+                            页面进入动画可以采用交错式（Staggered Animation），让不同元素在时间线上有层次地出现，增强叙事感。
+                        </p>
+                    </div>
+                    <div class="review-item priority-low">
+                        <h4>字体层次微调</h4>
+                        <p style="color:var(--slate-600);line-height:1.7">
+                            建议微调副标题和正文的字号比例，建立更清晰的信息层级。当前标题与正文字号跳跃略大。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-panel" style="margin-top:24px">
+                <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px">
+                    <span style="width:40px;height:40px;background:linear-gradient(135deg,#22c55e,#4ade80);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white">✅</span>
+                    设计亮点
+                </h2>
+                <div class="review-grid">
+                    <div class="review-item priority-low">
+                        <h4>色彩系统</h4>
+                        <p style="color:var(--slate-600);line-height:1.7">
+                            橙粉紫渐变非常符合儿童产品调性，色彩心理学运用恰当。温暖且有活力，同时保持良好的可读性。
+                        </p>
+                    </div>
+                    <div class="review-item priority-low">
+                        <h4>圆角系统</h4>
+                        <p style="color:var(--slate-600);line-height:1.7">
+                            14px-32px 的多梯度圆角设计创造了友好的视觉形象，符合 Fredoka 字体的圆润特质。
+                        </p>
+                    </div>
+                    <div class="review-item priority-low">
+                        <h4>装饰元素</h4>
+                        <p style="color:var(--slate-600);line-height:1.7">
+                            模糊彩色球体作为背景装饰，既增加了视觉层次，又不会喧宾夺主，设计非常克制和优雅。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Section navigation
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.prototype-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(btn.dataset.section).classList.add('active');
+            });
+        });
+
+        // View controls
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.view-state').forEach(state => {
+                    state.classList.remove('active');
+                });
+                document.getElementById('view-' + btn.dataset.view).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
