@@ -1,4 +1,3 @@
-// File: /app/layout.tsx v1.0.2
 'use client';
 
 import './globals.css';
@@ -7,20 +6,19 @@ import { Fredoka } from 'next/font/google';
 import { TranslationProvider, useTranslation } from './locales/TranslationProvider';
 import { ConfigProvider } from './contexts/ConfigContext';
 import { Language } from './types';
+import { cn } from "@/lib/utils";
 
 const fredoka = Fredoka({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-fredoka',
+  variable: '--font-sans',
 });
-
-// Metadata will be set dynamically in the component
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { t, currentLanguage } = useTranslation();
 
   return (
-    <html lang={currentLanguage} className={`${fredoka.variable}`}>
+    <html lang={currentLanguage} className={cn(fredoka.variable, "font-sans")}>
       <head>
         <title>{t('app_title')}</title>
       </head>
