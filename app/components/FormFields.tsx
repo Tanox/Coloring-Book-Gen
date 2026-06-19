@@ -16,12 +16,12 @@ interface FormSelectFieldProps {
 export const FormSelectField: React.FC<FormSelectFieldProps> = ({ id, icon: Icon, label, value, onChange, options }) => {
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-        <Icon className="w-4 h-4 text-primary" />
+      <label htmlFor={id} className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+        <Icon className="w-3.5 h-3.5 text-muted-foreground" />
         {label}
       </label>
       <Select value={value} onValueChange={(val) => val && onChange(val)}>
-        <SelectTrigger id={id} className="w-full h-12">
+        <SelectTrigger id={id} className="w-full h-10 bg-background">
           <SelectValue placeholder={label} />
         </SelectTrigger>
         <SelectContent>
@@ -48,8 +48,8 @@ interface FormInputFieldProps {
 export const FormInputField: React.FC<FormInputFieldProps> = ({ id, icon: Icon, label, placeholder, value, onChange }) => {
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-        <Icon className="w-4 h-4 text-primary" />
+      <label htmlFor={id} className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+        <Icon className="w-3.5 h-3.5 text-muted-foreground" />
         {label}
       </label>
       <Input
@@ -57,7 +57,7 @@ export const FormInputField: React.FC<FormInputFieldProps> = ({ id, icon: Icon, 
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-12 text-base"
+        className="h-10 bg-background"
         required
       />
     </div>

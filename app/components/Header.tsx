@@ -24,13 +24,13 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-border shadow-sm">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-md">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-semibold text-sm">
               C
             </div>
-            <span className="text-xl font-black text-slate-800 tracking-tight">
+            <span className="text-lg font-medium text-foreground tracking-tight">
               ColorMyWorld
             </span>
           </div>
@@ -38,17 +38,17 @@ const Header: React.FC = () => {
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Button variant="outline" size="sm" className="gap-2">
+                <Button variant="ghost" size="sm" className="gap-2">
                   <Globe className="w-4 h-4" />
                   <span className="text-sm">{mounted ? (languages.find(l => l.code === currentLanguage)?.label || 'Language') : 'English'}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" className="w-48">
                 {languages.map((lang) => (
                   <DropdownMenuItem
                     key={lang.code}
                     onClick={() => handleLanguageChange(lang.code)}
-                    className={`${currentLanguage === lang.code ? 'bg-orange-50 text-orange-600 font-semibold' : ''}`}
+                    className={`${currentLanguage === lang.code ? 'bg-muted font-medium' : ''}`}
                   >
                     <span>{lang.label}</span>
                     {currentLanguage === lang.code && <Check className="w-4 h-4 ml-auto" />}
@@ -57,7 +57,7 @@ const Header: React.FC = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button variant="outline" size="icon" onClick={() => setIsSettingsOpen(true)}>
+            <Button variant="ghost" size="icon" onClick={() => setIsSettingsOpen(true)}>
               <Settings className="w-4 h-4" />
             </Button>
           </div>

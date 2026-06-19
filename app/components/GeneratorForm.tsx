@@ -116,14 +116,14 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
           />
         </div>
 
-        <div className="flex items-center gap-3 p-4 bg-blue-50/50 border border-blue-200 rounded-xl cursor-pointer hover:bg-blue-50 transition-colors" onClick={() => setStoryMode(!storyMode)}>
+        <div className="flex items-center gap-3 p-4 bg-muted/50 border border-border rounded-lg cursor-pointer hover:bg-muted transition-colors" onClick={() => setStoryMode(!storyMode)}>
           <Checkbox
             id="storyMode"
             checked={storyMode}
             onCheckedChange={(e) => setStoryMode(e as boolean)}
             className="cursor-pointer"
           />
-          <label htmlFor="storyMode" className="text-base font-semibold text-blue-900 cursor-pointer select-none flex-1">
+          <label htmlFor="storyMode" className="text-sm font-medium text-foreground cursor-pointer select-none flex-1">
             {t('form_include_story')}
           </label>
         </div>
@@ -136,9 +136,9 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
         )}
 
         {apiKeyValid.valid && (
-          <div className="flex items-center gap-3 p-3 bg-green-50 border border-green-200 rounded-lg">
-            <CheckCircle className="w-4 h-4 text-green-600" />
-            <span className="text-sm text-green-700 font-medium">{t('api_key_configured')}</span>
+          <div className="flex items-center gap-3 p-3 bg-muted/50 border border-border rounded-lg">
+            <CheckCircle className="w-4 h-4 text-primary" />
+            <span className="text-sm text-muted-foreground font-medium">{t('api_key_configured')}</span>
           </div>
         )}
       </div>
@@ -146,17 +146,17 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
       <Button
         type="submit"
         disabled={isLoading}
-        className="w-full h-14 text-base font-bold bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white shadow-lg shadow-orange-200 hover:shadow-xl hover:shadow-orange-300 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+        className="w-full h-12 text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm transition-colors"
         size="lg"
       >
         {isLoading ? (
           <>
-            <Loader2 className="w-5 h-5 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin" />
             <span>{t('generating_book_button')} {generatedPages}/{totalPages}</span>
           </>
         ) : (
           <>
-            <Wand2 className="w-5 h-5" />
+            <Wand2 className="w-4 h-4" data-icon="inline-start" />
             {t('generate_book_button')}
           </>
         )}

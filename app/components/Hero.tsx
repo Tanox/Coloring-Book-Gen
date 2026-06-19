@@ -1,4 +1,4 @@
-// File: /app/components/Hero.tsx v1.1.2
+// File: /app/components/Hero.tsx v1.2.0 - Minimal Premium Design
 'use client';
 
 import React from 'react';
@@ -10,22 +10,21 @@ const Hero: React.FC = () => {
 
   return (
     <header id="hero-section" className="relative overflow-hidden pt-20 pb-16 px-4">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-60">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-yellow-200 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-pink-200 rounded-full blur-[100px] animate-pulse delay-1000" />
-        <div className="absolute top-[20%] right-[10%] w-[20%] h-[20%] bg-blue-200 rounded-full blur-[80px] animate-pulse delay-500" />
+      {/* Minimal ambient glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-30">
+        <div className="absolute top-[10%] left-[20%] w-[30%] h-[30%] bg-primary/20 rounded-full blur-[120px]" />
       </div>
 
       <div className="max-w-4xl mx-auto text-center space-y-8">
-        <div className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg shadow-orange-100 border-2 border-orange-100 text-orange-500 text-base font-bold tracking-wide uppercase transform hover:scale-105 transition-transform duration-300">
-          <Sparkles className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-full text-sm font-medium text-muted-foreground">
+          <Sparkles className="w-4 h-4 text-primary" />
           {t('ai_powered_creativity')}
         </div>
-        <h1 className="text-6xl md:text-8xl font-black tracking-tight text-slate-900 leading-[1.1] drop-shadow-sm">
+        <h1 className="text-5xl md:text-7xl font-semibold tracking-tight text-foreground leading-[1.1]">
           {t('hero_headline_part1')} <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500">{t('hero_headline_part2')}</span>
+          <span className="text-primary">{t('hero_headline_part2')}</span>
         </h1>
-        <p className="text-2xl text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
           {t('hero_description')}
         </p>
       </div>

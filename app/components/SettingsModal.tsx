@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Maximize, Info } from 'lucide-react';
+import { Settings } from 'lucide-react';
 import { useTranslation } from '../locales/TranslationProvider';
 import { useConfig } from '../contexts/ConfigContext';
 import { Language, AiEngine, ArtStyle, ImageResolution, ImageAspectRatio } from '../types';
@@ -27,18 +27,18 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg sm:max-w-md">
-        <DialogHeader className="bg-gradient-to-r from-orange-400 to-pink-500 rounded-xl -mx-4 -mt-4 px-6 py-4 mb-4">
-          <DialogTitle className="text-white text-xl font-bold flex items-center gap-3">
-            <Maximize className="w-6 h-6" />
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2 text-lg font-semibold">
+            <Settings className="w-5 h-5" />
             {t('settings_title')}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-3 py-2">
           <SelectField
-            icon={Maximize}
-            iconColor="text-orange-500"
+            icon={Settings}
+            iconColor="text-muted-foreground"
             label={t('settings_language')}
             value={currentLanguage}
             onChange={(val) => setLanguage(val as Language)}
@@ -46,18 +46,18 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
           />
 
           <SelectField
-            icon={Maximize}
-            iconColor="text-blue-500"
+            icon={Settings}
+            iconColor="text-muted-foreground"
             label={t('settings_ai_engine')}
             value={aiEngine}
             onChange={(val) => setAiEngine(val as AiEngine)}
             options={Object.values(AiEngine).map(e => ({ value: e, label: e.toUpperCase() }))}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <SelectField
-              icon={Maximize}
-              iconColor="text-pink-500"
+              icon={Settings}
+              iconColor="text-muted-foreground"
               label={t('settings_art_style')}
               value={artStyle}
               onChange={(val) => setArtStyle(val as ArtStyle)}
@@ -65,8 +65,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
             />
 
             <SelectField
-              icon={Maximize}
-              iconColor="text-purple-500"
+              icon={Settings}
+              iconColor="text-muted-foreground"
               label={t('settings_resolution')}
               value={resolution}
               onChange={(val) => setResolution(val as ImageResolution)}
@@ -74,10 +74,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <SelectField
-              icon={Maximize}
-              iconColor="text-indigo-500"
+              icon={Settings}
+              iconColor="text-muted-foreground"
               label={t('settings_aspect_ratio')}
               value={aspectRatio}
               onChange={(val) => setAspectRatio(val as ImageAspectRatio)}
@@ -85,24 +85,20 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
             />
 
             <ToggleField
-              icon={Maximize}
-              iconColor="text-green-500"
+              icon={Settings}
+              iconColor="text-muted-foreground"
               label={t('settings_story_mode')}
               checked={storyMode}
               onChange={() => setStoryMode(!storyMode)}
             />
           </div>
 
-          <div className="flex items-center justify-between pt-4 border-t border-border text-muted-foreground text-xs font-bold uppercase tracking-widest">
-            <div className="flex items-center gap-2">
-              <Info className="w-3 h-3" />
-              <span>{t('settings_version')}</span>
-            </div>
-            <span>v1.1.2</span>
+          <div className="pt-3 border-t border-border text-xs text-muted-foreground font-medium uppercase tracking-wider">
+            {t('settings_version')} v1.2.0
           </div>
         </div>
 
-        <DialogFooter className="mt-4">
+        <DialogFooter>
           <DialogClose>
             <Button variant="default">{t('settings_close')}</Button>
           </DialogClose>

@@ -22,7 +22,7 @@ function AppContent({ children }: { children: React.ReactNode }) {
       <head>
         <title>{t('app_title')}</title>
       </head>
-      <body className="font-sans antialiased bg-[#FFF9F0] text-slate-800 selection:bg-yellow-200 selection:text-orange-900">
+      <body className="font-sans antialiased bg-background text-foreground">
         {children}
       </body>
     </html>

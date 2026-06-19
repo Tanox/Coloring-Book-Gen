@@ -15,13 +15,13 @@ interface SelectFieldProps {
 
 export const SelectField: React.FC<SelectFieldProps> = ({ icon: Icon, iconColor, label, value, onChange, options }) => {
   return (
-    <div className="space-y-3 p-4 bg-muted rounded-xl border border-border">
-      <label className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-        <Icon className={`w-4 h-4 ${iconColor}`} />
+    <div className="space-y-2 p-3 bg-muted/50 rounded-lg border border-border">
+      <label className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+        <Icon className={`w-3.5 h-3.5 ${iconColor}`} />
         {label}
       </label>
       <Select value={value} onValueChange={(val) => val && onChange(val)}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full h-9 bg-background text-sm">
           <SelectValue placeholder={label} />
         </SelectTrigger>
         <SelectContent>
@@ -46,9 +46,9 @@ interface ToggleFieldProps {
 
 export const ToggleField: React.FC<ToggleFieldProps> = ({ icon: Icon, iconColor, label, checked, onChange }) => {
   return (
-    <div className="flex items-center justify-between p-4 bg-muted rounded-xl border border-border">
-      <label className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-        <Icon className={`w-4 h-4 ${iconColor}`} />
+    <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg border border-border">
+      <label className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+        <Icon className={`w-3.5 h-3.5 ${iconColor}`} />
         {label}
       </label>
       <Switch checked={checked} onCheckedChange={onChange} />
