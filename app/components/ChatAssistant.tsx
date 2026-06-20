@@ -1,4 +1,4 @@
-// File: /app/components/ChatAssistant.tsx v1.2.0 - Minimal Premium Design
+// File: /app/components/ChatAssistant.tsx v1.2.0
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -106,7 +106,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && onSend()}
+                  onKeyDown={(e) => e.key === 'Enter' && onSend()}
                   placeholder={t('chat_assistant_placeholder')}
                   className="flex-1 p-2.5 bg-background border border-border rounded-lg focus:outline-none focus:border-primary/50 text-sm text-foreground placeholder:text-muted-foreground"
                 />

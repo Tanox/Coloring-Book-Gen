@@ -1,5 +1,16 @@
 {
   "name": "ColorMyWorld v1.2.0",
   "description": "A creative tool to generate personalized children's coloring books using AI, powered by Next.js.",
+  "techStack": "Next.js 15 (App Router), Tailwind CSS v4, TypeScript, Google GenAI SDK",
+  "architecture": {
+    "frontend": "React Server Components + Client Components",
+    "styling": "Tailwind CSS v4 (CSS-first configuration)",
+    "aiIntegration": "@google/genai SDK (Client-side)"
+  },
+  "rules": [
+    "Follow Semantic Versioning",
+    "Use openspec/ for project documentation",
+    "Ensure all files have version headers"
+  ],
   "requestFramePermissions": []
 }

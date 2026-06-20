@@ -13,58 +13,91 @@
 ### 圆角与边框
 - **圆角**：`rounded-lg` (0.5rem) 作为主要圆角
 - **边框**：使用 `border-border` 语义颜色，1px 为主
-- **阴影**：极简阴影 (`shadow-sm`)，避免多彩阴影
+- **阴影**：极简阴影（`shadow-sm`），避免多彩阴影
 
 ## 2. 色彩系统
 
 ### 语义颜色
-- **Background**：`oklch(0.985 0 0)` - 近白色背景
-- **Foreground**：`oklch(0.205 0.015 285)` - 深灰蓝文字
-- **Primary**：`oklch(0.55 0.15 75)` - Warm Amber (单一强调色)
-- **Muted**：`oklch(0.96 0.01 285)` - 次要背景
-- **Border**：`oklch(0.89 0.01 285)` - 边框颜色
+- **Background**：`oklch(0.985 0 0)` — 近白色背景
+- **Foreground**：`oklch(0.205 0.015 285)` — 深灰蓝文字
+- **Primary**：`oklch(0.55 0.15 75)` — Warm Amber (单一强调色)
+- **Muted**：`oklch(0.96 0.01 285)` — 次要背景
+- **Border**：`oklch(0.89 0.01 285)` — 边框颜色
 
 ### 深色模式
-- **Background**：`oklch(0.14 0.02 285)` - 深炭灰
-- **Foreground**：`oklch(0.97 0 0)` - 近白色文字
-- **Primary**：`oklch(0.7 0.15 75)` - 稍亮的琥珀色
+- **Background**：`oklch(0.14 0.02 285)` — 深炭灰
+- **Foreground**：`oklch(0.97 0 0)` — 近白色文字
+- **Primary**：`oklch(0.7 0.15 75)` — 稍亮的琥珀色
 
 ## 3. 字体
-- **全局字体**：`Fredoka` (Google Fonts) - 圆润但克制的字重
+- **全局字体**：`Fredoka` (Google Fonts) — 圆润但克制的字重
 - **字重使用**：Medium (500) 和 Semibold (600) 为主，避免过重
 - **备用字体**：`ui-sans-serif`, `system-ui`
 
 ## 4. 交互准则
 
 ### 按钮状态
-- **Hover**：背景色微变 (`bg-primary/90`)，使用 `shadow-sm`
+- **Hover**：背景色微变（`bg-primary/90`），使用 `shadow-sm`
 - **Active**：轻微缩放，使用 `transition-colors`
 - **Disabled**：`opacity-50`
 
 ### 加载体验
 - 使用极简的加载动画
 - 避免过于跳跃的动画效果
+- Shimmer 动画作为占位
 
 ### 动画原则
-- 入场动画：微妙的上浮 + 淡入 (`opacity: 0 → 1`, `y: 10 → 0`)
-- 过渡时间：200-300ms
-- 使用 `ease-out` 缓动函数
+- **入场动画**：微妙的上浮 + 淡入（`opacity: 0 → 1`, `y: 10 → 0`）
+- **过渡时间**：200-300ms
+- **缓动函数**：`ease-out`
 
 ## 5. 组件设计
 
 ### 卡片
-- 背景：`bg-card` (白色或深色模式灰色)
-- 边框：`border border-border`
-- 圆角：`rounded-xl`
-- 阴影：`shadow-sm`
+- **背景**：`bg-card`（白色或深色模式灰色）
+- **边框**：`border border-border`
+- **圆角**：`rounded-xl`
+- **阴影**：`shadow-sm`
 
 ### 表单输入
-- 高度：`h-10` (40px) 或 `h-9` (36px)
-- 背景：`bg-background`
-- 边框：`border border-border`
-- 聚焦：`focus:border-primary/50`
+- **高度**：`h-10` (40px) 或 `h-9` (36px)
+- **背景**：`bg-background`
+- **边框**：`border border-border`
+- **聚焦**：`focus:border-primary/50`
 
 ### 按钮
-- 主按钮：`bg-primary text-primary-foreground`
-- 次要按钮：`variant="ghost"` 或 `variant="outline"`
-- 圆角：`rounded-lg` 或 `rounded-md`
+- **主按钮**：`bg-primary text-primary-foreground`
+- **次要按钮**：`variant="ghost"` 或 `variant="outline"`
+- **圆角**：`rounded-lg` 或 `rounded-md`
+
+## 6. 页面布局
+
+### 首页布局
+```
+┌──────────────────────────────────────┐
+│  Header (Logo + 语言切换 + 设置) │
+├────────────────────────────────────┤
+│  Hero (标题 + 描述 + 环境光)       │
+├────────────────────────────────────┤
+│  ┌────────────┐  ┌─────────────┐ │
+│  │ Generator  │  │ Gallery     │ │
+│  │ Form       │  │ (生成结果)    │ │
+│  └────────────┘  └─────────────┘ │
+├────────────────────────────────────┤
+│  Footer                         │
+└────────────────────────────────────┘
+  右下角浮动：Chat Assistant        │
+└────────────────────────────────────┘
+```
+
+## 7. 响应式断点
+- **移动**：`< 768px` — 单列堆叠布局
+- **平板/桌面**：`>= 768px` — 双列并排布局
+- **桌面**：`>= 1024px` — 完整三列优化
+
+## 8. 可访问性 (A11y)
+- **语义化 HTML**：使用 header/main/footer 等语义标签
+- **ARIA 标签**：为交互组件提供适当的 aria-label
+- **键盘导航**：所有交互元素可通过键盘访问
+- **焦点管理**：对话框打开时焦点置于对话框内
+- **色彩对比度**：符合 WCAG AA 标准

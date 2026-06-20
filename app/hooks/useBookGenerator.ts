@@ -1,8 +1,8 @@
-// File: /app/hooks/useBookGenerator.ts v1.1.2
+// File: /app/hooks/useBookGenerator.ts v1.2.0
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { generateStories, generateImage } from '../services/ai/gemini';
-import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine, Language } from '../types';
+import { ColoringBook, ColoringBookPage, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine, Language } from '../types';
 
 const NUMBER_OF_PAGES = 5;
 const CONCURRENT_REQUESTS = 2;
@@ -62,66 +62,44 @@ export const useBookGenerator = (lang: Language) => {
 
       const generatePageImage = async (pageConfig: { index: number; pagePrompt: string; story?: string }) => {
         const imageResponse = await generateImage(pageConfig.pagePrompt, config.resolution, config.aspectRatio, config.artStyle);
-        
+
         if (imageResponse.success && imageResponse.data) {
           return {
-            index: pageConfig.index,
-            page: {
-              pageNumber: pageConfig.index + 1,
-              imageUrl: imageResponse.data.imageUrl,
-              story: pageConfig.story,
-              prompt: pageConfig.pagePrompt,
-            },
+            pageNumber: pageConfig.index + 1,
+            imageUrl: imageResponse.data.imageUrl,
+            story: pageConfig.story,
+            prompt: pageConfig.pagePrompt,
           };
-        } else {
-          throw new Error(`Failed to generate image for page ${pageConfig.index + 1}: ${imageResponse.error}`);
+        }
+
+        throw new Error(`Failed to generate image for page ${pageConfig.index + 1}: ${imageResponse.error}`);
+      };
+
+      let completedCount = 0;
+      const taskQueue = [...pageConfigs];
+      const results: ColoringBookPage[] = Array(NUMBER_OF_PAGES);
+
+      const worker = async (): Promise<void> => {
+        while (taskQueue.length > 0) {
+          const task = taskQueue.shift()!;
+          try {
+            const page = await generatePageImage(task);
+            results[task.index] = page;
+            completedCount++;
+            setGeneratedPages(completedCount);
+            newBook.pages = results.filter(Boolean);
+            setBook({ ...newBook });
+          } catch (err) {
+            throw err;
+          }
         }
       };
 
-      const generateWithConcurrency = async (tasks: typeof pageConfigs) => {
-        const results: { index: number; page: any }[] = [];
-        let running = 0;
-        let taskIndex = 0;
-        const taskQueue = [...tasks];
+      const poolSize = Math.min(CONCURRENT_REQUESTS, pageConfigs.length);
+      const workers = Array.from({ length: poolSize }, () => worker());
+      await Promise.all(workers);
 
-        return new Promise<void>((resolve, reject) => {
-          const runNext = async () => {
-            if (taskIndex >= taskQueue.length && running === 0) {
-              results.sort((a, b) => a.index - b.index);
-              newBook.pages = results.map(r => r.page);
-              setBook({ ...newBook });
-              resolve();
-              return;
-            }
-
-            while (running < CONCURRENT_REQUESTS && taskIndex < taskQueue.length) {
-              const currentTask = taskQueue[taskIndex];
-              const currentTaskIndex = taskIndex;
-              running++;
-              taskIndex++;
-
-              try {
-                const result = await generatePageImage(currentTask);
-                results.push(result);
-                setGeneratedPages(results.length);
-                
-                newBook.pages[currentTaskIndex] = result.page;
-                setBook({ ...newBook });
-              } catch (err) {
-                reject(err);
-                return;
-              } finally {
-                running--;
-                runNext();
-              }
-            }
-          };
-
-          runNext();
-        });
-      };
-
-      await generateWithConcurrency(pageConfigs);
+      newBook.pages = results;
 
     } catch (err: any) {
       setError(err.message);

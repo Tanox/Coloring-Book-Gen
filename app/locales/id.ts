@@ -1,6 +1,6 @@
-// File: /app/locales/id.ts v1.1.2
+// File: /app/locales/id.ts v1.2.0
 export const id = {
-  app_title: "ColorMyWorld v1.1.2",
+  app_title: "ColorMyWorld v1.2.0",
   ai_powered_creativity: "Kreativitas Bertenaga AI",
   hero_headline_part1: "Buat Sendiri",
   hero_headline_part2: "Buku Mewarnai",

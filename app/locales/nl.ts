@@ -1,6 +1,6 @@
-// File: /app/locales/nl.ts v1.1.2
+// File: /app/locales/nl.ts v1.2.0
 export const nl = {
-  app_title: "ColorMyWorld v1.1.2",
+  app_title: "ColorMyWorld v1.2.0",
   ai_powered_creativity: "AI-aangedreven creativiteit",
   hero_headline_part1: "Maak je eigen",
   hero_headline_part2: "Kleurboek",
