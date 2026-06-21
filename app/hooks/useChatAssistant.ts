@@ -26,7 +26,7 @@ export const useChatAssistant = (language: Language, initialMessage: string) => 
 
       const response = await chatWithAI(userMessage, history, language);
       if (response.success && response.data) {
-        setMessages(prev => [...prev, { role: 'assistant', content: response.data.response }]);
+        setMessages(prev => [...prev, { role: 'assistant', content: response.data?.response ?? errorMessage }]);
       } else {
         setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }]);
       }

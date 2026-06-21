@@ -1,7 +1,21 @@
 // File: /app/services/ai/gemini.ts v1.2.0
 import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
-import { AiEngine, AiServiceResponse, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../../types';
+import { AiEngine, AiServiceResponse, ImageResolution, ImageAspectRatio, ArtStyle, Language, AiImageResponseData, AiChatResponseData } from '../../types';
 import { aiEngines, getApiKey } from './config';
+
+const MAX_INPUT_LENGTH = 200;
+
+const sanitizeInput = (input: string): string => {
+  if (!input) return '';
+  let cleaned = input.trim();
+  cleaned = cleaned.replace(/<[^>]*>/g, '');
+  cleaned = cleaned.replace(/[{}]/g, '');
+  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+  if (cleaned.length > MAX_INPUT_LENGTH) {
+    cleaned = cleaned.substring(0, MAX_INPUT_LENGTH).trim();
+  }
+  return cleaned;
+};
 
 const getGeminiInstance = (apiKey?: string) => {
   const key = apiKey || getApiKey(AiEngine.GEMINI);
@@ -17,10 +31,12 @@ export async function generateStories(
   language: Language,
   numPages: number,
   apiKey?: string
-): Promise<AiServiceResponse> {
+): Promise<AiServiceResponse<{ story: string; imagePrompt: string }[]>> {
   try {
     const ai = getGeminiInstance(apiKey);
-    const prompt = `Generate a short, simple, and age-appropriate story for a coloring book. The story should be about '${theme}' and feature a child named '${name}'. The story should be divided into ${numPages} short scenes. Make it encouraging and creative, and encourage imaginative play as the child colors the scenes. The story should be in ${language}.`;
+    const safeTheme = sanitizeInput(theme);
+    const safeName = sanitizeInput(name);
+    const prompt = `Generate a short, simple, and age-appropriate story for a coloring book. The story should be about '${safeTheme}' and feature a child named '${safeName}'. The story should be divided into ${numPages} short scenes. Make it encouraging and creative, and encourage imaginative play as the child colors the scenes. The story should be in ${language}.`;
 
     const response: GenerateContentResponse = await ai.models.generateContent({
       model: aiEngines[AiEngine.GEMINI].model,
@@ -42,14 +58,14 @@ export async function generateStories(
 
     const jsonStr = response.text?.trim();
     if (!jsonStr) {
-      throw new Error('AI returned an empty story response.');
+      return { success: false, message: 'AI returned an empty story response.' };
     }
-    const data = JSON.parse(jsonStr);
+    const data = JSON.parse(jsonStr) as { story: string; imagePrompt: string }[];
 
     return { success: true, message: 'Stories generated successfully', data };
-  } catch (error: any) {
-    console.error('Error generating stories:', error);
-    return { success: false, message: 'Failed to generate stories', error: error.message };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate stories';
+    return { success: false, message: 'Failed to generate stories', error: message };
   }
 }
 
@@ -59,26 +75,27 @@ export async function generateImage(
   aspectRatio: ImageAspectRatio,
   artStyle: ArtStyle,
   apiKey?: string
-): Promise<AiServiceResponse> {
+): Promise<AiServiceResponse<AiImageResponseData>> {
   try {
     const ai = getGeminiInstance(apiKey);
+    const safePrompt = sanitizeInput(prompt);
 
-    let finalPrompt = prompt;
+    let finalPrompt = safePrompt;
     switch (artStyle) {
       case ArtStyle.SIMPLE:
-        finalPrompt = `Simple, bold outlines, no intricate details, coloring book page for toddlers: ${prompt}`;
+        finalPrompt = `Simple, bold outlines, no intricate details, coloring book page for toddlers: ${safePrompt}`;
         break;
       case ArtStyle.STANDARD:
-        finalPrompt = `Standard coloring book page, clear outlines, moderate details: ${prompt}`;
+        finalPrompt = `Standard coloring book page, clear outlines, moderate details: ${safePrompt}`;
         break;
       case ArtStyle.DETAILED:
-        finalPrompt = `Intricate, detailed line art, fine lines, complex coloring book page for older kids: ${prompt}`;
+        finalPrompt = `Intricate, detailed line art, fine lines, complex coloring book page for older kids: ${safePrompt}`;
         break;
       case ArtStyle.CARTOON:
-        finalPrompt = `Cute cartoon character style, bold outlines, fun and playful coloring book page: ${prompt}`;
+        finalPrompt = `Cute cartoon character style, bold outlines, fun and playful coloring book page: ${safePrompt}`;
         break;
       case ArtStyle.REALISTIC:
-        finalPrompt = `Realistic sketch style, fine lines, detailed shading for coloring, coloring book page: ${prompt}`;
+        finalPrompt = `Realistic sketch style, fine lines, detailed shading for coloring, coloring book page: ${safePrompt}`;
         break;
     }
 
@@ -106,9 +123,9 @@ export async function generateImage(
       }
     }
     return { success: false, message: 'No image data found in response' };
-  } catch (error: any) {
-    console.error('Error generating image:', error);
-    return { success: false, message: 'Failed to generate image', error: error.message };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate image';
+    return { success: false, message: 'Failed to generate image', error: message };
   }
 }
 
@@ -117,9 +134,10 @@ export async function chatWithAI(
   history: { role: string; parts: { text: string }[] }[],
   language: Language,
   apiKey?: string
-): Promise<AiServiceResponse> {
+): Promise<AiServiceResponse<AiChatResponseData>> {
   try {
     const ai = getGeminiInstance(apiKey);
+    const safeMessage = sanitizeInput(message);
     const chat = ai.chats.create({
       model: aiEngines[AiEngine.GEMINI].model,
       history: history,
@@ -128,10 +146,10 @@ export async function chatWithAI(
       },
     });
 
-    const response = await chat.sendMessage({ message: message });
-    return { success: true, message: 'Chat response received', data: { response: response.text } };
-  } catch (error: any) {
-    console.error('Error chatting with AI:', error);
-    return { success: false, message: 'Failed to get chat response', error: error.message };
+    const response = await chat.sendMessage({ message: safeMessage });
+    return { success: true, message: 'Chat response received', data: { response: response.text ?? '' } };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to get chat response';
+    return { success: false, message: 'Failed to get chat response', error: message };
   }
 }

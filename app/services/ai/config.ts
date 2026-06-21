@@ -70,22 +70,9 @@ export const aiEngines: Record<AiEngine, AiEngineConfig> = {
 };
 
 export const getApiKey = (engine: AiEngine): string | undefined => {
-  switch (engine) {
-    case AiEngine.GEMINI:
-      return process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-    case AiEngine.OPENAI:
-      return process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-    case AiEngine.DEEPSEEK:
-      return process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY;
-    case AiEngine.CLAUDE:
-      return process.env.NEXT_PUBLIC_CLAUDE_API_KEY;
-    case AiEngine.DOUBAO:
-      return process.env.NEXT_PUBLIC_DOUBAO_API_KEY;
-    case AiEngine.QIANWEN:
-      return process.env.NEXT_PUBLIC_QIANWEN_API_KEY;
-    default:
-      return undefined;
-  }
+  const config = aiEngines[engine];
+  if (!config) return undefined;
+  return process.env[config.apiKeyEnvVar];
 };
 
 export const validateApiKey = (engine: AiEngine): { valid: boolean; message: string } => {
