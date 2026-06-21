@@ -7,10 +7,10 @@ import { useConfig } from '../contexts/ConfigContext';
 import { FormInputField, FormSelectField } from './FormFields';
 import { validateApiKey, getEngineCapabilities } from '../services/ai/config';
 import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../types';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Progress } from '@/components/ui/progress';
+import { Button } from '@/app/components/ui/button';
+import { Checkbox } from '@/app/components/ui/checkbox';
+import { Alert, AlertDescription } from '@/app/components/ui/alert';
+import { Progress } from '@/app/components/ui/progress';
 
 interface GeneratorFormProps {
   onGenerate: (config: { theme: string; name: string; resolution: ImageResolution; aspectRatio: ImageAspectRatio; artStyle: ArtStyle; storyMode: boolean; aiEngine: AiEngine }) => void;

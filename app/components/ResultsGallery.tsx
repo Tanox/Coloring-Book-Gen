@@ -7,8 +7,8 @@ import { exportToPdf } from '../services/pdfService';
 import { useTranslation } from '../locales/TranslationProvider';
 import PageSkeleton from './PageSkeleton';
 import LazyImage from './LazyImage';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/app/components/ui/card';
+import { Button } from '@/app/components/ui/button';
 
 interface ResultsGalleryProps {
   book: ColoringBook | null;

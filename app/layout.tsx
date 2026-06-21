@@ -6,7 +6,7 @@ import { Fredoka } from 'next/font/google';
 import { TranslationProvider, useTranslation } from './locales/TranslationProvider';
 import { ConfigProvider } from './contexts/ConfigContext';
 import { Language } from './types';
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 
 const fredoka = Fredoka({
   subsets: ['latin'],

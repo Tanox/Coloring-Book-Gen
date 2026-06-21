@@ -1,8 +1,8 @@
 'use client';
 
 import { LucideIcon } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/ui/select';
+import { Switch } from '@/app/components/ui/switch';
 
 interface SelectFieldProps {
   icon: LucideIcon;

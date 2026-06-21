@@ -7,8 +7,8 @@ import { useConfig } from '../contexts/ConfigContext';
 import { Language, AiEngine, ArtStyle, ImageResolution, ImageAspectRatio } from '../types';
 import { languages } from '../constants/languages';
 import { SelectField, ToggleField } from './SettingsFields';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/app/components/ui/dialog';
+import { Button } from '@/app/components/ui/button';
 
 interface SettingsModalProps {
   isOpen: boolean;

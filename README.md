@@ -90,8 +90,12 @@
 │   │   ├── SettingsModal.tsx # Settings dialog
 │   │   ├── SettingsFields.tsx # Settings field components
 │   │   ├── Footer.tsx       # Footer
-│   │   └── ChatAssistant.tsx # AI chat assistant
-│   ├── contexts/            # React context providers
+│   │   ├── ChatAssistant.tsx # AI chat assistant
+│   │   └── ui/            # shadcn/ui base components
+│   │       └── button.tsx, card.tsx, dialog.tsx, ...
+│   ├── lib/                # Utility functions
+│   │   └── utils.ts       # cn merge utility
+│   ├── contexts/           # React context providers
 │   │   └── ConfigContext.tsx # Global configuration
 │   ├── hooks/              # Custom hooks
 │   │   ├── useBookGenerator.ts # Book generation logic
@@ -113,10 +117,6 @@
 │   ├── globals.css         # Global styles & design system
 │   ├── layout.tsx          # Root layout
 │   └── page.tsx            # Home page
-├── components/ui/          # shadcn/ui base components
-│   ├── button.tsx, card.tsx, dialog.tsx, ...
-├── lib/
-│   └── utils.ts            # Utility functions
 ├── openspec/               # OpenSpec specification documents
 │   ├── project.md, 01_project.md, 02_features.md, ...
 ├── components.json         # shadcn configuration
@@ -212,7 +212,11 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 │   │   ├── SettingsModal.tsx # 设置对话框
 │   │   ├── SettingsFields.tsx # 设置字段组件
 │   │   ├── Footer.tsx       # 页脚
-│   │   └── ChatAssistant.tsx # AI 聊天助手
+│   │   ├── ChatAssistant.tsx # AI 聊天助手
+│   │   └── ui/            # shadcn/ui 基础组件库
+│   │       └── button.tsx, card.tsx, dialog.tsx, ...
+│   ├── lib/                # 工具函数
+│   │   └── utils.ts       # cn 合并等工具函数
 │   ├── contexts/            # React 上下文
 │   │   └── ConfigContext.tsx # 全局配置
 │   ├── hooks/              # 自定义 Hook
@@ -235,10 +239,6 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 │   ├── globals.css         # 全局样式与设计系统
 │   ├── layout.tsx          # 根布局
 │   └── page.tsx            # 首页
-├── components/ui/          # shadcn/ui 基础组件库
-│   ├── button.tsx, card.tsx, dialog.tsx, ...
-├── lib/
-│   └── utils.ts            # 工具函数
 ├── openspec/               # OpenSpec 规范文档
 │   ├── project.md, 01_project.md, 02_features.md, ...
 ├── components.json         # shadcn 配置

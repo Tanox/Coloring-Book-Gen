@@ -42,13 +42,13 @@
 │   │   └── pdfService.ts  # PDF 导出服务
 │   ├── constants/
 │   │   └── languages.ts    # 语言列表常量
-│   └── types/
-│       └── index.ts       # 全局类型定义
-├── components/ui/                   # shadcn/ui 基础组件库
-│   ├── button.tsx, card.tsx, dialog.tsx, ...
-├── lib/
-│   └── utils.ts            # 工具函数（cn 合并）
-├── openspec/                  # 规范文档
+│   ├── types/
+│   │   └── index.ts       # 全局类型定义
+│   ├── lib/               # 工具函数
+│   │   └── utils.ts       # cn 合并等工具函数
+│   └── components/ui/    # shadcn/ui 基础组件库
+│       ├── button.tsx, card.tsx, dialog.tsx, ...
+├── openspec/                # 规范文档
 │   ├── 01_project.md, 02_features.md, ...
 ├── components.json            # shadcn 配置
 └── package.json
