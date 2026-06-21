@@ -1,4 +1,4 @@
-// File: /app/components/Footer.tsx v1.1.2
+// File: /app/components/Footer.tsx v1.2.0 - Minimal Premium Design
 'use client';
 
 import React from 'react';
@@ -8,9 +8,9 @@ const Footer: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="border-t border-gray-100 py-12 bg-white">
+    <footer className="border-t border-border py-8 bg-background">
       <div className="max-w-6xl mx-auto px-4 text-center">
-        <p className="text-slate-400 text-sm font-medium">
+        <p className="text-sm text-muted-foreground">
           {t('footer_text')}
         </p>
       </div>

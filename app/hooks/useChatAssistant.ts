@@ -1,4 +1,4 @@
-// File: /app/hooks/useChatAssistant.ts v1.1.2
+// File: /app/hooks/useChatAssistant.ts v1.2.0
 import { useState } from 'react';
 import { chatWithAI } from '../services/ai/gemini';
 import { Language } from '../types';

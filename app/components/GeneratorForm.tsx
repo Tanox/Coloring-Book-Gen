@@ -1,13 +1,16 @@
-// File: /components/GeneratorForm.tsx v1.1.2
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../types';
-import { Wand2, User, Type, Layout, Palette as PaletteIcon, AlertCircle, CheckCircle } from 'lucide-react';
+import { Wand2, User, Type, Layout, Palette as PaletteIcon, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
 import { useTranslation } from '../locales/TranslationProvider';
 import { useConfig } from '../contexts/ConfigContext';
 import { FormInputField, FormSelectField } from './FormFields';
 import { validateApiKey, getEngineCapabilities } from '../services/ai/config';
+import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../types';
+import { Button } from '@/app/components/ui/button';
+import { Checkbox } from '@/app/components/ui/checkbox';
+import { Alert, AlertDescription } from '@/app/components/ui/alert';
+import { Progress } from '@/app/components/ui/progress';
 
 interface GeneratorFormProps {
   onGenerate: (config: { theme: string; name: string; resolution: ImageResolution; aspectRatio: ImageAspectRatio; artStyle: ArtStyle; storyMode: boolean; aiEngine: AiEngine }) => void;
@@ -42,7 +45,6 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
     }
   }, [aiEngine]);
 
-  // Sync with global config when it changes (e.g. from settings modal)
   useEffect(() => {
     setResolution(config.resolution);
     setAspectRatio(config.aspectRatio);
@@ -67,9 +69,11 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
     onGenerate({ theme, name, resolution, aspectRatio, artStyle, storyMode: shouldIncludeStory, aiEngine });
   };
 
+  const progress = totalPages > 0 ? (generatedPages / totalPages) * 100 : 0;
+
   return (
-    <form id="generator-form" onSubmit={handleSubmit} className="space-y-8">
-      <div className="space-y-6">
+    <form id="generator-form" onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-4">
         <FormInputField
           id="theme"
           icon={Type}
@@ -88,7 +92,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
           onChange={setName}
         />
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-4">
           <FormSelectField
             id="artStyle"
             icon={PaletteIcon}
@@ -112,55 +116,57 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
           />
         </div>
 
-        <div className="flex items-center gap-4 p-4 bg-blue-50/50 border-2 border-blue-100 rounded-2xl cursor-pointer hover:bg-blue-50 transition-colors" onClick={() => setStoryMode(!storyMode)}>
-          <input
-            type="checkbox"
+        <div className="flex items-center gap-3 p-4 bg-muted/50 border border-border rounded-lg cursor-pointer hover:bg-muted transition-colors" onClick={() => setStoryMode(!storyMode)}>
+          <Checkbox
             id="storyMode"
             checked={storyMode}
-            onChange={(e) => setStoryMode(e.target.checked)}
-            className="w-6 h-6 rounded-xl text-blue-500 focus:ring-blue-400 border-blue-200 cursor-pointer"
+            onCheckedChange={(e) => setStoryMode(e as boolean)}
+            className="cursor-pointer"
           />
-          <label htmlFor="storyMode" className="text-base font-bold text-blue-900 cursor-pointer select-none flex-1">
+          <label htmlFor="storyMode" className="text-sm font-medium text-foreground cursor-pointer select-none flex-1">
             {t('form_include_story')}
           </label>
         </div>
 
         {!apiKeyValid.valid && (
-          <div className="flex items-start gap-3 p-4 bg-red-50 border-2 border-red-100 rounded-2xl">
-            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-            <p className="text-sm text-red-700 font-medium">{apiKeyValid.message}</p>
-          </div>
+          <Alert variant="destructive" className="flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+            <AlertDescription className="text-destructive">{apiKeyValid.message}</AlertDescription>
+          </Alert>
         )}
 
         {apiKeyValid.valid && (
-          <div className="flex items-center gap-3 p-3 bg-green-50 border border-green-100 rounded-xl">
-            <CheckCircle className="w-4 h-4 text-green-500" />
-            <span className="text-xs text-green-700 font-medium">{t('api_key_configured')}</span>
+          <div className="flex items-center gap-3 p-3 bg-muted/50 border border-border rounded-lg">
+            <CheckCircle className="w-4 h-4 text-primary" />
+            <span className="text-sm text-muted-foreground font-medium">{t('api_key_configured')}</span>
           </div>
         )}
       </div>
 
-      <button
+      <Button
         type="submit"
         disabled={isLoading}
-        className="w-full py-5 px-6 bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white rounded-2xl font-black text-xl shadow-xl shadow-orange-200 hover:shadow-2xl hover:shadow-orange-300 transform hover:-translate-y-1 active:translate-y-0 active:scale-95 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3 relative overflow-hidden"
+        className="w-full h-12 text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm transition-colors"
+        size="lg"
       >
         {isLoading ? (
           <>
-            <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin" />
             <span>{t('generating_book_button')} {generatedPages}/{totalPages}</span>
-            <div className="absolute bottom-0 left-0 h-1 bg-white/30 transition-all duration-300" style={{ width: `${(generatedPages / totalPages) * 100}%` }} />
           </>
         ) : (
           <>
-            <Wand2 className="w-7 h-7" />
+            <Wand2 className="w-4 h-4" data-icon="inline-start" />
             {t('generate_book_button')}
           </>
         )}
-      </button>
+      </Button>
+
+      {isLoading && (
+        <Progress value={progress} className="h-1" />
+      )}
     </form>
   );
 };
 
 export default GeneratorForm;
-

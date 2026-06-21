@@ -1,43 +1,37 @@
-// File: /app/components/FormFields.tsx v1.1.2
-import React from 'react';
+'use client';
+
 import { LucideIcon } from 'lucide-react';
+import { Input } from '@/app/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/ui/select';
 
 interface FormSelectFieldProps {
   id: string;
   icon: LucideIcon;
   label: string;
   value: string;
-  onChange: (value: any) => void;
+  onChange: (value: string) => void;
   options: { value: string; label: string }[];
 }
 
 export const FormSelectField: React.FC<FormSelectFieldProps> = ({ id, icon: Icon, label, value, onChange, options }) => {
-  const inputClasses = "w-full px-5 py-4 bg-orange-50/50 border-2 border-orange-100 rounded-2xl focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-100 transition-all text-lg font-medium placeholder:text-orange-200/70 text-slate-700";
-  const labelClasses = "flex items-center gap-2 text-sm font-bold text-slate-600 mb-2 uppercase tracking-wide";
-
   return (
-    <div>
-      <label htmlFor={id} className={labelClasses}>
-        <Icon className="w-5 h-5 text-orange-400" />
+    <div className="space-y-2">
+      <label htmlFor={id} className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+        <Icon className="w-3.5 h-3.5 text-muted-foreground" />
         {label}
       </label>
-      <div className="relative">
-        <select
-          id={id}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={`${inputClasses} appearance-none cursor-pointer`}
-        >
+      <Select value={value} onValueChange={(val) => val && onChange(val)}>
+        <SelectTrigger id={id} className="w-full h-10 bg-background">
+          <SelectValue placeholder={label} />
+        </SelectTrigger>
+        <SelectContent>
           {options.map((opt) => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
           ))}
-        </select>
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-orange-400">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </div>
-      </div>
+        </SelectContent>
+      </Select>
     </div>
   );
 };
@@ -52,23 +46,19 @@ interface FormInputFieldProps {
 }
 
 export const FormInputField: React.FC<FormInputFieldProps> = ({ id, icon: Icon, label, placeholder, value, onChange }) => {
-  const inputClasses = "w-full px-5 py-4 bg-orange-50/50 border-2 border-orange-100 rounded-2xl focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-100 transition-all text-lg font-medium placeholder:text-orange-200/70 text-slate-700";
-  const labelClasses = "flex items-center gap-2 text-sm font-bold text-slate-600 mb-2 uppercase tracking-wide";
-
   return (
-    <div>
-      <label htmlFor={id} className={labelClasses}>
-        <Icon className="w-5 h-5 text-orange-400" />
+    <div className="space-y-2">
+      <label htmlFor={id} className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+        <Icon className="w-3.5 h-3.5 text-muted-foreground" />
         {label}
       </label>
-      <input
-        type="text"
+      <Input
         id={id}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        className="h-10 bg-background"
         required
-        className={inputClasses}
       />
     </div>
   );

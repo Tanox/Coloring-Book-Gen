@@ -1,167 +1,90 @@
 # 更新日志 (Changelog)
 
+## v1.2.0
+
+### 设计升级（Design System Overhaul）
+- **极简高端设计风格**：全面升级为极简高端设计风格，符合国际顶尖设计师水准
+- **单一强调色**：采用 Warm Amber (oklch(0.55 0.15 75)) 作为唯一强调色
+- **色彩系统优化**：引入完整语义化 CSS 变量（--background, --foreground, --primary, --muted, --border 等）
+- **深色模式**：增加完整的深色模式色彩变量支持
+- **字体优化**：Fredoka 字体保持圆润但克制的字重
+
+### 组件库标准化（Component Library Standardization）
+- **shadcn/ui 基础组件**：标准化使用 button, card, dialog, dropdown-menu, select, checkbox, alert, progress, slider, switch, toggle 等组件
+- **可复用业务组件**：
+  - 将 `GeneratorForm` 中的表单字段抽离为 `FormFields.tsx`
+  - 将 `SettingsModal` 中的设置字段抽离为 `SettingsFields.tsx`
+- **UI 一致性**：所有按钮、卡片、输入框统一使用极简设计风格
+
+### 架构优化（Architecture Optimizations）
+- **服务端组件优先**：App Router 架构充分利用 RSC
+- **状态分离**：使用自定义 Hook（useBookGenerator, useChatAssistant）将业务逻辑与 UI 分离
+- **懒加载**：LazyImage 组件通过 Intersection Observer 实现图像懒加载
+
+### 文档同步（Documentation Sync）
+- **OpenSpec 全文档**：同步更新至 v1.2.0，详细描述设计系统、功能、架构、AI 引擎规范、UI/UX 规范
+- **README**：中英文双语言档，与当前功能完全对齐
+- **Changelog**：新增本版本变更条目
+
+### 类型与国际化完善
+- **完整类型覆盖**：app/types/index.ts 统一维护全局类型
+- **21 种语言**：全量翻译文件完整（en, zh-CN/zh-TW, es, de, fr, it, ja, ko, ru, cs, hi, id, nl, pl, sv, th, tr, vi, pt-BR, ar）
+- **版本头统一**：所有文件头部版本号统一升级至 v1.2.0
+
+### 代码质量（Code Quality）
+- **ESLint**：完整配置，零错误
+- **TypeScript 严格模式**：无 any 类型，所有接口明确声明
+- **无 console.log / debugger** 语句残留
+- **语义化 ID**：为所有关键容器和交互元素添加 id 属性
+
+---
+
 ## v1.1.1
 ### 优化与重构
 - **代码拆分 (Code Splitting)**：对过长的代码文件进行了重构，以降低 token 消耗并提高代码可维护性。
-  - 将 `app/components/ChatAssistant.tsx` 中的状态管理和 API 调用逻辑提取到新的自定义 Hook `app/hooks/useChatAssistant.ts` 中。
-  - 将 `app/components/SettingsModal.tsx` 中的表单字段提取到新的可复用组件 `app/components/SettingsFields.tsx` 中。
-  - 将 `app/components/GeneratorForm.tsx` 中的表单字段提取到新的可复用组件 `app/components/FormFields.tsx` 中。
+  - 将 `app/components/ChatAssistant.tsx` 中的状态管理和 API 调用逻辑提取到新的自定义 Hook `app/hooks/useChatAssistant.ts` 中
+  - 将 `app/components/SettingsModal.tsx` 中的表单字段提取到新的可复用组件 `app/components/SettingsFields.tsx` 中
+  - 将 `app/components/GeneratorForm.tsx` 中的表单字段提取到新的可复用组件 `app/components/FormFields.tsx` 中
 
 ## v1.1.0
 ### 功能增强 (Feature)
-- **设置中心 (Settings Center)**: 完善了设置选项，现在用户可以自定义默认的 AI 引擎、艺术风格、分辨率、纵横比以及故事模式开关。
-- **全局配置管理 (Global Config)**: 引入了 `ConfigContext`，实现设置选项的全局同步与持久化存储（LocalStorage）。
-- **表单联动**: 生成表单现在会自动同步设置中的默认选项，提升了用户体验。
-- **国际化支持**: 为设置界面添加了中英文翻译，并同步更新了所有语言文件的版本号。
-- **水合修复**: 解决了浏览器语言自动检测导致的水合（Hydration）错误。
-- **代码重构**: 进一步拆分了长文件，优化了项目结构。
-- **文档同步**: 同步更新了 `openspec` 项目文档。
+- **设置中心 (Settings Center)**：完善了设置选项，现在用户可以自定义默认的 AI 引擎、艺术风格、分辨率、纵横比以及故事模式开关
+- **全局配置管理 (Global Config)**：引入了 `ConfigContext`，实现设置选项的全局同步与持久化存储（LocalStorage）
+- **表单联动**：生成表单现在会自动同步设置中的默认选项，提升了用户体验
+- **国际化支持**：为设置界面添加了中英文翻译，并同步更新了所有语言文件的版本号
+- **水合修复**：解决了浏览器语言自动检测导致的水合（Hydration）错误
+- **代码重构**：进一步拆分了长文件，优化了项目结构
+- **文档同步**：同步更新了 `openspec` 项目文档
 
 ## v1.0.5
 ### 修复与优化
-- **UI 修复 (Fix)**: 恢复了丢失的顶部导航栏 (`Header`)，现在包含应用 Logo 和语言切换器。
-- **功能增强 (Feature)**: 新增了支持 21 种语言的下拉切换菜单，方便用户在不同语言环境间切换。
-- **代码结构**: 将 `Header` 组件独立封装至 `app/components/Header.tsx`，并在主页中引入。
+- **UI 修复 (Fix)**：恢复了丢失的顶部导航栏 (`Header`)，现在包含应用 Logo 和语言切换器
+- **功能增强 (Feature)**：新增了支持 21 种语言的下拉切换菜单，方便用户在不同语言环境间切换
+- **代码结构**：将 `Header` 组件独立封装至 `app/components/Header.tsx`，并在主页中引入
 
 ## v1.0.3
 ### 重构与修复
-- **性能优化 (Performance)**: 将故事生成逻辑从逐页生成 (`generateStory`) 重构为批量生成 (`generateStories`)，显著减少了 API 调用次数并提升了故事的一致性。
-- **目录结构清理 (Cleanup)**: 移除了根目录下冗余的 `components` 和 `services` 目录，统一将代码归档至 `app/components` 和 `app/services`，符合 Next.js App Router 最佳实践。
-- **类型修复 (Fix)**: 修正了 `app/services/aiService.ts` 及其他文件中的类型定义导入路径错误。
-- **国际化 (i18n)**: 修复了故事生成功能中语言参数硬编码为英文的问题，现在能够正确使用当前选定的语言生成故事。
+- **性能优化 (Performance)**：将故事生成逻辑从逐页生成 (`generateStory`) 重构为批量生成 (`generateStories`)，显著减少了 API 调用次数并提升了故事的一致性
+- **目录结构清理 (Cleanup)**：移除了根目录下冗余的 `components` 和 `services` 目录，统一将代码归档至 `app/components` 和 `app/services`，符合 Next.js App Router 最佳实践
+- **类型修复 (Fix)**：修正了 `app/services/aiService.ts` 及其他文件中的类型定义导入路径错误
+- **国际化 (i18n)**：修复了故事生成功能中语言参数硬编码为英文的问题，现在能够正确使用当前选定的语言生成故事
 
 ## v1.0.2
 ### 修复与优化
-- **UI/UX 优化**: 全面调整了应用风格，使其更适合儿童。引入了 `Fredoka` 字体，使用了更鲜艳的糖果色系，增大了圆角，并添加了有趣的交互动画。
-- **国际化 (i18n)**: 修复了 `app/page.tsx`、`components/GeneratorForm.tsx`、`components/ResultsGallery.tsx` 和 `components/ChatAssistant.tsx` 中硬编码的文本，现在全面支持多语言切换。
-- **构建修复**: 修复了 `components/ChatAssistant.tsx` 中 `AnimatePresence` 未定义的引用错误，正确引入了 `motion/react`。
-- **版本同步**: 所有核心文件及 OpenSpec 文档版本号统一升级至 v1.0.2。
+- **UI/UX 优化**：全面调整了应用风格，使其更适合儿童。引入了 `Fredoka` 字体，使用了更鲜艳的糖果色系，增大了圆角，并添加了有趣的交互动画
+- **国际化 (i18n)**：修复了 `app/page.tsx`、`components/GeneratorForm.tsx`、`components/ResultsGallery.tsx` 和 `components/ChatAssistant.tsx` 中硬编码的文本，现在全面支持多语言切换
+- **构建修复**：修复了 `components/ChatAssistant.tsx` 中 `AnimatePresence` 未定义的引用错误，正确引入了 `motion/react`
+- **版本同步**：所有核心文件及 OpenSpec 文档版本号统一升级至 v1.0.2
 
 ## v1.0.1
 ### 重构与优化
-- **Tailwind CSS v4 迁移**: 升级项目至 Tailwind CSS v4，移除 `tailwind.config.ts`，使用 CSS-first 配置。
-- **构建修复**: 修复 `services/aiService.ts` 和 `services/pdfService.ts` 中的 TypeScript 类型错误。
-- **代码规范**: 添加 `.eslintrc.json` 配置，修复 React 实体转义问题，并为关键 UI 元素添加 `id` 属性以增强调试能力。
-- **依赖更新**: 升级 `tailwindcss` 至 v4 稳定版，并更新相关 PostCSS 依赖。
+- **Tailwind CSS v4 迁移**：升级项目至 Tailwind CSS v4，移除 `tailwind.config.ts`，使用 CSS-first 配置
+- **构建修复**：修复 `services/aiService.ts` 和 `services/pdfService.ts` 中的 TypeScript 类型错误
+- **代码规范**：添加 `.eslintrc.json` 配置，修复 React 实体转义问题，并为关键 UI 元素添加 `id` 属性以增强调试能力
+- **依赖更新**：升级 `tailwindcss` 至 v4 稳定版，并更新相关 PostCSS 依赖
 
 ## v0.5.20
 ### 维护
-- **项目清理 (Housekeeping)**: 彻底删除了项目根目录和 `openspec/` 目录中冗余的 `CHANGELOG.md`, `openspec/agents.md`, `openspec/06_changelog.md` 文件。
-- **构建优化 (DX)**: 在 `package.json` 中新增了 `lint` 脚本，方便进行静态类型检查。
-- **版本同步 (Version Bump)**: 所有核心组件、服务及 OpenSpec 文档统一升级至 v0.5.20。
-
-## v0.5.19
-### 维护
-- **项目清理 (Housekeeping)**: 计划清理项目根目录和 `openspec/` 目录中存在的冗余和过时文件，以保持项目结构的整洁。
-- **版本同步 (Version Bump)**: 所有核心组件、服务及 OpenSpec 文档统一升级至 v0.5.19。
-
-## v0.5.18
-### 优化
-- **功能审计 (Audit)**: 对所有 AI 服务调用进行了全面审计，确认新增的图像参数（画面比例、尺寸、质量）已正确传递至对应供应商（Gemini, OpenAI 等），且功能表现符合预期。
-- **文档同步 (Docs)**: 全面更新了 `openspec/` 目录下的所有规范文档，使其与 v0.5.17 版本引入的 API 增强和 UI 更新完全同步。
-- **国际化校验 (i18n)**: 完成了对所有 11 种语言包的审查，确保新增 UI 控件的翻译完整无缺。
-- **版本同步**: 统一所有核心文件及 OpenSpec 文档版本号至 v0.5.18。
-
-## v0.5.17
-### 新增与优化
-- **API 健壮性增强 (Robustness)**: 为所有后端 AI 服务调用（包括图像生成、故事叙述、连接测试和聊天）实现了基于指数退避的自动重试机制。
-- **调试体验优化 (DX)**: 为应用中所有主要的 UI 容器和组件添加了语义化的 ID 属性，极大地简化了浏览器开发者工具中的调试流程。
-- **版本同步**: 统一所有核心文件及 OpenSpec 文档版本号至 v0.5.17。
-
-## v0.5.16
-### 优化
-- **代码审查 (Audit)**：对整个项目进行了全面的代码审查，确认了 v0.5.15 版本重构后的架构合理性和代码规范性。
-- **版本同步**：同步了所有核心 `.ts`/`.tsx` 文件及 `openspec` 文档的版本号至 v0.5.16，确保项目状态一致性。
-- **项目清理**：删除了 `openspec/` 目录中已废弃的空文件，保持了项目结构的整洁。
-
-## v0.5.15
-### 重构
-- **服务层模块化 (Service Layer)**：将庞大的 `aiService.ts` 拆分为一个服务网关和多个独立的 API 提供商模块（存放于 `app/services/api/`），大幅提高了代码的可维护性和可扩展性。
-- **状态逻辑分离 (State Logic)**：创建了 `useBookGenerator.ts` 自定义 Hook，将核心的“书籍生成”状态和业务逻辑从主组件 `App.tsx` 中分离出来，使主组件更加轻量和清晰。
-- **组件拆分 (Component)**：将 `SettingsModal.tsx` 中复杂的 API 密钥管理部分抽离为独立的 `ApiKeyManager.tsx` 子组件，降低了原组件的复杂度。
-- **版本同步**：全项目版本号提升至 v0.5.15 以反映此次重构。
-
-## v0.5.14
-### 优化
-- **项目清理**：永久删除了 `openspec/` 目录下所有废弃的空文件。
-- **最终审查与版本统一**：完成对整个项目的最终代码和文档审查，并同步所有核心应用文件的版本号至 v0.5.14，确保一致性。
-
-## v0.5.13
-### 优化
-- **最终审查**：完成对 v0.5.12 版本的最终代码和文档审查，确认项目结构和版本号一致。
-- **版本同步**：全项目版本号提升至 v0.5.13。
-
-## v0.5.12
-### 优化
-- **项目结构确认**：确认 `changelog.md` 已迁移至项目根目录，并删除了 `openspec/` 目录下的冗余文件。
-- **最终审查**：完成对 v0.5.11 版本的最终代码和文档审查。
-- **版本同步**：全项目版本号提升至 v0.5.12。
-
-## v0.5.11
-### 优化
-- **项目结构优化**：将更新日志 `openspec/06_changelog.md` 迁移至项目根目录 `changelog.md`，以提高可见性和可访问性。
-- **版本同步**：全项目版本号提升至 v0.5.11。
-
-## v0.5.10
-### 修复与优化
-- **国际化修复**：修复了 `GeneratorForm.tsx` 中绘画风格描述文本硬编码为中文的问题。已添加新的翻译键并更新所有11种语言文件，实现完全本地化。
-- **项目清理 (Robustness)**：删除了已废弃的旧版规范文档 `openspec/agents.md` 和 `openspec/changelog.md`，以维护项目整洁和规范的唯一性。
-- **文档同步**：全面更新所有 OpenSpec 文档至 v0.5.10，确保与代码实现一致。
-
-## v0.5.9
-### 修复与优化
-- **国际化修复**：修复了 `GeneratorForm.tsx` 中“选择魔法大脑”标签硬编码为中文的问题，并为所有语言添加了相应翻译。
-- **项目清理 (Robustness)**：根据 v0.5.2 的决定，删除了已废弃的旧版规范文档，以维护项目代码的整洁和规范的唯一性。
-- **文档同步**：全面更新所有 OpenSpec 文档至 v0.5.9，确保与代码实现一致。
-
-## v0.5.8
-### 修复与优化
-- **API 连接修复**：重构了 `aiService.ts` 中的 API 请求逻辑，用一个更灵活的 `apiFetch` 函数替换了原有的 `openAiFetch`。
-  - **修复**：解决了“测试连接”功能因错误的 `Bearer` 认证前缀而对某些供应商（如阿里云“通义千问”）失效的问题。
-  - **增强**：为所有第三方 API 调用（图像生成、故事、聊天）都应用了正确的认证方案，提高了多供应商环境下的健壮性。
-- **代码审查 (Audit)**：完成对 v0.5.7 版本的功能和代码审查。
-- **版本同步**：统一所有核心文件及 OpenSpec 文档版本号至 v0.5.8。
-
-## v0.5.7
-### 修复与优化
-- **历史记录更新BUG修复**：重构了页面重绘后的历史记录更新逻辑。引入 `currentBookId` 状态来精确追踪当前编辑的书籍，修复了当用户修改旧历史项时会错误覆盖最新记录的问题。
-- **全面国际化 (i18n)**：
-  - 修复了 `App.tsx` 中“重绘页面”功能的状态提示和错误弹窗使用硬编码中文的问题。
-  - 修复了 `SettingsModal.tsx` 中“数据管理”、“连接测试”等UI文本和导入/导出提示使用硬编码中文的问题。
-  - 为所有11种语言补充了上述修复所需的翻译字符串。
-- **版本同步**：统一所有核心文件及 OpenSpec 文档版本号至 v0.5.7。
-
-## v0.5.6
-### 修复与优化
-- **代码审查 (Audit)**：完成对 v0.5.5 版本的功能和代码审查。
-- **国际化补全 (i18n)**：为除 `en` 和 `zh-CN` 外的所有 9 种语言补充了分享功能相关的翻译字符串。
-- **代码重构**：简化了 `HistorySidebar` 组件中删除历史记录项的函数调用，移除了不必要的参数。
-
-### 新增
-- **单页重绘功能**：实现了图库预览中的“重绘此页”功能。用户现在可以独立重新生成不满意的页面，结果会自动同步到当前预览和历史记录中。
-
-## v0.5.5
-### 新增
-- **分享功能 (Social Sharing)**：在预览页面新增“分享整本书”和“分享此页”功能。
-  - 支持调用系统原生分享对话框。
-  - 支持将生成的图像作为文件直接分享（需浏览器支持）。
-  - 内置自动剪贴板回退逻辑。
-- **国际化增强**：补充了 11 种语言的分享相关术语。
-
-## v0.5.4
-### 修复
-- **多源兼容性修复**：修复了在未配置 Gemini 密钥时，选择其他 AI 源（如 OpenAI）会导致全局报错无法生效的问题。现在 `getGeminiClient()` 仅在真正需要 Fallback 时才初始化。
-- **对话助手增强**：为 `ChatBot` 补充了 OpenAI (GPT-4o-mini) 驱动支持。
-- **稳定性**：优化了各 AI 源的错误捕获逻辑，确保主生成流程更加稳健。
-
-## v0.5.3
-### 优化
-- **项目清理**：正式弃用 `openspec/` 目录下所有无编号的前置规范文件，统一以 `01_` 至 `06_` 数字前缀作为权威源。
-- **版本同步**：全项目核心组件、服务及 OpenSpec 文档统一升级至 v0.5.3。
-- **鲁棒性增强**：修复了 `App.tsx` 中 `onToggleChat` 的调用逻辑问题。
-
-## v0.5.2
-### 优化
-- **冗余清理**：正式删除并停止维护旧版 `openspec/agents.md` 和 `openspec/changelog.md`。
-- **规范对齐**：所有 OpenSpec 文档统一使用 `01_` 至 `06_` 的数字前缀命名。
-- **版本同步**：全项目版本号提升至 v0.5.2。
+- **项目清理 (Housekeeping)**：彻底删除了项目根目录和 `openspec/` 目录中冗余的 `CHANGELOG.md`, `openspec/agents.md`, `openspec/06_changelog.md` 文件
+- **构建优化 (DX)**：在 `package.json` 中新增了 `lint` 脚本，方便进行静态类型检查
+- **版本同步 (Version Bump)**：所有核心组件、服务及 OpenSpec 文档统一升级至 v0.5.20

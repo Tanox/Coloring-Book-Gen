@@ -1,6 +1,6 @@
-// File: /app/locales/cs.ts v1.1.2
+// File: /app/locales/cs.ts v1.2.0
 export const cs = {
-  app_title: "ColorMyWorld v1.1.2",
+  app_title: "ColorMyWorld v1.2.0",
   ai_powered_creativity: "Kreativita poháněná AI",
   hero_headline_part1: "Vytvořte si vlastní",
   hero_headline_part2: "Omalovánky",
