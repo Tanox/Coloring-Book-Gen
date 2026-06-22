@@ -90,10 +90,10 @@ export interface AppConfig {
   apiKeys: ApiKeyConfig;
 }
 
-export interface AiServiceResponse {
+export interface AiServiceResponse<T = unknown> {
   success: boolean;
   message: string;
-  data?: any;
+  data?: T;
   error?: string;
   usage?: { promptTokens: number; completionTokens: number; totalTokens: number };
 }

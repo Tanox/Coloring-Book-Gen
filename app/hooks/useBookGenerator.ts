@@ -101,8 +101,8 @@ export const useBookGenerator = (lang: Language) => {
 
       newBook.pages = results;
 
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -119,8 +119,8 @@ export const useBookGenerator = (lang: Language) => {
         updatedPages[pageIndex] = { ...pageToRegenerate, imageUrl: imageResponse.data.imageUrl };
         setBook({ ...book, pages: updatedPages });
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }
