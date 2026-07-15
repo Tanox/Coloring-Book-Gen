@@ -1,3 +1,4 @@
+// File: /app/constants/languages.ts v1.2.0
 import { Language } from '../types';
 
 export const languages: { code: Language; label: string }[] = [

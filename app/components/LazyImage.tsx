@@ -1,3 +1,4 @@
+// File: /app/components/LazyImage.tsx v1.2.0
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';

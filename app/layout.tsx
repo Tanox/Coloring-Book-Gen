@@ -1,3 +1,4 @@
+// File: /app/layout.tsx v1.2.0
 'use client';
 
 import './globals.css';
