@@ -1,6 +1,6 @@
-// File: /app/locales/ja.ts v1.2.0
+// File: /app/locales/ja.ts v1.3.0
 export const ja = {
-  app_title: "ColorMyWorld v1.2.0",
+  app_title: "ColorMyWorld v1.3.0",
   ai_powered_creativity: "AIを活用した創造性",
   hero_headline_part1: "自分だけの",
   hero_headline_part2: "塗り絵を作る",

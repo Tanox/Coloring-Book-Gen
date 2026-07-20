@@ -1,4 +1,4 @@
-// File: /app/components/ChatAssistant.tsx v1.2.0
+// File: /app/components/ChatAssistant.tsx v1.3.0
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Language } from '../types';
 import { useTranslation } from '../locales/TranslationProvider';
 import { useChatAssistant } from '../hooks/useChatAssistant';
+import { Button } from '@/app/components/ui/button';
+import { Input } from '@/app/components/ui/input';
 
 interface ChatAssistantProps {
   language: Language;
@@ -21,6 +23,12 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
     language,
     t('chat_assistant_initial_message')
   );
+
+  // Guard against missing i18n keys (t() returns the key itself) so aria-labels never show raw keys.
+  const safeLabel = (key: string, fallback: string) => {
+    const v = t(key);
+    return v === key ? fallback : v;
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -37,13 +45,15 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
   return (
     <>
       {/* Floating Action Button */}
-      <button
+      <Button
+        size="icon-lg"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 p-4 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl transition-shadow z-50 flex items-center justify-center border border-primary/20"
+        aria-label={t('chat_assistant_title')}
         id="chat-trigger"
+        className="fixed bottom-6 right-6 rounded-full shadow-lg hover:shadow-xl h-14 w-14"
       >
         <MessageSquare className="w-5 h-5" />
-      </button>
+      </Button>
 
       <AnimatePresence>
         {isOpen && (
@@ -51,7 +61,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
             initial={{ opacity: 0, y: 10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
-            className="fixed bottom-24 right-6 w-80 md:w-96 h-[480px] bg-background rounded-xl shadow-xl flex flex-col z-50 border border-border overflow-hidden"
+            className="fixed bottom-24 right-6 w-80 md:w-96 h-[480px] bg-card rounded-xl shadow-xl flex flex-col z-50 border border-border overflow-hidden"
             id="chat-container"
           >
             {/* Header */}
@@ -62,9 +72,15 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
                 </div>
                 <span className="font-medium text-foreground text-sm">{t('chat_assistant_title')}</span>
               </div>
-              <button onClick={() => setIsOpen(false)} className="hover:bg-muted p-1.5 rounded-md transition-colors text-muted-foreground">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                onClick={() => setIsOpen(false)}
+                aria-label={safeLabel('chat_assistant_close', 'Close')}
+                className="text-muted-foreground"
+              >
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
 
             {/* Messages */}
@@ -102,21 +118,22 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
             {/* Input */}
             <div className="p-3 border-t border-border bg-muted/30">
               <div className="flex gap-2">
-                <input
-                  type="text"
+                <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && onSend()}
                   placeholder={t('chat_assistant_placeholder')}
-                  className="flex-1 p-2.5 bg-background border border-border rounded-lg focus:outline-none focus:border-primary/50 text-sm text-foreground placeholder:text-muted-foreground"
+                  aria-label={t('chat_assistant_placeholder')}
+                  className="flex-1"
                 />
-                <button
+                <Button
+                  size="icon"
                   onClick={onSend}
                   disabled={isLoading}
-                  className="p-2.5 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors"
+                  aria-label={safeLabel('chat_assistant_send', 'Send')}
                 >
                   <Send className="w-4 h-4" />
-                </button>
+                </Button>
               </div>
             </div>
           </motion.div>

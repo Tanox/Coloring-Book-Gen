@@ -94,7 +94,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           <div className="pt-3 border-t border-border text-xs text-muted-foreground font-medium uppercase tracking-wider">
-            {t('settings_version')} v1.2.0
+            {t('settings_version')} v1.3.0
           </div>
         </div>
 

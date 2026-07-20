@@ -71,6 +71,17 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
 
   const progress = totalPages > 0 ? (generatedPages / totalPages) * 100 : 0;
 
+  // Align with spec + SettingsModal: all 5 art styles. Cartoon/Realistic fall back to
+  // capitalized enum when a locale hasn't added the key yet (t() returns the key).
+  const artStyleLabels: Record<string, string> = {
+    [ArtStyle.SIMPLE]: t('form_difficulty_simple'),
+    [ArtStyle.STANDARD]: t('form_difficulty_medium'),
+    [ArtStyle.DETAILED]: t('form_difficulty_complex'),
+    [ArtStyle.CARTOON]: t('form_difficulty_cartoon') !== 'form_difficulty_cartoon' ? t('form_difficulty_cartoon') : 'Cartoon',
+    [ArtStyle.REALISTIC]: t('form_difficulty_realistic') !== 'form_difficulty_realistic' ? t('form_difficulty_realistic') : 'Realistic',
+  };
+  const artStyleOptions = Object.values(ArtStyle).map((s) => ({ value: s, label: artStyleLabels[s] }));
+
   return (
     <form id="generator-form" onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
@@ -99,11 +110,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
             label={t('form_difficulty_label')}
             value={artStyle}
             onChange={(val) => setArtStyle(val as ArtStyle)}
-            options={[
-              { value: ArtStyle.SIMPLE, label: t('form_difficulty_simple') },
-              { value: ArtStyle.STANDARD, label: t('form_difficulty_medium') },
-              { value: ArtStyle.DETAILED, label: t('form_difficulty_complex') },
-            ]}
+            options={artStyleOptions}
           />
 
           <FormSelectField

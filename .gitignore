@@ -47,3 +47,5 @@ next-env.d.ts
 
 # OS-specific
 Thumbs.db
+/.next_trash_bak
+/.workbuddy

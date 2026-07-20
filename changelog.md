@@ -1,5 +1,25 @@
 # 更新日志 (Changelog)
 
+## v1.3.0
+
+### 设计规范建立（Design System as Source of Truth）
+- **设计系统文档**：新增 `design-system/MASTER.md`（色彩/字体/间距/图标/动效）、`components.md`（基础/复合/业务组件）、`interaction.md`（模式/反馈/错误/空状态）。
+- **高保真可交互原型**：新增 `prototype/index.html`，使用与 `app/globals.css` 相同的 oklch 令牌与组件形态，含真实示例数据（主题 "Space Dinosaurs" / 孩子 "Leo" / 5 页 SVG 线稿+故事），覆盖空/加载/成功/错误四态、语言切换、深色模式、设置弹窗、聊天助手、响应式设备切换。
+- **单强调色重申**：全站仅 Warm Amber 一个彩色，移除多彩阴影与渐变。
+
+### 代码与原型对齐（Code ↔ Prototype Alignment）
+- **shadcn/ui 替换原生元素**：`ChatAssistant` 的原生 `<button>`/`<input>` 全面替换为 shadcn `Button` / `Input`，全站 UI 组件统一经 shadcn 实现。
+- **艺术风格对齐**：`GeneratorForm` 补齐 5 种艺术风格（Simple/Standard/Detailed/Cartoon/Realistic），与 `openspec/02_features.md` 及 `SettingsModal` 完全一致。
+- **冗余文件清理**：移除从未使用的 UI 组件 `badge` / `slider` / `toggle` / `toggle-group`，保留实际使用的 10 个组件。
+
+### 文档同步（Docs Sync）
+- **OpenSpec**：`05_uiux.md` 重写为完整设计系统规范并索引 `design-system/*`；全部 OpenSpec 文档与 `metadata.json` / `README` 版本统一至 v1.3.0。
+- **README 修正**：前端版本由误写的 "Next.js 15" 修正为 "Next.js 14"（与 `package.json` 一致）。
+- **版本头统一**：全部源文件版本头与显示版本（设置中心）统一为 v1.3.0。
+
+### 可访问性
+- 图标按钮补充 `aria-label`；缺失 i18n key 时 `ChatAssistant` 回退至英文标签，避免显示原始 key。
+
 ## v1.2.0
 
 ### 设计升级（Design System Overhaul）

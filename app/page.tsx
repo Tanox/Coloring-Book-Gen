@@ -1,4 +1,4 @@
-// File: /app/page.tsx v1.2.0
+// File: /app/page.tsx v1.3.0
 'use client';
 
 import React from 'react';

@@ -32,7 +32,7 @@
 
 ### 🛠 Tech Stack
 
-*   **Frontend**: Next.js 15 (App Router), React 18.3, TypeScript 5.5
+*   **Frontend**: Next.js 14 (App Router), React 18.3, TypeScript 5.5
 *   **Styling**: Tailwind CSS v4 (CSS-first configuration)
 *   **Component Library**: shadcn/ui (based on @base-ui/react)
 *   **AI Integration**: Google GenAI SDK (`@google/genai`)
@@ -154,7 +154,7 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ### 🛠 技术栈
 
-*   **前端**：Next.js 15（App Router）、React 18.3、TypeScript 5.5
+*   **前端**：Next.js 14（App Router）、React 18.3、TypeScript 5.5
 *   **样式**：Tailwind CSS v4（CSS-first 配置）
 *   **组件库**：shadcn/ui（基于 @base-ui/react）
 *   **AI 集成**：Google GenAI SDK (`@google/genai`)

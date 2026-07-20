@@ -1,4 +1,4 @@
-// File: /app/services/ai/config.ts v1.2.0
+// File: /app/services/ai/config.ts v1.3.0
 import { AiEngine, AiEngineConfig, ImageResolution, ImageAspectRatio, ArtStyle } from '../../types';
 
 export const aiEngines: Record<AiEngine, AiEngineConfig> = {

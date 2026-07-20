@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ColorMyWorld · 高保真交互原型 (v1.3.0)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root{
+      --background:oklch(0.985 0 0); --foreground:oklch(0.205 0.015 285);
+      --card:oklch(1 0 0); --primary:oklch(0.55 0.15 75); --primary-fg:oklch(1 0 0);
+      --muted:oklch(0.96 0.01 285); --muted-fg:oklch(0.5 0.02 285);
+      --border:oklch(0.89 0.01 285); --destructive:oklch(0.55 0.2 25); --ring:oklch(0.55 0.15 75);
+    }
+    .dark{
+      --background:oklch(0.14 0.02 285); --foreground:oklch(0.97 0 0);
+      --card:oklch(0.18 0.02 285); --primary:oklch(0.7 0.15 75);
+      --muted:oklch(0.22 0.02 285); --muted-fg:oklch(0.6 0.02 285);
+      --border:oklch(0.28 0.02 285); --destructive:oklch(0.65 0.2 25);
+    }
+    body{font-family:'Fredoka',ui-sans-serif,system-ui,sans-serif;}
+    .bg-bg{background:var(--background)} .text-fg{color:var(--foreground)} .bg-card{background:var(--card)}
+    .bg-primary{background:var(--primary)} .text-primary{color:var(--primary)} .text-primary-fg{color:var(--primary-fg)}
+    .bg-muted{background:var(--muted)} .text-muted{color:var(--muted-fg)}
+    .border-line{border-color:var(--border)} .text-destructive{color:var(--destructive)}
+    .bg-primary-soft{background:color-mix(in oklch,var(--primary),transparent 90%)}
+    .bg-destructive-soft{background:color-mix(in oklch,var(--destructive),transparent 88%)}
+    .ring-ring{--tw-ring-color:var(--ring)}
+    .shimmer{position:relative;overflow:hidden;background:color-mix(in oklch,var(--muted),transparent 30%)}
+    .shimmer::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent);
+      animation:shimmer 1.6s infinite}
+    @keyframes shimmer{100%{transform:translateX(100%)}}
+    .fade-up{animation:fadeUp .25s ease-out both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .reduced *{animation:none!important;transition:none!important}
+    ::-webkit-scrollbar{width:10px;height:10px}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:999px}
+    .frame-mobile{max-width:390px;margin:0 auto;box-shadow:0 0 0 1px var(--border)}
+    #viewport{transition:max-width .3s ease}
+  </style>
+</head>
+<body class="bg-bg text-fg antialiased">
+
+  <!-- Prototype control bar -->
+  <div class="sticky top-0 z-[60] flex items-center justify-between gap-2 px-4 py-2 bg-card border-b border-line text-xs">
+    <span class="font-semibold flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-primary"></i> 原型 · ColorMyWorld v1.3.0</span>
+    <div class="flex items-center gap-1.5">
+      <button onclick="setFrame('mobile')" class="px-2.5 py-1 rounded-lg border border-line hover:bg-muted transition-colors">📱 移动</button>
+      <button onclick="setFrame('desktop')" class="px-2.5 py-1 rounded-lg border border-line hover:bg-muted transition-colors">🖥 桌面</button>
+      <button onclick="toggleTheme()" class="px-2.5 py-1 rounded-lg border border-line hover:bg-muted transition-colors flex items-center gap-1"><i data-lucide="moon" class="w-3.5 h-3.5"></i> 深色</button>
+    </div>
+  </div>
+
+  <div id="viewport" class="frame-mobile">
+  <!-- ===== App shell ===== -->
+  <div class="min-h-screen bg-bg text-fg relative">
+
+    <!-- Header -->
+    <header class="fixed top-[41px] left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-line">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-fg font-semibold text-sm">C</div>
+          <span class="text-lg font-medium tracking-tight">ColorMyWorld</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="relative">
+            <button id="langBtn" onclick="toggleLang()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-muted transition-colors text-sm">
+              <i data-lucide="globe" class="w-4 h-4"></i><span id="langLabel">English</span>
+            </button>
+            <div id="langMenu" class="hidden absolute right-0 mt-1 w-48 bg-card border border-line rounded-xl shadow-lg p-1 max-h-72 overflow-auto z-50"></div>
+          </div>
+          <button onclick="openSettings()" class="p-2 rounded-lg hover:bg-muted transition-colors"><i data-lucide="settings" class="w-4 h-4"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <header class="relative overflow-hidden pt-24 pb-16 px-4">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-30">
+        <div class="absolute top-[10%] left-[20%] w-[30%] h-[30%] bg-primary rounded-full" style="filter:blur(120px)"></div>
+      </div>
+      <div class="max-w-4xl mx-auto text-center space-y-6">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-full text-sm font-medium text-muted">
+          <i data-lucide="sparkles" class="w-4 h-4 text-primary"></i><span id="heroBadge">AI-Powered Creativity</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.1]">
+          <span id="hero1">Turn any idea into a</span><br/><span class="text-primary" id="hero2">magical coloring book</span>
+        </h1>
+        <p class="text-lg text-muted max-w-2xl mx-auto leading-relaxed" id="heroDesc">Personalized, printable coloring books for kids — generated by AI in seconds.</p>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="max-w-6xl mx-auto px-4 pb-24 space-y-12">
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Generator -->
+        <div class="lg:col-span-5 lg:sticky lg:top-24">
+          <div class="bg-card border border-line p-6 rounded-xl shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="p-2.5 bg-primary-soft rounded-lg text-primary"><i data-lucide="palette" class="w-5 h-5"></i></div>
+              <h2 class="text-xl font-semibold" id="formTitle">Book Settings</h2>
+            </div>
+            <form id="genForm" class="space-y-4" onsubmit="return onGenerate(event)">
+              <div class="space-y-2">
+                <label class="flex items-center gap-2 text-xs font-medium text-muted uppercase tracking-wider"><i data-lucide="type" class="w-3.5 h-3.5"></i> Theme</label>
+                <input id="theme" value="Space Dinosaurs" placeholder="e.g. Cats in spacesuits on Mars" class="w-full h-10 px-3 rounded-lg bg-bg border border-line outline-none focus:border-primary transition-colors text-sm" />
+              </div>
+              <div class="space-y-2">
+                <label class="flex items-center gap-2 text-xs font-medium text-muted uppercase tracking-wider"><i data-lucide="user" class="w-3.5 h-3.5"></i> Child's name</label>
+                <input id="name" value="Leo" placeholder="e.g. Leo" class="w-full h-10 px-3 rounded-lg bg-bg border border-line outline-none focus:border-primary transition-colors text-sm" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-2">
+                  <label class="flex items-center gap-2 text-xs font-medium text-muted uppercase tracking-wider"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Art style</label>
+                  <select id="artStyle" class="w-full h-10 px-2 rounded-lg bg-bg border border-line text-sm outline-none focus:border-primary">
+                    <option>Simple</option><option>Standard</option><option>Detailed</option><option>Cartoon</option><option>Realistic</option>
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label class="flex items-center gap-2 text-xs font-medium text-muted uppercase tracking-wider"><i data-lucide="layout" class="w-3.5 h-3.5"></i> Aspect ratio</label>
+                  <select id="ratio" class="w-full h-10 px-2 rounded-lg bg-bg border border-line text-sm outline-none focus:border-primary">
+                    <option>1:1</option><option>3:4</option><option>4:3</option><option>9:16</option><option>16:9</option>
+                  </select>
+                </div>
+              </div>
+              <label class="flex items-center gap-3 p-3 bg-muted/60 border border-line rounded-lg cursor-pointer hover:bg-muted transition-colors">
+                <input id="story" type="checkbox" checked class="w-4 h-4 accent-[var(--primary)]" />
+                <span class="text-sm font-medium flex-1">Include a story for each page</span>
+              </label>
+              <div id="keyOk" class="flex items-center gap-2 p-2.5 bg-muted/60 border border-line rounded-lg">
+                <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i><span class="text-sm text-muted font-medium">Gemini API key configured</span>
+              </div>
+              <button id="genBtn" type="submit" class="w-full h-11 text-sm font-medium bg-primary text-primary-fg rounded-lg shadow-sm hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                <i data-lucide="wand-2" class="w-4 h-4"></i><span id="genBtnText">Generate Book</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Gallery -->
+        <div class="lg:col-span-7">
+          <div id="gallery" class="space-y-4"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-line py-8 text-center text-sm text-muted">ColorMyWorld · 绘梦世界 — AI coloring book generator · Prototype v1.3.0</footer>
+
+    <!-- Chat FAB + panel -->
+    <button onclick="toggleChat()" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-primary text-primary-fg rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-shadow"><i data-lucide="message-square" class="w-5 h-5"></i></button>
+    <div id="chatPanel" class="hidden fixed bottom-24 right-6 z-50 w-[22rem] md:w-96 h-[30rem] bg-card rounded-xl shadow-xl flex flex-col border border-line overflow-hidden">
+      <div class="p-4 bg-muted/50 flex justify-between items-center border-b border-line">
+        <div class="flex items-center gap-2"><div class="p-1.5 bg-primary-soft rounded-lg"><i data-lucide="message-square" class="w-4 h-4 text-primary"></i></div><span class="font-medium text-sm">Magic Assistant</span></div>
+        <button onclick="toggleChat()" class="p-1.5 rounded-md hover:bg-muted transition-colors"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div id="chatMsgs" class="flex-1 overflow-y-auto p-4 space-y-3 bg-bg"></div>
+      <div class="p-3 border-t border-line bg-muted/30 flex gap-2">
+        <input id="chatInput" onkeydown="if(event.key==='Enter')sendChat()" placeholder="Ask for ideas…" class="flex-1 px-3 py-2.5 bg-bg border border-line rounded-lg outline-none focus:border-primary text-sm" />
+        <button onclick="sendChat()" class="px-3 bg-primary text-primary-fg rounded-lg hover:opacity-90 transition-colors"><i data-lucide="send" class="w-4 h-4"></i></button>
+      </div>
+    </div>
+
+    <!-- Settings modal -->
+    <div id="settings" class="hidden fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/10">
+      <div class="absolute inset-0" onclick="closeSettings()"></div>
+      <div class="relative bg-card border border-line rounded-xl shadow-xl w-full max-w-md p-5 fade-up">
+        <div class="flex items-center gap-2 text-lg font-semibold mb-4"><i data-lucide="settings" class="w-5 h-5"></i> Settings</div>
+        <div class="space-y-3" id="settingsBody"></div>
+        <div class="mt-4 pt-3 border-t border-line flex justify-end">
+          <button onclick="closeSettings()" class="px-4 py-2 bg-primary text-primary-fg rounded-lg text-sm font-medium hover:opacity-90 transition-colors">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="hidden fixed bottom-24 left-1/2 -translate-x-1/2 z-[80] bg-card border border-line shadow-lg rounded-lg px-4 py-2.5 text-sm font-medium fade-up"></div>
+  </div>
+  </div>
+
+<script>
+  // ---------- Real sample data ----------
+  const SAMPLE = {
+    theme:"Space Dinosaurs", name:"Leo",
+    pages:[
+      {n:1,title:"Rex the Rocket Dino",story:"Leo met Rex, a tiny T-Rex who built a rocket from moon rocks and dreamed of visiting the stars.",art:0},
+      {n:2,title:"Luna the Comet Cat",story:"Luna the cat surfed a glowing comet tail, leaving a trail of stardust for Leo to follow.",art:1},
+      {n:3,title:"The Ringed Planet",story:"A friendly planet wearing a ring of ice invited Leo to slide down its colorful bands.",art:2},
+      {n:4,title:"Astro-Saurus",story:"Astro-Saurus floated in zero gravity, juggling three small moons for Leo's delight.",art:3},
+      {n:5,title:"Comet Wish",story:"Leo closed his eyes and made a wish on the brightest comet in the galaxy.",art:4}
+    ]
+  };
+  // Simple line-art SVGs (coloring-book style: black outlines)
+  const ARTS = [
+    '<svg viewBox="0 0 100 130" class="w-full h-full"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="28" r="18"/><circle cx="44" cy="26" r="2.5" fill="currentColor"/><circle cx="56" cy="26" r="2.5" fill="currentColor"/><path d="M50 46 q-2 6 0 10"/><path d="M32 60 q18 14 36 0 l8 40 q-26 12 -52 0 z"/><path d="M28 70 l-10 26 M72 70 l10 26"/><path d="M40 64 l-14 -16 M60 64 l14 -16"/></g></svg>',
+    '<svg viewBox="0 0 100 130" class="w-full h-full"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="40" r="16"/><path d="M44 38 l-5 6 M56 38 l5 6"/><path d="M30 24 q8 -14 20 -10 M70 24 q-8 -14 -20 -10"/><path d="M50 56 l-6 26 12 0 z"/><path d="M50 82 l0 22 M40 96 l20 0"/><circle cx="22" cy="20" r="3"/><circle cx="80" cy="30" r="2.5"/></g></svg>',
+    '<svg viewBox="0 0 100 130" class="w-full h-full"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="55" r="26"/><ellipse cx="50" cy="55" rx="42" ry="12" transform="rotate(-18 50 55)"/><circle cx="42" cy="50" r="3" fill="currentColor"/><circle cx="58" cy="50" r="3" fill="currentColor"/><path d="M40 66 q10 8 20 0"/><circle cx="20" cy="22" r="2"/><circle cx="82" cy="30" r="2"/></g></svg>',
+    '<svg viewBox="0 0 100 130" class="w-full h-full"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="34" r="17"/><path d="M33 30 q-10 -10 -4 -18 M67 30 q10 -10 4 -18"/><circle cx="44" cy="32" r="2.5" fill="currentColor"/><circle cx="56" cy="32" r="2.5" fill="currentColor"/><path d="M50 51 l-4 22 8 0 z"/><path d="M46 73 l-3 30 M54 73 l3 30"/><circle cx="18" cy="60" r="5"/><circle cx="82" cy="60" r="5"/></g></svg>',
+    '<svg viewBox="0 0 100 130" class="w-full h-full"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 30 q14 18 0 36 q-14 -18 0 -36 z"/><path d="M50 66 q10 14 0 26 q-10 -12 0 -26"/><path d="M50 92 l0 16"/><circle cx="50" cy="22" r="4"/><path d="M30 40 l-8 -8 M70 40 l8 -8 M34 70 l-10 0 M66 70 l10 0"/></g></svg>'
+  ];
+
+  // ---------- i18n demo ----------
+  const I18N = {
+    en:{label:"English",badge:"AI-Powered Creativity",h1:"Turn any idea into a",h2:"magical coloring book",desc:"Personalized, printable coloring books for kids — generated by AI in seconds.",form:"Book Settings",gen:"Generate Book",gening:"Generating…",empty:"Enter a theme above and generate your first coloring book for {name}.",dl:"Download PDF",redraw:"Redraw",chat:"Hi! I'm your magic assistant. Need a fun theme idea?"},
+    zh:{label:"中文",badge:"AI 创意驱动",h1:"把任何想法变成",h2:"神奇涂色书",desc:"为孩子量身定制、可打印的涂色书，由 AI 秒级生成。",form:"书本设置",gen:"生成涂色书",gening:"生成中…",empty:"在上方输入主题，为 {name} 生成第一本涂色书。",dl:"下载 PDF",redraw:"重绘",chat:"你好！我是魔法小助手，需要有趣的主题灵感吗？"},
+    es:{label:"Español",badge:"Creatividad con IA",h1:"Convierte cualquier idea en",h2:"un libro para colorear",desc:"Libros para colorear personalizados e imprimibles, generados por IA en segundos.",form:"Ajustes del libro",gen:"Generar libro",gening:"Generando…",empty:"Escribe un tema arriba y genera el primer libro para {name}.",dl:"Descargar PDF",redraw:"Redibujar",chat:"¡Hola! Soy tu asistente mágico. ¿Ideas de temas?"},
+    ja:{label:"日本語",badge:"AI が創造力を",h1:"どんなアイデアも",h2:"魔法のぬりえ帳に",desc:"子供向けの印刷可能なぬりえ帳を、AI が数秒で生成します。",form:"本の設定",gen:"本を生成",gening:"生成中…",empty:"上のテーマを入力して、{name} の最初のぬりえ帳を作りましょう。",dl:"PDF をダウンロード",redraw:"描き直す",chat:"こんにちは！魔法のアシスタントです。テーマのアイデアは？"}
+  };
+  let lang="en";
+  const LANGS=["en","zh","es","ja","fr","de","ko","ru","ar","pt-br"];
+  function applyLang(){const t=I18N[lang];document.getElementById('langLabel').textContent=t.label;document.getElementById('heroBadge').textContent=t.badge;document.getElementById('hero1').textContent=t.h1;document.getElementById('hero2').textContent=t.h2;document.getElementById('heroDesc').textContent=t.desc;document.getElementById('formTitle').textContent=t.form;document.getElementById('genBtnText').textContent=state.loading?t.gening:t.gen;renderGallery();}
+  function toggleLang(){const m=document.getElementById('langMenu');if(!m.classList.contains('hidden')){m.classList.add('hidden');return;}m.innerHTML=LANGS.map(l=>`<button onclick="setLang('${l}')" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-muted text-sm ${l===lang?'bg-muted font-medium':''}">${I18N[l]?I18N[l].label:l}</button>`).join('');m.classList.remove('hidden');}
+  function setLang(l){lang=l;document.documentElement.lang=l;document.getElementById('langMenu').classList.add('hidden');applyLang();}
+
+  // ---------- State ----------
+  const state={loading:false,book:null,error:null};
+  function renderGallery(){
+    const g=document.getElementById('gallery');const t=I18N[lang];
+    if(state.loading){g.innerHTML=Array.from({length:5}).map(()=>`<div class="bg-card border border-line rounded-xl p-4"><div class="shimmer aspect-[3/4] w-full rounded-lg"></div><div class="shimmer h-4 w-2/3 mt-4 rounded"></div></div>`).join('');return;}
+    if(state.error){g.innerHTML=`<div class="p-4 bg-destructive-soft border border-destructive/30 text-destructive rounded-lg text-center font-medium">${state.error}</div>`;return;}
+    if(!state.book){
+      g.innerHTML=`<div class="bg-card border border-dashed border-line rounded-xl p-12 flex flex-col items-center justify-center text-center">
+        <div class="p-4 bg-muted rounded-full mb-4"><i data-lucide="book-open" class="w-8 h-8 text-muted"></i></div>
+        <p class="text-muted font-medium max-w-md">${t.empty.replace('{name}',document.getElementById('name').value||'your child')}</p></div>`;
+      lucide.createIcons();return;
+    }
+    const b=state.book;
+    let html=`<div class="bg-card border border-line rounded-xl"><div class="p-5 flex flex-col md:flex-row justify-between items-center gap-3">
+      <div><h2 class="text-lg font-semibold">${b.theme} <span class="text-muted">for ${b.name}</span></h2><p class="text-sm text-muted">${b.pages.length} pages · ready to print</p></div>
+      <button onclick="downloadPdf()" class="flex items-center gap-2 px-4 py-2 bg-primary text-primary-fg rounded-lg text-sm font-medium hover:opacity-90 transition-colors"><i data-lucide="download" class="w-4 h-4"></i>${t.dl}</button></div></div>`;
+    html+=`<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">`;
+    b.pages.forEach((p,i)=>{
+      html+=`<div class="bg-card border border-line rounded-xl hover:border-primary/40 transition-colors"><div class="p-4">
+        <div class="aspect-[3/4] w-full bg-muted rounded-lg overflow-hidden border border-line flex items-center justify-center p-4 text-foreground">${ARTS[p.art]}</div>
+        <div class="mt-3 p-3 bg-muted/50 rounded-lg border border-line"><p class="text-sm leading-relaxed">${p.story}</p></div>
+        <div class="mt-3 flex justify-between items-center">
+          <div class="flex items-center gap-2"><span class="flex items-center justify-center size-7 bg-primary-soft text-primary text-xs font-medium rounded-full">${p.n}</span><span class="text-xs font-medium text-muted uppercase tracking-wider">Page</span></div>
+          <button onclick="redraw(${i})" class="flex items-center gap-1.5 text-muted hover:text-fg text-sm px-2 py-1 rounded-lg hover:bg-muted transition-colors"><i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>${t.redraw}</button>
+        </div></div></div>`;
+    });
+    html+=`</div>`;
+    g.innerHTML=html;lucide.createIcons();
+  }
+
+  function onGenerate(e){
+    e.preventDefault();
+    const theme=document.getElementById('theme').value.trim();
+    const name=document.getElementById('name').value.trim();
+    if(!theme||!name){state.error="Please enter both a theme and a child's name.";state.book=null;state.loading=false;renderGallery();return;}
+    state.error=null;state.loading=true;state.book=null;renderGallery();
+    const t=I18N[lang];document.getElementById('genBtnText').textContent=t.gening;
+    document.getElementById('genBtn').classList.add('opacity-70','pointer-events-none');
+    setTimeout(()=>{
+      state.loading=false;
+      state.book={theme,name,pages:SAMPLE.pages.map(p=>({...p}))};
+      document.getElementById('genBtn').classList.remove('opacity-70','pointer-events-none');
+      document.getElementById('genBtnText').textContent=t.gen;
+      renderGallery();toast('✨ Book generated!');
+    },2200);
+    return false;
+  }
+  function redraw(i){const b=state.book;if(!b)return;b.pages[i].art=(b.pages[i].art+1)%ARTS.length;renderGallery();toast('🔄 Page '+b.pages[i].n+' redrawn');}
+  function downloadPdf(){toast('📄 Preparing PDF for '+state.book.name+'…');}
+
+  // ---------- Chat ----------
+  let chatOpen=false;
+  function toggleChat(){const p=document.getElementById('chatPanel');chatOpen=!chatOpen;p.classList.toggle('hidden',!chatOpen);if(chatOpen){if(!document.getElementById('chatMsgs').children.length){addMsg('assistant',I18N[lang].chat);}document.getElementById('chatInput').focus();}}
+  function addMsg(role,text){const w=document.getElementById('chatMsgs');const d=document.createElement('div');d.className='flex '+(role==='user'?'justify-end':'justify-start');d.innerHTML=`<div class="max-w-[85%] p-3 rounded-lg text-sm leading-relaxed ${role==='user'?'bg-primary text-primary-fg':'bg-muted border border-line'}">${text}</div>`;w.appendChild(d);w.scrollTop=w.scrollHeight;}
+  function sendChat(){const i=document.getElementById('chatInput');const v=i.value.trim();if(!v)return;addMsg('user',v);i.value='';setTimeout(()=>addMsg('assistant','Great idea! Try: “'+v+' riding a rainbow unicorn on Mars” 🦄'),700);}
+
+  // ---------- Settings ----------
+  const ENGINES=["Gemini","OpenAI","DeepSeek","Claude","Doubao","Qianwen"];
+  function openSettings(){const body=document.getElementById('settingsBody');
+    body.innerHTML=`
+      <div class="space-y-2 p-3 bg-muted/50 rounded-lg border border-line"><label class="text-xs font-medium text-muted uppercase tracking-wider">Language</label><select id="sLang" class="w-full h-9 px-2 rounded-lg bg-bg border border-line text-sm"><option>English</option><option>中文</option><option>Español</option><option>日本語</option></select></div>
+      <div class="space-y-2 p-3 bg-muted/50 rounded-lg border border-line"><label class="text-xs font-medium text-muted uppercase tracking-wider">AI Engine</label><select class="w-full h-9 px-2 rounded-lg bg-bg border border-line text-sm">${ENGINES.map(e=>'<option>'+e+'</option>').join('')}</select></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="space-y-2 p-3 bg-muted/50 rounded-lg border border-line"><label class="text-xs font-medium text-muted uppercase tracking-wider">Art Style</label><select class="w-full h-9 px-2 rounded-lg bg-bg border border-line text-sm"><option>Simple</option><option>Standard</option><option>Detailed</option><option>Cartoon</option><option>Realistic</option></select></div>
+        <div class="space-y-2 p-3 bg-muted/50 rounded-lg border border-line"><label class="text-xs font-medium text-muted uppercase tracking-wider">Resolution</label><select class="w-full h-9 px-2 rounded-lg bg-bg border border-line text-sm"><option>1K</option><option>2K</option><option>4K</option></select></div>
+      </div>
+      <div class="flex items-center justify-between p-3 bg-muted/50 rounded-lg border border-line"><label class="text-xs font-medium text-muted uppercase tracking-wider">Story Mode</label><input type="checkbox" checked class="w-4 h-4 accent-[var(--primary)]" /></div>`;
+    document.getElementById('settings').classList.remove('hidden');}
+  function closeSettings(){document.getElementById('settings').classList.add('hidden');}
+
+  // ---------- Theme & frame & toast ----------
+  function toggleTheme(){document.documentElement.classList.toggle('dark');const b=document.querySelector('[onclick="toggleTheme()"]');b.innerHTML=document.documentElement.classList.contains('dark')?'<i data-lucide="sun" class="w-3.5 h-3.5"></i> 浅色':'<i data-lucide="moon" class="w-3.5 h-3.5"></i> 深色';lucide.createIcons();}
+  function setFrame(f){const v=document.getElementById('viewport');if(f==='mobile'){v.classList.add('frame-mobile');}else{v.classList.remove('frame-mobile');}}
+  let toastT;function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.add('hidden'),2200);}
+
+  // init
+  applyLang();renderGallery();
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.body.classList.add('reduced');}
+</script>
+</body>
+</html>

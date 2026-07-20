@@ -1,4 +1,4 @@
-// File: /app/locales/TranslationProvider.tsx v1.2.0
+// File: /app/locales/TranslationProvider.tsx v1.3.0
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';

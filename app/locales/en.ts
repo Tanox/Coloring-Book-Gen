@@ -1,6 +1,6 @@
-// File: /app/locales/en.ts v1.2.0
+// File: /app/locales/en.ts v1.3.0
 export const en = {
-  app_title: "ColorMyWorld v1.2.0",
+  app_title: "ColorMyWorld v1.3.0",
   ai_powered_creativity: "AI-Powered Creativity",
   hero_headline_part1: "Create Your Own",
   hero_headline_part2: "Coloring Book",
@@ -27,6 +27,8 @@ export const en = {
   chat_assistant_title: "AI Assistant",
   chat_assistant_initial_message: "Hello! I can help you come up with fun ideas for your coloring book. What would you like to draw?",
   chat_assistant_placeholder: "Type a message...",
+  chat_assistant_close: "Close chat",
+  chat_assistant_send: "Send message",
   chat_assistant_error_message: "Sorry, I encountered an error.",
   chat_assistant_connection_error: "Connection error. Please try again.",
   footer_text: "© 2026 ColorMyWorld. All rights reserved.",

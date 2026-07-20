@@ -1,4 +1,4 @@
-// File: /app/hooks/useBookGenerator.ts v1.2.0
+// File: /app/hooks/useBookGenerator.ts v1.3.0
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { generateStories, generateImage } from '../services/ai/gemini';

@@ -1,4 +1,4 @@
-// File: /app/locales/translations.ts v1.2.0
+// File: /app/locales/translations.ts v1.3.0
 import { Language } from '../types';
 import { en } from './en';
 import { zh_CN } from './zh-cn';
