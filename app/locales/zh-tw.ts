@@ -40,4 +40,13 @@ export const zh_TW = {
   settings_version: "版本",
   settings_close: "關閉",
   api_key_configured: "API 金鑰已配置",
+  gen_stage_idea: "正在構思創意",
+  gen_stage_sketch: "勾勒線條中",
+  gen_stage_magic: "注入一點魔法",
+  gen_stage_finish: "做最後的潤色",
+  celebration_title: "你的大作完成啦！",
+  celebration_subtitle: "列印出來，塗上顏色，點亮一天好心情。",
+  empty_state_surprise: "幫我選一個",
+  empty_state_hint: "不知道畫什麼？讓我們為你挑一個有趣的主題。",
+  inspire_filled: "已為你在主題框裡放了一個有趣的靈感。",
 };

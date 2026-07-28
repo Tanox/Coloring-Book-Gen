@@ -1,14 +1,16 @@
 'use client';
 
 import React from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ColoringBook, Language } from '../types';
-import { Download, RefreshCw, BookOpen } from 'lucide-react';
+import { Download, RefreshCw, BookOpen, Sparkles } from 'lucide-react';
 import { exportToPdf } from '../services/pdfService';
 import { useTranslation } from '../locales/TranslationProvider';
 import PageSkeleton from './PageSkeleton';
 import LazyImage from './LazyImage';
 import { Card, CardContent } from '@/app/components/ui/card';
 import { Button } from '@/app/components/ui/button';
+import { requestInspiration } from '../lib/inspire';
 
 interface ResultsGalleryProps {
   book: ColoringBook | null;
@@ -19,6 +21,7 @@ interface ResultsGalleryProps {
 
 const ResultsGallery: React.FC<ResultsGalleryProps> = ({ book, onRegeneratePage, isLoading, lang }) => {
   const { t } = useTranslation();
+  const reduce = useReducedMotion();
 
   if (isLoading) {
     return <PageSkeleton count={5} />;
@@ -27,11 +30,25 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({ book, onRegeneratePage,
   if (!book) {
     return (
       <Card className="border-dashed border-border bg-transparent">
-        <CardContent className="flex flex-col items-center justify-center p-12">
-          <div className="p-4 bg-muted rounded-full mb-4">
-            <BookOpen className="w-8 h-8 text-muted-foreground" />
-          </div>
-          <p className="text-muted-foreground font-medium text-base text-center max-w-md">{t('results_gallery_placeholder')}</p>
+        <CardContent className="flex flex-col items-center justify-center p-12 text-center">
+          <motion.div
+            initial={reduce ? false : { scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="p-4 bg-primary/10 rounded-full mb-4 text-primary"
+          >
+            <BookOpen className="w-8 h-8" />
+          </motion.div>
+          <p className="text-muted-foreground font-medium text-base text-center max-w-md mb-2">{t('results_gallery_placeholder')}</p>
+          <p className="text-sm text-muted-foreground/80 text-center max-w-sm mb-6">{t('empty_state_hint')}</p>
+          <Button
+            onClick={requestInspiration}
+            className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium"
+            size="sm"
+          >
+            <Sparkles className="w-4 h-4" />
+            {t('empty_state_surprise')}
+          </Button>
         </CardContent>
       </Card>
     );
@@ -65,7 +82,13 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({ book, onRegeneratePage,
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {book.pages.map((page, index) => (
-          <Card key={index} className="group border-border hover:border-primary/30 transition-colors">
+          <motion.div
+            key={index}
+            initial={reduce ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: 'easeOut', delay: reduce ? 0 : index * 0.06 }}
+          >
+          <Card className="group border-border hover:border-primary/30 transition-colors">
             <CardContent className="p-4">
               <div className="relative aspect-[3/4] w-full bg-muted rounded-lg overflow-hidden border border-border group-hover:border-primary/20 transition-colors">
                 <LazyImage 
@@ -105,6 +128,7 @@ const ResultsGallery: React.FC<ResultsGalleryProps> = ({ book, onRegeneratePage,
               </div>
             </CardContent>
           </Card>
+          </motion.div>
         ))}
       </div>
     </div>

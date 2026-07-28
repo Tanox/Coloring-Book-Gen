@@ -11,6 +11,7 @@ import { Button } from '@/app/components/ui/button';
 import { Checkbox } from '@/app/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/app/components/ui/alert';
 import { Progress } from '@/app/components/ui/progress';
+import { getRandomTheme, INSPIRE_EVENT } from '../lib/inspire';
 
 interface GeneratorFormProps {
   onGenerate: (config: { theme: string; name: string; resolution: ImageResolution; aspectRatio: ImageAspectRatio; artStyle: ArtStyle; storyMode: boolean; aiEngine: AiEngine }) => void;
@@ -70,6 +71,26 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
   };
 
   const progress = totalPages > 0 ? (generatedPages / totalPages) * 100 : 0;
+
+  // "Surprise me" from the empty gallery drops a fun idea into the theme field.
+  useEffect(() => {
+    const handler = () => {
+      const idea = getRandomTheme();
+      setTheme(idea);
+      setTimeout(() => document.getElementById('theme')?.focus(), 50);
+    };
+    window.addEventListener(INSPIRE_EVENT, handler);
+    return () => window.removeEventListener(INSPIRE_EVENT, handler);
+  }, []);
+
+  // Personality-rich, staged progress copy instead of a bare "Generating...".
+  const stageKey = (() => {
+    const ratio = totalPages > 0 ? generatedPages / totalPages : 0;
+    if (generatedPages >= totalPages) return 'gen_stage_finish';
+    if (ratio <= 0.2) return 'gen_stage_idea';
+    if (ratio <= 0.6) return 'gen_stage_sketch';
+    return 'gen_stage_magic';
+  })();
 
   // Align with spec + SettingsModal: all 5 art styles. Cartoon/Realistic fall back to
   // capitalized enum when a locale hasn't added the key yet (t() returns the key).
@@ -159,11 +180,11 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />
-            <span>{t('generating_book_button')} {generatedPages}/{totalPages}</span>
+            <span>{t(stageKey)}</span>
           </>
         ) : (
           <>
-            <Wand2 className="w-4 h-4" data-icon="inline-start" />
+            <Wand2 className="w-4 h-4 transition-transform duration-200 group-hover/button:rotate-[20deg]" data-icon="inline-start" />
             {t('generate_book_button')}
           </>
         )}

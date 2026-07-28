@@ -42,4 +42,13 @@ export const en = {
   settings_version: "Version",
   settings_close: "Close",
   api_key_configured: "API Key configured",
+  gen_stage_idea: "Dreaming up ideas",
+  gen_stage_sketch: "Sketching the outlines",
+  gen_stage_magic: "Adding a little magic",
+  gen_stage_finish: "Putting on the finishing touches",
+  celebration_title: "Your masterpiece is ready!",
+  celebration_subtitle: "Print it, color it, and make someone's day.",
+  empty_state_surprise: "Surprise me",
+  empty_state_hint: "Not sure what to draw? Let us pick a fun theme for you.",
+  inspire_filled: "Added a fun idea to the theme box.",
 };

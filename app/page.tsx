@@ -1,10 +1,11 @@
 // File: /app/page.tsx v1.3.0
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import GeneratorForm from './components/GeneratorForm';
 import ResultsGallery from './components/ResultsGallery';
 import ChatAssistant from './components/ChatAssistant';
+import CelebrationOverlay from './components/CelebrationOverlay';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
@@ -15,6 +16,28 @@ import { useBookGenerator } from './hooks/useBookGenerator';
 export default function Home() {
   const { t, currentLanguage: lang } = useTranslation();
   const { book, isLoading, error, generatedPages, totalPages, generateBook, regeneratePage } = useBookGenerator(lang);
+
+  // Delightful completion celebration: fire once when a fresh book finishes generating
+  // (book.id changes), not on single-page redraws.
+  const [celebrate, setCelebrate] = useState(false);
+  const prevLoading = useRef(false);
+  const prevBookId = useRef<string | null>(null);
+  const celebrateTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (celebrateTimer.current) {
+      clearTimeout(celebrateTimer.current);
+      celebrateTimer.current = null;
+    }
+    if (isLoading) {
+      setCelebrate(false);
+    } else if (prevLoading.current && book && book.id !== prevBookId.current) {
+      setCelebrate(true);
+      prevBookId.current = book.id;
+      celebrateTimer.current = setTimeout(() => setCelebrate(false), 2600);
+    }
+    prevLoading.current = isLoading;
+  }, [isLoading, book]);
 
   return (
     <div id="app-root" className="min-h-screen bg-background text-foreground">
@@ -52,6 +75,8 @@ export default function Home() {
 
       {/* Chat Assistant */}
       <ChatAssistant language={lang} />
+
+      <CelebrationOverlay show={celebrate} title={t('celebration_title')} subtitle={t('celebration_subtitle')} />
     </div>
   );
 }

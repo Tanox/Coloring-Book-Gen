@@ -40,4 +40,13 @@ export const zh_CN = {
   settings_version: "版本",
   settings_close: "关闭",
   api_key_configured: "API 密钥已配置",
+  gen_stage_idea: "正在构思创意",
+  gen_stage_sketch: "勾勒线条中",
+  gen_stage_magic: "注入一点魔法",
+  gen_stage_finish: "做最后的润色",
+  celebration_title: "你的大作完成啦！",
+  celebration_subtitle: "打印出来，涂上颜色，点亮一天好心情。",
+  empty_state_surprise: "帮我选一个",
+  empty_state_hint: "不知道画什么？让我们为你挑一个有趣的主题。",
+  inspire_filled: "已为你在主题框里放了一个有趣的灵感。",
 };

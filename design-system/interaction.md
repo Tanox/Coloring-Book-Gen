@@ -92,3 +92,34 @@
 - 屏幕阅读器：图标按钮 `aria-label`；动态区域（进度/错误）用 `aria-live="polite"`。
 - 减少动效：`@media (prefers-reduced-motion: reduce)` 关闭非必要动画。
 - 对比度：正文 `muted-foreground` ≥ 4.5:1；强调色文字 `primary-foreground` 白色满足。
+
+---
+
+## 7. 愉悦交互 (Delight & Whimsy)
+
+> 在「极简高端」基调下，用得体的动效、巧妙的 Lucide 图标、有性格的微文案与惊喜交互制造愉悦，**不依赖 emoji**（图标库唯一来源为 Lucide）。所有非必要动效必须尊重 `prefers-reduced-motion`。
+
+### 7.1 生成进度阶段化 (Staged Progress)
+- 按钮文案按进度映射，取代干巴巴的 "Generating..."：
+  - `gen_stage_idea`（0–20%）："Dreaming up ideas"
+  - `gen_stage_sketch`（20–60%）："Sketching the outlines"
+  - `gen_stage_magic`（60–100%）："Adding a little magic"
+  - `gen_stage_finish`（完成）："Putting on the finishing touches"
+- 进度条保持 `Progress h-1` 不变。
+
+### 7.2 完成庆祝 (Completion Celebration)
+- 触发：`isLoading` 由 true 回落 false 且 `book.id` 为新值（避免单页重绘误触）。
+- 形式：`CelebrationOverlay` 居中卡 + Lucide `PartyPopper` + 琥珀色 `Sparkles` 火花循环，`pointer-events-none` 不挡操作，2.6s 自动消失。
+- 尊重 reduced-motion：关闭火花与缩放动画，仅短暂展示。
+
+### 7.3 画廊入场编排 (Reveal Choreography)
+- 结果页卡片用 framer-motion 错峰入场（`opacity 0→1` + `translateY(10→0)`，delay `index*0.06`，200ms ease-out）。
+- reduced-motion 下 `initial={false}` 直接显示。
+
+### 7.4 空态灵感 (Empty-State Inspiration)
+- 画廊初始空态升级为互动卡：浮动 `BookOpen` 图标 + 提示 `empty_state_hint` + "Surprise me" 按钮（`empty_state_surprise`）。
+- 点击通过 `INSPIRE_EVENT` 事件总线（`app/lib/inspire.ts`）把随机有趣主题填入生成器主题框，并聚焦输入框。
+
+### 7.5 i18n 微文案约定
+- `t(key)` 现已在 key 缺失时**回退英文**（`TranslationProvider`），避免裸 key 上屏。
+- 新增微文案键在 `en` 提供；`zh-CN` / `zh-TW` 已翻译，其余 18 语言自动回退英文（与 Cartoon/Realistic 现状一致）。

@@ -53,7 +53,9 @@ export const TranslationProvider: React.FC<{ children: ReactNode }> = ({ childre
   }, [currentLanguage, isMounted]);
 
   const t = (key: string): string => {
-    return translations[key] || key;
+    // Graceful fallback: current locale -> English -> raw key.
+    // Prevents raw i18n keys from ever reaching the UI (see safeLabel pattern).
+    return translations[key] ?? allTranslations['en'][key] ?? key;
   };
 
   const setLanguage = (lang: Language) => {
