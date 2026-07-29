@@ -1,4 +1,4 @@
-// File: /types/index.ts v1.3.0
+// File: /types/index.ts v1.4.0
 
 export type Theme = 'light' | 'dark';
 

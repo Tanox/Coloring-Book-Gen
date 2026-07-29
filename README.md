@@ -23,7 +23,7 @@
 *   **Story Mode**: Generates short, age-appropriate stories for each page in the selected language
 *   **PDF Export**: Client-side PDF generation (using `jspdf`) to download and print the coloring book
 *   **Multilingual**: Supports 21 languages including English, Chinese (Simplified/Traditional), Spanish, Arabic, French, German, Italian, Japanese, Korean, Portuguese, Russian, Turkish, Hindi, Dutch, Polish, Swedish, Thai, Vietnamese, Czech, and Indonesian
-*   **Multiple AI Engines**: Support for multiple AI providers including Gemini, OpenAI, Claude, DeepSeek, Doubao, and Qianwen
+*   **Multiple AI Engines**: A unified AI gateway routes requests to Gemini, OpenAI, Claude, DeepSeek, Doubao, and Qianwen. Gemini and OpenAI (DALL·E) generate images; all six support story and chat. Each engine's capability (image/story/chat) is advertised and enforced in the UI.
 *   **Art Style Selection**: Choose from 5 art styles — Simple, Standard, Detailed, Cartoon, and Realistic
 *   **Resolution Control**: Support for multiple image resolutions (1K, 2K, 4K)
 *   **Aspect Ratio Selection**: Support for multiple aspect ratios (1:1, 3:4, 4:3, 9:16, 16:9)
@@ -62,6 +62,7 @@
         *   `NEXT_PUBLIC_CLAUDE_API_KEY`
         *   `NEXT_PUBLIC_DOUBAO_API_KEY`
         *   `NEXT_PUBLIC_QIANWEN_API_KEY`
+    *   Alternatively, configure any engine key at runtime via **Settings → API Keys** (stored locally in your browser; takes priority over env vars).
 
 4.  **Run the App**
     ```bash
@@ -73,6 +74,12 @@
     npm run build
     npm run start
     ```
+
+### 🔒 Security
+
+*   **Security Headers**: `next.config.mjs` sets a Content-Security-Policy (restricting scripts, styles, fonts, images and API connect destinations), `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, and a restrictive `Permissions-Policy`.
+*   **Client-side AI calls**: API keys are used directly in the browser (per the project's privacy-first, no-server design). Prefer runtime keys in **Settings → API Keys** over committed env files, and never reuse server-side secrets.
+*   **Input handling**: theme/name are length- and character-validated, and all AI prompts are sanitized to mitigate injection. AI-generated text is rendered as plain text (no `dangerouslySetInnerHTML`).
 
 ### 📂 Project Structure
 
@@ -92,7 +99,7 @@
 │   │   ├── Footer.tsx       # Footer
 │   │   ├── ChatAssistant.tsx # AI chat assistant
 │   │   └── ui/            # shadcn/ui base components
-│   │       └── button.tsx, card.tsx, dialog.tsx, ...
+│   │       └── button.tsx, card.tsx, dialog.tsx, ... (large components split into dropdown-menu-sub.tsx / select-scroll.tsx) (large components split into dropdown-menu-sub.tsx / select-scroll.tsx)
 │   ├── lib/                # Utility functions
 │   │   └── utils.ts       # cn merge utility
 │   ├── contexts/           # React context providers
@@ -106,9 +113,13 @@
 │   │   └── [language].ts   # Per-language translations
 │   ├── services/           # Service layer
 │   │   ├── ai/             # AI services
-│   │   │   ├── config.ts   # Engine config & capabilities
+│   │   │   ├── config.ts   # Engine config, capabilities & key resolution
+│   │   │   ├── gateway.ts  # Unified engine-agnostic AI gateway
 │   │   │   ├── gemini.ts   # Gemini implementation
-│   │   │   └── index.ts    # Re-exports
+│   │   │   ├── openaiCompatible.ts # OpenAI-compatible chat (OpenAI/DeepSeek/Doubao/Qianwen)
+│   │   │   ├── claude.ts    # Anthropic Claude chat
+│   │   │   ├── dalle.ts     # OpenAI DALL·E image generation
+│   │   │   └── index.ts     # Public API barrel
 │   │   └── pdfService.ts   # PDF export
 │   ├── constants/
 │   │   └── languages.ts    # Language list
@@ -145,7 +156,7 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 *   **故事模式**：为每一页生成适合儿童阅读的短故事（支持多种语言）
 *   **PDF 导出**：支持客户端 PDF 生成（使用 `jspdf`），方便下载和打印涂色书
 *   **多语言支持**：支持 21 种语言，包括英语、中文（简体/繁体）、西班牙语、阿拉伯语、法语、德语、意大利语、日语、韩语、葡萄牙语、俄语、土耳其语、印地语、荷兰语、波兰语、瑞典语、泰语、越南语、捷克语和印尼语
-*   **多 AI 引擎**：支持多种 AI 提供商，包括 Gemini、OpenAI、Claude、DeepSeek、豆包和通义千问
+*   **多 AI 引擎**：统一的 AI 网关将请求路由到 Gemini、OpenAI、Claude、DeepSeek、豆包与通义千问。Gemini 与 OpenAI（DALL·E）可生成图像，六种引擎均支持故事与对话。各引擎的能力（图像/故事/对话）会在界面中按能力声明启用或禁用。
 *   **艺术风格选择**：提供 5 种艺术风格 — 简单、标准、精细、卡通和写实
 *   **分辨率控制**：支持多种图像分辨率（1K、2K、4K）
 *   **纵横比选择**：支持多种画面比例（1:1、3:4、4:3、9:16、16:9）
@@ -184,6 +195,7 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
         *   `NEXT_PUBLIC_CLAUDE_API_KEY`
         *   `NEXT_PUBLIC_DOUBAO_API_KEY`
         *   `NEXT_PUBLIC_QIANWEN_API_KEY`
+    *   也可以在 **设置 → API 密钥** 中运行时配置任意引擎密钥（仅保存在本地浏览器，优先级高于环境变量）。
 
 4.  **运行应用**
     ```bash
@@ -195,6 +207,12 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
     npm run build
     npm run start
     ```
+
+### 🔒 安全
+
+*   **安全响应头**：`next.config.mjs` 配置了内容安全策略（CSP，限制脚本、样式、字体、图片与 API 连接目标）、`X-Frame-Options: DENY`、`X-Content-Type-Options: nosniff`、`Referrer-Policy` 以及严格的 `Permissions-Policy`。
+*   **客户端 AI 调用**：密钥在浏览器中直接使用（遵循本项目「隐私优先、无服务端」的设计）。建议通过 **设置 → API 密钥** 配置运行时密钥，而非提交到环境变量文件中，且不要复用服务端密钥。
+*   **输入处理**：主题/姓名会进行长度与字符校验，所有 AI 提示词均经过清洗以防注入。AI 生成文本以纯文本渲染（不使用 `dangerouslySetInnerHTML`）。
 
 ### 📂 项目结构
 
@@ -214,7 +232,7 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 │   │   ├── Footer.tsx       # 页脚
 │   │   ├── ChatAssistant.tsx # AI 聊天助手
 │   │   └── ui/            # shadcn/ui 基础组件库
-│   │       └── button.tsx, card.tsx, dialog.tsx, ...
+│   │       └── button.tsx, card.tsx, dialog.tsx, ... (large components split into dropdown-menu-sub.tsx / select-scroll.tsx) (large components split into dropdown-menu-sub.tsx / select-scroll.tsx)
 │   ├── lib/                # 工具函数
 │   │   └── utils.ts       # cn 合并等工具函数
 │   ├── contexts/            # React 上下文
@@ -260,4 +278,4 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ---
 
-**Version**: 1.2.0
+**Version**: 1.4.0

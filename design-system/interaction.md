@@ -1,4 +1,4 @@
-# 交互标准 · Interaction Standards — ColorMyWorld v1.3.0
+# 交互标准 · Interaction Standards — ColorMyWorld v1.4.0
 
 > 所有交互模式、反馈、错误与空状态的最小颗粒度规范。原型与代码必须一致实现。
 

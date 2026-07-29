@@ -1,4 +1,4 @@
-// File: /app/components/ChatAssistant.tsx v1.3.0
+// File: /app/components/ChatAssistant.tsx v1.4.0
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';

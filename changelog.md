@@ -1,5 +1,28 @@
 # 更新日志 (Changelog)
 
+## v1.4.0
+
+### 多引擎 AI 网关（真实路由）
+- **统一 AI 网关** `app/services/ai/gateway.ts`：按所选引擎路由图像/故事/对话请求，结束此前「多引擎仅为装饰」的状态。
+- **Gemini**：图像 + 故事 + 对话（沿用 `@google/genai`）。
+- **OpenAI**：DALL·E 图像 + 故事/对话（OpenAI 兼容 chat 接口）。
+- **DeepSeek / 豆包 / 通义千问**：通过 OpenAI 兼容接口实现故事与对话（基于 `fetch`，无新增依赖）。
+- **Claude**：通过 Anthropic Messages 接口实现故事与对话。
+- 各引擎能力（图像/故事/对话）由 `config.ts` 声明，并在生成表单中按能力启用/禁用（不支持图像的引擎会提示并禁用生成按钮）。
+
+### 安全与健壮性
+- `next.config.mjs` 新增安全响应头（CSP / X-Frame-Options / X-Content-Type-Options / Referrer-Policy / Permissions-Policy）。
+- 运行时 API 密钥：设置中心新增「API 密钥」输入，保存至 LocalStorage，优先级高于环境变量（对齐 OpenSpec 认证策略）。
+- `ConfigContext` 配置存储版本化并加 try-catch；密钥读取容错（隐私模式/SSR 不崩溃）。
+- `useBookGenerator` 增加主题/姓名输入校验（长度 + 字符白名单），并消除请求瀑布流（故事与图像并行生成）。
+- `pdfService` 文件名清理；PDF 配色从靛蓝改为单一强调色琥珀，符合设计系统。
+
+### 代码质量与规范
+- **i18n 补全**：新增 `form_difficulty_cartoon` / `form_difficulty_realistic` / `engine_no_image_support` / `settings_api_keys` 键（en/zh-CN/zh-TW），其余语言回退英文。
+- **拆分大文件**：`dropdown-menu.tsx`(268) 拆出 `dropdown-menu-sub.tsx`，`select.tsx`(201) 拆出 `select-scroll.tsx`，公开 API 不变。
+- **类型/规范**：`tsconfig` target 提升至 ES2018 以支持 Unicode 正则；`ChatMessage` 统一聊天消息格式；`tsc --noEmit` 与 `next lint` 均零错误。
+- 全文版本号统一至 v1.4.0。
+
 ## v1.3.0
 
 ### 设计规范建立（Design System as Source of Truth）

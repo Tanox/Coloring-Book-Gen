@@ -136,5 +136,3 @@ export async function chatWithAI(
   }
   return { success: false, message: res.message, error: res.error };
 }
-
-export { getApiKey, validateApiKey, getEngineCapabilities, aiEngines } from './config';

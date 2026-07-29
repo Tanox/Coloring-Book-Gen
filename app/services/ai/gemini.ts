@@ -1,4 +1,4 @@
-// File: /app/services/ai/gemini.ts v1.3.0
+// File: /app/services/ai/gemini.ts v1.4.0
 import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
 import { AiEngine, AiServiceResponse, ImageResolution, ImageAspectRatio, ArtStyle, Language, ChatMessage, AiImageResponseData, AiChatResponseData } from '../../types';
 import { aiEngines, getApiKey } from './config';

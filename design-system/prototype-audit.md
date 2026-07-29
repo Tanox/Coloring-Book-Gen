@@ -1,4 +1,4 @@
-# 原型设计审查报告 · ColorMyWorld v1.3.0
+# 原型设计审查报告 · ColorMyWorld v1.4.0
 
 > 审查对象：`prototype/index.html`（高保真交互原型）
 > 比对基准：`design-system/MASTER.md`、`components.md`、`interaction.md` + 实际 `app/` 代码（Header / Hero / Footer / GeneratorForm / SettingsModal / ChatAssistant）
@@ -71,7 +71,7 @@
 |----|------|------|
 | L1 | fade-up 250ms（规范 200ms）；hover 默认 150ms（规范 200ms）| 调为 200ms |
 | L2 | 设置弹窗 `max-w-md`(448px) 在移动框(390px)内横向溢出 | 改 `max-w-[calc(100%-2rem)]` |
-| L3 | 页脚硬编码「绘梦世界 / Prototype v1.3.0」——app 无中文名（footer_text 走 i18n）| 改走 i18n key 或注明原型文案 |
+| L3 | 页脚硬编码「绘梦世界 / Prototype v1.4.0」——app 无中文名（footer_text 走 i18n）| 改走 i18n key 或注明原型文案 |
 | L4 | 仅 10/21 语言（4 全译），其余回退代码串 | 演示局限，注明即可 |
 | L5 | 间距 `space-y-12`/`gap-8` vs 真实 `space-y-16`/`gap-12` | 微调对齐 |
 | L6 | Hero `pt-24` vs 真实 `pt-20` | 轻微，可忽略 |

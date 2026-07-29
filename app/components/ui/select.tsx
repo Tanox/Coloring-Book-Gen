@@ -4,7 +4,8 @@ import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
 
 import { cn } from "@/app/lib/utils"
-import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from "lucide-react"
+import { ChevronDownIcon, CheckIcon } from "lucide-react"
+import { SelectScrollUpButton, SelectScrollDownButton } from "./select-scroll"
 
 const Select = SelectPrimitive.Root
 
@@ -161,4 +162,4 @@ export {
 }
 
 // Split modules (kept as separate files for maintainability).
-export * from "./select-scroll"
+export { SelectScrollUpButton, SelectScrollDownButton } from "./select-scroll"
