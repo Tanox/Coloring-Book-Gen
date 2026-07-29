@@ -24,6 +24,7 @@ interface GeneratorFormProps {
 const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, lang, generatedPages = 0, totalPages = 5 }) => {
   const { t } = useTranslation();
   const config = useConfig();
+  const { keyVersion } = config;
   
   const [theme, setTheme] = useState('');
   const [name, setName] = useState('');
@@ -37,7 +38,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
   useEffect(() => {
     const validation = validateApiKey(aiEngine);
     setApiKeyValid(validation);
-  }, [aiEngine]);
+  }, [aiEngine, keyVersion]);
 
   useEffect(() => {
     const capabilities = getEngineCapabilities(aiEngine);

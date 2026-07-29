@@ -39,6 +39,7 @@ export const zh_CN = {
   settings_resolution: "分辨率",
   settings_aspect_ratio: "纵横比",
   settings_story_mode: "故事模式",
+  settings_api_keys: "API 密钥（仅本地保存）",
   settings_version: "版本",
   settings_close: "关闭",
   api_key_configured: "API 密钥已配置",

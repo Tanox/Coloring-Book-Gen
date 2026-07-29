@@ -39,6 +39,7 @@ export const zh_TW = {
   settings_resolution: "解析度",
   settings_aspect_ratio: "縱橫比",
   settings_story_mode: "故事模式",
+  settings_api_keys: "API 金鑰（僅本地保存）",
   settings_version: "版本",
   settings_close: "關閉",
   api_key_configured: "API 金鑰已配置",

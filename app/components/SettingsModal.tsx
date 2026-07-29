@@ -9,6 +9,7 @@ import { languages } from '../constants/languages';
 import { SelectField, ToggleField } from './SettingsFields';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/app/components/ui/dialog';
 import { Button } from '@/app/components/ui/button';
+import { Input } from '@/app/components/ui/input';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -22,7 +23,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
     artStyle, setArtStyle,
     resolution, setResolution,
     aspectRatio, setAspectRatio,
-    storyMode, setStoryMode
+    storyMode, setStoryMode,
+    apiKeys, setApiKey,
   } = useConfig();
 
   return (
@@ -94,7 +96,25 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           <div className="pt-3 border-t border-border text-xs text-muted-foreground font-medium uppercase tracking-wider">
-            {t('settings_version')} v1.3.0
+            {t('settings_version')} v1.4.0
+          </div>
+
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <Settings className="w-3.5 h-3.5 text-muted-foreground" />
+              {t('settings_api_keys')}
+            </label>
+            {Object.values(AiEngine).map((engine) => (
+              <Input
+                key={engine}
+                type="password"
+                autoComplete="off"
+                placeholder={`${engine.toUpperCase()} ${t('settings_api_keys')}`}
+                value={apiKeys[engine] ?? ''}
+                onChange={(e) => setApiKey(engine, e.target.value)}
+                className="h-9 bg-background text-sm"
+              />
+            ))}
           </div>
         </div>
 
