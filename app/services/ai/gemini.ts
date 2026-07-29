@@ -1,6 +1,6 @@
 // File: /app/services/ai/gemini.ts v1.3.0
 import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
-import { AiEngine, AiServiceResponse, ImageResolution, ImageAspectRatio, ArtStyle, Language, AiImageResponseData, AiChatResponseData } from '../../types';
+import { AiEngine, AiServiceResponse, ImageResolution, ImageAspectRatio, ArtStyle, Language, ChatMessage, AiImageResponseData, AiChatResponseData } from '../../types';
 import { aiEngines, getApiKey } from './config';
 
 const MAX_INPUT_LENGTH = 200;
@@ -131,16 +131,20 @@ export async function generateImage(
 
 export async function chatWithAI(
   message: string,
-  history: { role: string; parts: { text: string }[] }[],
+  history: ChatMessage[],
   language: Language,
   apiKey?: string
 ): Promise<AiServiceResponse<AiChatResponseData>> {
   try {
     const ai = getGeminiInstance(apiKey);
     const safeMessage = sanitizeInput(message);
+    const geminiHistory = history.map((m) => ({
+      role: m.role === 'assistant' || m.role === 'model' ? 'model' : 'user',
+      parts: [{ text: m.content }],
+    }));
     const chat = ai.chats.create({
       model: aiEngines[AiEngine.GEMINI].model,
-      history: history,
+      history: geminiHistory,
       config: {
         systemInstruction: `You are a creative assistant for a coloring book generator. Provide helpful and inspiring responses in ${language}.`,
       },

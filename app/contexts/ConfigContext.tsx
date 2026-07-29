@@ -1,70 +1,128 @@
-// File: /app/contexts/ConfigContext.tsx v1.3.0
+// File: /app/contexts/ConfigContext.tsx v1.4.0
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle } from '../types';
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, ApiKeyConfig } from '../types';
 
-interface ConfigContextType {
+const STORAGE_VERSION = 'v1';
+const CONFIG_KEY = `colormyworld:${STORAGE_VERSION}:config`;
+const APIKEY_PREFIX = `colormyworld:${STORAGE_VERSION}:apikey:`;
+
+interface ConfigState {
   aiEngine: AiEngine;
-  setAiEngine: (engine: AiEngine) => void;
   artStyle: ArtStyle;
-  setArtStyle: (style: ArtStyle) => void;
   resolution: ImageResolution;
-  setResolution: (res: ImageResolution) => void;
   aspectRatio: ImageAspectRatio;
-  setAspectRatio: (ratio: ImageAspectRatio) => void;
   storyMode: boolean;
+}
+
+const DEFAULT_CONFIG: ConfigState = {
+  aiEngine: AiEngine.GEMINI,
+  artStyle: ArtStyle.STANDARD,
+  resolution: ImageResolution['1K'],
+  aspectRatio: ImageAspectRatio['1:1'],
+  storyMode: true,
+};
+
+interface ConfigContextType extends ConfigState {
+  setAiEngine: (engine: AiEngine) => void;
+  setArtStyle: (style: ArtStyle) => void;
+  setResolution: (res: ImageResolution) => void;
+  setAspectRatio: (ratio: ImageAspectRatio) => void;
   setStoryMode: (mode: boolean) => void;
+  apiKeys: ApiKeyConfig;
+  setApiKey: (engine: AiEngine, value: string) => void;
+  /** Bumped whenever a runtime API key changes, so consumers re-validate. */
+  keyVersion: number;
 }
 
 const ConfigContext = createContext<ConfigContextType | undefined>(undefined);
 
+const readJson = <T,>(key: string, fallback: T): T => {
+  try {
+    const raw = window.localStorage.getItem(key);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' ? { ...fallback, ...parsed } : fallback;
+  } catch {
+    return fallback;
+  }
+};
+
+const writeJson = (key: string, value: unknown): void => {
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Ignore write failures (private mode / quota).
+  }
+};
+
 export const ConfigProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [aiEngine, setAiEngine] = useState<AiEngine>(AiEngine.GEMINI);
-  const [artStyle, setArtStyle] = useState<ArtStyle>(ArtStyle.STANDARD);
-  const [resolution, setResolution] = useState<ImageResolution>(ImageResolution['1K']);
-  const [aspectRatio, setAspectRatio] = useState<ImageAspectRatio>(ImageAspectRatio['1:1']);
-  const [storyMode, setStoryMode] = useState(true);
+  const [aiEngine, setAiEngine] = useState<AiEngine>(DEFAULT_CONFIG.aiEngine);
+  const [artStyle, setArtStyle] = useState<ArtStyle>(DEFAULT_CONFIG.artStyle);
+  const [resolution, setResolution] = useState<ImageResolution>(DEFAULT_CONFIG.resolution);
+  const [aspectRatio, setAspectRatio] = useState<ImageAspectRatio>(DEFAULT_CONFIG.aspectRatio);
+  const [storyMode, setStoryMode] = useState(DEFAULT_CONFIG.storyMode);
+  const [apiKeys, setApiKeys] = useState<ApiKeyConfig>({});
+  const [keyVersion, setKeyVersion] = useState(0);
 
-  // Load from localStorage on mount
+  // Load persisted config + API keys on mount (guarded for SSR / private mode).
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedAiEngine = localStorage.getItem('config_aiEngine') as AiEngine;
-      if (savedAiEngine) setAiEngine(savedAiEngine);
+    if (typeof window === 'undefined') return;
+    const loaded = readJson<ConfigState>(CONFIG_KEY, DEFAULT_CONFIG);
+    if (loaded.aiEngine) setAiEngine(loaded.aiEngine);
+    if (loaded.artStyle) setArtStyle(loaded.artStyle);
+    if (loaded.resolution) setResolution(loaded.resolution);
+    if (loaded.aspectRatio) setAspectRatio(loaded.aspectRatio);
+    if (typeof loaded.storyMode === 'boolean') setStoryMode(loaded.storyMode);
 
-      const savedArtStyle = localStorage.getItem('config_artStyle') as ArtStyle;
-      if (savedArtStyle) setArtStyle(savedArtStyle);
-
-      const savedResolution = localStorage.getItem('config_resolution') as ImageResolution;
-      if (savedResolution) setResolution(savedResolution);
-
-      const savedAspectRatio = localStorage.getItem('config_aspectRatio') as ImageAspectRatio;
-      if (savedAspectRatio) setAspectRatio(savedAspectRatio);
-
-      const savedStoryMode = localStorage.getItem('config_storyMode');
-      if (savedStoryMode !== null) setStoryMode(savedStoryMode === 'true');
-    }
+    const keys: ApiKeyConfig = {};
+    Object.values(AiEngine).forEach((engine) => {
+      try {
+        const v = window.localStorage.getItem(APIKEY_PREFIX + engine);
+        if (v) keys[engine] = v;
+      } catch {
+        /* ignore */
+      }
+    });
+    setApiKeys(keys);
   }, []);
 
-  // Save to localStorage when values change
+  // Persist config changes.
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('config_aiEngine', aiEngine);
-      localStorage.setItem('config_artStyle', artStyle);
-      localStorage.setItem('config_resolution', resolution);
-      localStorage.setItem('config_aspectRatio', aspectRatio);
-      localStorage.setItem('config_storyMode', String(storyMode));
-    }
+    if (typeof window === 'undefined') return;
+    writeJson(CONFIG_KEY, { aiEngine, artStyle, resolution, aspectRatio, storyMode });
   }, [aiEngine, artStyle, resolution, aspectRatio, storyMode]);
 
+  const setApiKey = useCallback((engine: AiEngine, value: string) => {
+    setApiKeys((prev) => ({ ...prev, [engine]: value }));
+    try {
+      if (value) window.localStorage.setItem(APIKEY_PREFIX + engine, value);
+      else window.localStorage.removeItem(APIKEY_PREFIX + engine);
+    } catch {
+      /* ignore */
+    }
+    setKeyVersion((v) => v + 1);
+  }, []);
+
   return (
-    <ConfigContext.Provider value={{
-      aiEngine, setAiEngine,
-      artStyle, setArtStyle,
-      resolution, setResolution,
-      aspectRatio, setAspectRatio,
-      storyMode, setStoryMode
-    }}>
+    <ConfigContext.Provider
+      value={{
+        aiEngine,
+        setAiEngine,
+        artStyle,
+        setArtStyle,
+        resolution,
+        setResolution,
+        aspectRatio,
+        setAspectRatio,
+        storyMode,
+        setStoryMode,
+        apiKeys,
+        setApiKey,
+        keyVersion,
+      }}
+    >
       {children}
     </ConfigContext.Provider>
   );

@@ -1,11 +1,30 @@
-// File: /app/hooks/useBookGenerator.ts v1.3.0
+// File: /app/hooks/useBookGenerator.ts v1.4.0
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { generateStories, generateImage } from '../services/ai/gemini';
+import { generateStories, generateImage, type StoryScene } from '../services/ai';
 import { ColoringBook, ColoringBookPage, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine, Language } from '../types';
 
 const NUMBER_OF_PAGES = 5;
 const CONCURRENT_REQUESTS = 2;
+
+const MAX_THEME_LENGTH = 120;
+const MAX_NAME_LENGTH = 60;
+const THEME_PATTERN = /^[\p{L}\p{N}\s\-_,.'!?()]+$/u;
+
+const validateInput = (theme: string, name: string): void => {
+  if (!theme || theme.trim().length === 0) {
+    throw new Error('Theme is required.');
+  }
+  if (theme.length > MAX_THEME_LENGTH) {
+    throw new Error(`Theme must be less than ${MAX_THEME_LENGTH} characters.`);
+  }
+  if (name.length > MAX_NAME_LENGTH) {
+    throw new Error(`Name must be less than ${MAX_NAME_LENGTH} characters.`);
+  }
+  if (!THEME_PATTERN.test(theme)) {
+    throw new Error('Theme contains invalid characters.');
+  }
+};
 
 export const useBookGenerator = (lang: Language) => {
   const [book, setBook] = useState<ColoringBook | null>(null);
@@ -20,6 +39,8 @@ export const useBookGenerator = (lang: Language) => {
     setGeneratedPages(0);
 
     try {
+      validateInput(config.theme, config.name);
+
       const newBook: ColoringBook = {
         id: uuidv4(),
         theme: config.theme,
@@ -34,64 +55,68 @@ export const useBookGenerator = (lang: Language) => {
         createdAt: Date.now(),
       };
 
-      let stories: { story: string, imagePrompt: string }[] = [];
-      if (config.storyMode) {
-        const storyResponse = await generateStories(config.theme, config.name, lang, NUMBER_OF_PAGES);
-        if (storyResponse.success && storyResponse.data) {
-          stories = storyResponse.data;
-        } else {
-          throw new Error('Failed to generate stories.');
+      // Stories and images run in parallel (perf: no request waterfall).
+      const storyPromise: Promise<StoryScene[]> = config.storyMode
+        ? generateStories(config.theme, config.name, lang, NUMBER_OF_PAGES, config.aiEngine).then((res) => {
+            if (res.success && res.data) return res.data;
+            throw new Error(res.message || 'Failed to generate stories.');
+          })
+        : Promise.resolve([]);
+
+      const pageConfigs = Array.from({ length: NUMBER_OF_PAGES }, (_, i) => ({
+        index: i,
+        theme: config.theme,
+        name: config.name,
+        artStyle: config.artStyle,
+        resolution: config.resolution,
+        aspectRatio: config.aspectRatio,
+        engine: config.aiEngine,
+        story: undefined as string | undefined,
+      }));
+
+      const stories = await storyPromise;
+
+      const generatePageImage = async (pageConfig: typeof pageConfigs[number] & { story?: string }) => {
+        let pagePrompt = `${pageConfig.theme} for ${pageConfig.name}, coloring book page, ${pageConfig.artStyle} style, bold black outlines, white background, no shading`;
+        if (config.storyMode && stories[pageConfig.index]) {
+          pageConfig.story = stories[pageConfig.index].story;
+          pagePrompt = `${stories[pageConfig.index].imagePrompt}. Coloring book page, ${pageConfig.artStyle} style, bold black outlines, white background, no shading`;
         }
-      }
 
-      const pageConfigs = Array.from({ length: NUMBER_OF_PAGES }, (_, i) => {
-        let pagePrompt = `${config.theme} for ${config.name}, coloring book page, ${config.artStyle} style, bold black outlines, white background, no shading`;
-        let story: string | undefined;
-
-        if (config.storyMode && stories[i]) {
-          story = stories[i].story;
-          pagePrompt = `${stories[i].imagePrompt}. Coloring book page, ${config.artStyle} style, bold black outlines, white background, no shading`;
-        }
-
-        return {
-          index: i,
+        const imageResponse = await generateImage(
           pagePrompt,
-          story,
-        };
-      });
-
-      const generatePageImage = async (pageConfig: { index: number; pagePrompt: string; story?: string }) => {
-        const imageResponse = await generateImage(pageConfig.pagePrompt, config.resolution, config.aspectRatio, config.artStyle);
+          pageConfig.resolution,
+          pageConfig.aspectRatio,
+          pageConfig.artStyle,
+          pageConfig.engine,
+        );
 
         if (imageResponse.success && imageResponse.data) {
           return {
             pageNumber: pageConfig.index + 1,
             imageUrl: imageResponse.data.imageUrl,
             story: pageConfig.story,
-            prompt: pageConfig.pagePrompt,
-          };
+            prompt: pagePrompt,
+          } as ColoringBookPage;
         }
 
-        throw new Error(`Failed to generate image for page ${pageConfig.index + 1}: ${imageResponse.error}`);
+        throw new Error(`Failed to generate image for page ${pageConfig.index + 1}: ${imageResponse.error ?? imageResponse.message}`);
       };
 
-      let completedCount = 0;
-      const taskQueue = [...pageConfigs];
       const results: ColoringBookPage[] = Array(NUMBER_OF_PAGES);
+      const taskQueue = [...pageConfigs];
+      let activeCount = 0;
+      let nextIndex = 0;
 
       const worker = async (): Promise<void> => {
-        while (taskQueue.length > 0) {
-          const task = taskQueue.shift()!;
-          try {
-            const page = await generatePageImage(task);
-            results[task.index] = page;
-            completedCount++;
-            setGeneratedPages(completedCount);
-            newBook.pages = results.filter(Boolean);
-            setBook({ ...newBook });
-          } catch (err) {
-            throw err;
-          }
+        while (nextIndex < taskQueue.length) {
+          const taskIndex = nextIndex++;
+          const task = taskQueue[taskIndex];
+          const page = await generatePageImage(task);
+          results[task.index] = page;
+          setGeneratedPages((c) => c + 1);
+          newBook.pages = results.filter(Boolean) as ColoringBookPage[];
+          setBook({ ...newBook });
         }
       };
 
@@ -99,8 +124,8 @@ export const useBookGenerator = (lang: Language) => {
       const workers = Array.from({ length: poolSize }, () => worker());
       await Promise.all(workers);
 
-      newBook.pages = results;
-
+      newBook.pages = results.filter(Boolean) as ColoringBookPage[];
+      setBook({ ...newBook });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
     } finally {
@@ -113,11 +138,19 @@ export const useBookGenerator = (lang: Language) => {
     setIsLoading(true);
     try {
       const pageToRegenerate = book.pages[pageIndex];
-      const imageResponse = await generateImage(pageToRegenerate.prompt, book.imageResolution!, book.imageAspectRatio!, book.artStyle!);
+      const imageResponse = await generateImage(
+        pageToRegenerate.prompt,
+        book.imageResolution!,
+        book.imageAspectRatio!,
+        book.artStyle!,
+        book.aiEngine,
+      );
       if (imageResponse.success && imageResponse.data) {
         const updatedPages = [...book.pages];
         updatedPages[pageIndex] = { ...pageToRegenerate, imageUrl: imageResponse.data.imageUrl };
         setBook({ ...book, pages: updatedPages });
+      } else {
+        setError(imageResponse.error ?? imageResponse.message);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');

@@ -113,6 +113,8 @@ export interface AiChatResponseData {
 
 export interface AiEngineConfig {
   model: string;
+  /** OpenAI-compatible base URL for text engines (Gemini uses its own SDK). */
+  baseUrl?: string;
   apiKeyEnvVar: string;
   apiKey?: string;
   maxOutputTokens?: number;
@@ -123,4 +125,10 @@ export interface AiEngineConfig {
   imageAspectRatios?: ImageAspectRatio[];
   imageQualities?: ImageQuality[];
   artStyles?: ArtStyle[];
+}
+
+/** Normalized chat message used by the AI gateway across all providers. */
+export interface ChatMessage {
+  role: 'system' | 'user' | 'assistant' | 'model';
+  content: string;
 }

@@ -92,16 +92,18 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
     return 'gen_stage_magic';
   })();
 
-  // Align with spec + SettingsModal: all 5 art styles. Cartoon/Realistic fall back to
-  // capitalized enum when a locale hasn't added the key yet (t() returns the key).
+  // Align with spec + SettingsModal: all 5 art styles, fully internationalized.
   const artStyleLabels: Record<string, string> = {
     [ArtStyle.SIMPLE]: t('form_difficulty_simple'),
     [ArtStyle.STANDARD]: t('form_difficulty_medium'),
     [ArtStyle.DETAILED]: t('form_difficulty_complex'),
-    [ArtStyle.CARTOON]: t('form_difficulty_cartoon') !== 'form_difficulty_cartoon' ? t('form_difficulty_cartoon') : 'Cartoon',
-    [ArtStyle.REALISTIC]: t('form_difficulty_realistic') !== 'form_difficulty_realistic' ? t('form_difficulty_realistic') : 'Realistic',
+    [ArtStyle.CARTOON]: t('form_difficulty_cartoon'),
+    [ArtStyle.REALISTIC]: t('form_difficulty_realistic'),
   };
   const artStyleOptions = Object.values(ArtStyle).map((s) => ({ value: s, label: artStyleLabels[s] }));
+
+  // Only image-capable engines can produce a coloring book.
+  const canGenerateImages = getEngineCapabilities(aiEngine).canGenerateImages;
 
   return (
     <form id="generator-form" onSubmit={handleSubmit} className="space-y-6">
@@ -173,7 +175,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
 
       <Button
         type="submit"
-        disabled={isLoading}
+        disabled={isLoading || !apiKeyValid.valid || !canGenerateImages}
         className="w-full h-12 text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm transition-colors"
         size="lg"
       >
@@ -189,6 +191,13 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
           </>
         )}
       </Button>
+
+      {!canGenerateImages && (
+        <div className="flex items-center gap-3 p-3 bg-muted/50 border border-border rounded-lg">
+          <AlertCircle className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+          <span className="text-sm text-muted-foreground font-medium">{t('engine_no_image_support')}</span>
+        </div>
+      )}
 
       {isLoading && (
         <Progress value={progress} className="h-1" />

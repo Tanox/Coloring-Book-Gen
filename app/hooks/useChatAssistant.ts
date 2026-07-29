@@ -1,11 +1,13 @@
-// File: /app/hooks/useChatAssistant.ts v1.3.0
+// File: /app/hooks/useChatAssistant.ts v1.4.0
 import { useState } from 'react';
-import { chatWithAI } from '../services/ai/gemini';
-import { Language } from '../types';
+import { chatWithAI } from '../services/ai';
+import { useConfig } from '../contexts/ConfigContext';
+import { Language, ChatMessage } from '../types';
 
 export const useChatAssistant = (language: Language, initialMessage: string) => {
+  const { aiEngine } = useConfig();
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
-    { role: 'assistant', content: initialMessage }
+    { role: 'assistant', content: initialMessage },
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -15,23 +17,23 @@ export const useChatAssistant = (language: Language, initialMessage: string) => 
 
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
     try {
-      const history = messages.map(msg => ({
-        role: msg.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: msg.content }]
+      const history: ChatMessage[] = messages.map((msg) => ({
+        role: msg.role === 'assistant' ? 'assistant' : 'user',
+        content: msg.content,
       }));
 
-      const response = await chatWithAI(userMessage, history, language);
+      const response = await chatWithAI(userMessage, history, language, aiEngine);
       if (response.success && response.data) {
-        setMessages(prev => [...prev, { role: 'assistant', content: response.data?.response ?? errorMessage }]);
+        setMessages((prev) => [...prev, { role: 'assistant', content: response.data?.response ?? errorMessage }]);
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }]);
+        setMessages((prev) => [...prev, { role: 'assistant', content: errorMessage }]);
       }
-    } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: connectionErrorMessage }]);
+    } catch {
+      setMessages((prev) => [...prev, { role: 'assistant', content: connectionErrorMessage }]);
     } finally {
       setIsLoading(false);
     }
@@ -42,6 +44,6 @@ export const useChatAssistant = (language: Language, initialMessage: string) => 
     input,
     setInput,
     isLoading,
-    handleSend
+    handleSend,
   };
 };
