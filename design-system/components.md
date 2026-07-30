@@ -22,7 +22,7 @@
 `app/components/ui/card.tsx` — `Card / CardHeader / CardTitle / CardDescription / CardContent / CardFooter / CardAction`。默认 `rounded-xl ring-1 ring-foreground/10`。
 
 ### Badge
-`app/components/ui/badge.tsx` — 状态标签（如页码徽标可用 `bg-primary-soft text-primary rounded-full`）。
+`app/components/ui/badge.tsx` — 状态标签（如页码徽标可用 `bg-primary/10 text-primary rounded-full`；`bg-primary/10` 为代码真实工具类，原型自定的 `.bg-primary-soft` 仅用于 HTML 原型演示）。
 
 ### Checkbox / Switch
 `checkbox.tsx`（生成器故事模式）· `switch.tsx`（设置中心开关）。受控 `checked` + `onCheckedChange`。
