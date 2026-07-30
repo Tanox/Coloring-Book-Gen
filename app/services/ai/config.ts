@@ -1,4 +1,4 @@
-// File: /app/services/ai/config.ts v1.5.0
+// File: /app/services/ai/config.ts v1.6.0
 import { AiEngine, AiEngineConfig, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../../types';
 
 /** LocalStorage key prefix for runtime-configured API keys (priority over env). */

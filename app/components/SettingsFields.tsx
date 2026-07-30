@@ -1,3 +1,4 @@
+// File: /app/components/SettingsFields.tsx v1.6.0
 'use client';
 
 import { LucideIcon } from 'lucide-react';

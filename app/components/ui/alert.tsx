@@ -1,3 +1,4 @@
+// File: /app/components/ui/alert.tsx v1.6.0
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 

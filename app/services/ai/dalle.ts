@@ -1,4 +1,4 @@
-// File: /app/services/ai/dalle.ts v1.5.0
+// File: /app/services/ai/dalle.ts v1.6.0
 // OpenAI DALL·E image generation (the only non-Gemini engine that can draw).
 import { AiEngine, AiServiceResponse, ImageResolution, ImageAspectRatio, ArtStyle } from '../../types';
 import { aiEngines, getApiKey } from './config';

@@ -1,6 +1,6 @@
-// File: /app/locales/zh-cn.ts v1.5.0
+// File: /app/locales/zh-cn.ts v1.6.0
 export const zh_CN = {
-  app_title: "ColorMyWorld v1.5.0",
+  app_title: "ColorMyWorld v1.6.0",
   ai_powered_creativity: "AI 驱动的创造力",
   hero_headline_part1: "创建你自己的",
   hero_headline_part2: "涂色书",
@@ -19,6 +19,7 @@ export const zh_CN = {
   form_layout_label: "布局",
   form_include_story: "包含故事模式",
   generate_book_button: "生成涂色书",
+  form_required_fields: "请填写主题和孩子名字。",
   generating_book_button: "生成中...",
   results_gallery_placeholder: "你的涂色书将显示在这里。",
   results_gallery_title_for: "为",
@@ -31,6 +32,8 @@ export const zh_CN = {
   chat_assistant_placeholder: "输入消息...",
   chat_assistant_error_message: "抱歉，遇到错误。",
   chat_assistant_connection_error: "连接错误，请重试。",
+  chat_assistant_send: "发送",
+  chat_assistant_close: "关闭",
   footer_text: "© 2026 ColorMyWorld. 保留所有权利。",
   settings_title: "设置",
   settings_language: "语言",

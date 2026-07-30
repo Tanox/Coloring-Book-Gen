@@ -1,4 +1,4 @@
-// File: /app/components/Footer.tsx v1.5.0 - Minimal Premium Design
+// File: /app/components/Footer.tsx v1.6.0 - Minimal Premium Design
 'use client';
 
 import React from 'react';

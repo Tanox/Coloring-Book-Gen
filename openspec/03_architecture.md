@@ -1,4 +1,4 @@
-# 技术架构规范：绘梦世界 (ColorMyWorld) - v1.5.0
+# 技术架构规范：绘梦世界 (ColorMyWorld) - v1.6.0
 
 ## 1. 系统拓扑
 - **前端核心**：Next.js 14 (App Router) + React 18.3 + TypeScript 5.5。

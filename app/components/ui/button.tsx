@@ -1,3 +1,4 @@
+// File: /app/components/ui/button.tsx v1.6.0
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 

@@ -1,3 +1,4 @@
+// File: /app/components/ui/checkbox.tsx v1.6.0
 "use client"
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"

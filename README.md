@@ -54,7 +54,7 @@
     ```
 
 3.  **Configuration**
-    *   This project requires a Google Gemini API Key
+    *   This project requires an API key for at least one supported AI engine (Gemini by default)
     *   Set environment variable `NEXT_PUBLIC_GEMINI_API_KEY` for automatic configuration
     *   Optional additional engine keys:
         *   `NEXT_PUBLIC_OPENAI_API_KEY`
@@ -147,7 +147,7 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ## 🇨🇳 中文
 
-**绘梦世界 (ColorMyWorld)** 是一款基于 AI 的创意 Web 应用，利用 Google Gemini API 为孩子们生成专属的涂色书。只需输入主题（例如"太空恐龙"）和孩子的名字，AI 就会自动生成一本包含封面、故事叙述和可打印涂色页的独特书籍。
+**绘梦世界 (ColorMyWorld)** 是一款基于 AI 的创意 Web 应用，利用可插拔的多种 AI 引擎（默认 Gemini）为孩子们生成专属的涂色书。只需输入主题（例如"太空恐龙"）和孩子的名字，AI 就会自动生成一本包含封面、故事叙述和可打印涂色页的独特书籍。
 
 ### ✨ 功能特性
 
@@ -155,7 +155,7 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 *   **个性化定制**：根据孩子的名字和特定主题定制封面和内页内容
 *   **故事模式**：为每一页生成适合儿童阅读的短故事（支持多种语言）
 *   **PDF 导出**：支持客户端 PDF 生成（使用 `jspdf`），方便下载和打印涂色书
-*   **多语言支持**：支持 21 种语言，包括英语、中文（简体/繁体）、西班牙语、阿拉伯语、法语、德语、意大利语、日语、韩语、葡萄牙语、俄语、土耳其语、印地语、荷兰语、波兰语、瑞典语、泰语、越南语、捷克语和印尼语
+*   **多语言支持**：支持 21 种语言，英语、简体/繁体中文、西班牙语、阿拉伯语、法语、德语、意大利语、日语、韩语、葡萄牙语、俄语、土耳其语、印地语、荷兰语、波兰语、瑞典语、泰语、越南语、捷克语、印尼语。英语 / 简体中文 / 繁体中文为完整翻译，其余语言在缺失较新文案时回退至英文，语言切换始终正常
 *   **多 AI 引擎**：统一的 AI 网关将请求路由到 Gemini、OpenAI、Claude、DeepSeek、豆包与通义千问。Gemini 与 OpenAI（DALL·E）可生成图像，六种引擎均支持故事与对话。各引擎的能力（图像/故事/对话）会在界面中按能力声明启用或禁用。
 *   **艺术风格选择**：提供 5 种艺术风格 — 简单、标准、精细、卡通和写实
 *   **分辨率控制**：支持多种图像分辨率（1K、2K、4K）
@@ -187,7 +187,7 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
     ```
 
 3.  **配置**
-    *   本项目需要 Google Gemini API 密钥
+    *   本项目需要至少一种受支持 AI 引擎的 API 密钥（默认 Gemini）
     *   设置环境变量 `NEXT_PUBLIC_GEMINI_API_KEY` 进行自动配置
     *   可选的额外引擎密钥：
         *   `NEXT_PUBLIC_OPENAI_API_KEY`
@@ -246,8 +246,11 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 │   │   └── [language].ts   # 各语言翻译
 │   ├── services/           # 服务层
 │   │   ├── ai/             # AI 服务
-│   │   │   ├── config.ts   # 引擎配置与能力声明
-│   │   │   ├── gemini.ts   # Gemini 实现
+│   │   │   ├── config.ts   # 引擎配置、能力声明与密钥解析
+│   │   │   ├── gemini.ts   # Gemini 实现（故事/图像/对话）
+│   │   │   ├── openaiCompatible.ts # OpenAI 兼容对话（OpenAI/DeepSeek/Doubao/Qianwen）
+│   │   │   ├── claude.ts    # Anthropic Claude 对话
+│   │   │   ├── dalle.ts     # OpenAI DALL·E 图像生成
 │   │   │   └── index.ts    # 统一导出
 │   │   └── pdfService.ts   # PDF 导出服务
 │   ├── constants/
@@ -278,4 +281,4 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ---
 
-**Version**: 1.5.0
+**Version**: 1.6.0

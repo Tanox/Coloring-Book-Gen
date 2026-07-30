@@ -1,3 +1,4 @@
+// File: /app/components/PageSkeleton.tsx v1.6.0
 'use client';
 
 import React from 'react';

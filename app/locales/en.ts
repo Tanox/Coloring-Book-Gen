@@ -1,6 +1,6 @@
-// File: /app/locales/en.ts v1.5.0
+// File: /app/locales/en.ts v1.6.0
 export const en = {
-  app_title: "ColorMyWorld v1.5.0",
+  app_title: "ColorMyWorld v1.6.0",
   ai_powered_creativity: "AI-Powered Creativity",
   hero_headline_part1: "Create Your Own",
   hero_headline_part2: "Coloring Book",
@@ -19,6 +19,7 @@ export const en = {
   form_layout_label: "Layout",
   form_include_story: "Include Story Mode",
   generate_book_button: "Generate Book",
+  form_required_fields: "Please enter both a theme and a child's name.",
   generating_book_button: "Generating...",
   results_gallery_placeholder: "Your coloring book will appear here.",
   results_gallery_title_for: "for",

@@ -1,4 +1,4 @@
-# UI/UX 设计规范：ColorMyWorld - v1.5.0
+# UI/UX 设计规范：ColorMyWorld - v1.6.0
 
 > 极简高端（Minimal Premium）方向。本文件为界面规范的**索引**，完整令牌与组件细节见 `design-system/`：
 > - `design-system/MASTER.md` — 色彩 / 字体 / 间距 / 图标 / 动效（唯一事实来源）
@@ -51,7 +51,7 @@
 
 - **原型 ↔ 代码**：`prototype/index.html` 使用与 `app/globals.css` 相同的 oklch 令牌与组件形态，作为视觉回归基准。
 - **代码 ↔ 规范**：所有 UI 组件经 shadcn/ui 实现，禁止原生 `<button>`/`<input>`（已重构 `ChatAssistant`）。
-- **规范 ↔ 文档**：本文件与 `design-system/*` 同步至 v1.5.0；功能枚举（如 5 种艺术风格）与 `openspec/02_features.md`、代码三元一致。
+- **规范 ↔ 文档**：本文件与 `design-system/*` 同步至 v1.6.0；功能枚举（如 5 种艺术风格）与 `openspec/02_features.md`、代码三元一致。
 
 ## 6. 页面布局
 

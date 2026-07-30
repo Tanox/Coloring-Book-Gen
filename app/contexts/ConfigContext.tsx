@@ -1,4 +1,4 @@
-// File: /app/contexts/ConfigContext.tsx v1.5.0
+// File: /app/contexts/ConfigContext.tsx v1.6.0
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
@@ -6,7 +6,10 @@ import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, ApiKeyConfig } f
 
 const STORAGE_VERSION = 'v1';
 const CONFIG_KEY = `colormyworld:${STORAGE_VERSION}:config`;
-const APIKEY_PREFIX = `colormyworld:${STORAGE_VERSION}:apikey:`;
+// Runtime API keys must be stored under the same prefix that
+// services/ai/config.getApiKey reads (`apikey_`). Keeping them aligned is what
+// makes a key entered in Settings actually reach the generation request.
+const APIKEY_PREFIX = 'apikey_';
 
 interface ConfigState {
   aiEngine: AiEngine;

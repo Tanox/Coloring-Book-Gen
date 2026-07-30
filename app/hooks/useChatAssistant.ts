@@ -1,4 +1,4 @@
-// File: /app/hooks/useChatAssistant.ts v1.5.0
+// File: /app/hooks/useChatAssistant.ts v1.6.0
 import { useState } from 'react';
 import { chatWithAI } from '../services/ai';
 import { useConfig } from '../contexts/ConfigContext';

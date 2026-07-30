@@ -1,4 +1,4 @@
-// File: /app/services/ai/gateway.ts v1.5.0
+// File: /app/services/ai/gateway.ts v1.6.0
 // Unified AI gateway. Routes image / story / chat requests to the selected
 // engine (Gemini, OpenAI, Claude, DeepSeek, Doubao, Qianwen) so the rest of the
 // app stays engine-agnostic. Each provider degrades gracefully on failure.

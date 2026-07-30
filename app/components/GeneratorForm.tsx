@@ -1,9 +1,11 @@
+// File: /app/components/GeneratorForm.tsx v1.6.0
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { Wand2, User, Type, Layout, Palette as PaletteIcon, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
 import { useTranslation } from '../locales/TranslationProvider';
 import { useConfig } from '../contexts/ConfigContext';
+import { getStageKey, buildArtStyleOptions, validateGeneratorForm } from './generatorFormHelpers';
 import { FormInputField, FormSelectField } from './FormFields';
 import { validateApiKey, getEngineCapabilities } from '../services/ai/config';
 import { AiEngine, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../types';
@@ -57,7 +59,9 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (validateGeneratorForm(theme, name, t)) return;
+
     if (!apiKeyValid.valid) {
       return;
     }
@@ -71,9 +75,6 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
     onGenerate({ theme, name, resolution, aspectRatio, artStyle, storyMode: shouldIncludeStory, aiEngine });
   };
 
-  const progress = totalPages > 0 ? (generatedPages / totalPages) * 100 : 0;
-
-  // "Surprise me" from the empty gallery drops a fun idea into the theme field.
   useEffect(() => {
     const handler = () => {
       const idea = getRandomTheme();
@@ -84,27 +85,9 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
     return () => window.removeEventListener(INSPIRE_EVENT, handler);
   }, []);
 
-  // Personality-rich, staged progress copy instead of a bare "Generating...".
-  const stageKey = (() => {
-    const ratio = totalPages > 0 ? generatedPages / totalPages : 0;
-    if (generatedPages >= totalPages) return 'gen_stage_finish';
-    if (ratio <= 0.2) return 'gen_stage_idea';
-    if (ratio <= 0.6) return 'gen_stage_sketch';
-    return 'gen_stage_magic';
-  })();
+  const stageKey = getStageKey(generatedPages, totalPages);
 
-  // Align with spec + SettingsModal: all 5 art styles, fully internationalized.
-  const artStyleLabels: Record<string, string> = {
-    [ArtStyle.SIMPLE]: t('form_difficulty_simple'),
-    [ArtStyle.STANDARD]: t('form_difficulty_medium'),
-    [ArtStyle.DETAILED]: t('form_difficulty_complex'),
-    [ArtStyle.CARTOON]: t('form_difficulty_cartoon'),
-    [ArtStyle.REALISTIC]: t('form_difficulty_realistic'),
-  };
-  const artStyleOptions = Object.values(ArtStyle).map((s) => ({ value: s, label: artStyleLabels[s] }));
-
-  // Only image-capable engines can produce a coloring book.
-  const canGenerateImages = getEngineCapabilities(aiEngine).canGenerateImages;
+  const artStyleOptions = buildArtStyleOptions(t);
 
   return (
     <form id="generator-form" onSubmit={handleSubmit} className="space-y-6">
@@ -172,11 +155,18 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
             <span className="text-sm text-muted-foreground font-medium">{t('api_key_configured')}</span>
           </div>
         )}
+
+        {validateGeneratorForm(theme, name, t) && (
+          <Alert variant="destructive" className="flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+            <AlertDescription className="text-destructive">{validateGeneratorForm(theme, name, t)}</AlertDescription>
+          </Alert>
+        )}
       </div>
 
       <Button
         type="submit"
-        disabled={isLoading || !apiKeyValid.valid || !canGenerateImages}
+        disabled={isLoading || !apiKeyValid.valid || !getEngineCapabilities(aiEngine).canGenerateImages}
         className="w-full h-12 text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm transition-colors"
         size="lg"
       >
@@ -193,7 +183,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
         )}
       </Button>
 
-      {!canGenerateImages && (
+      {!getEngineCapabilities(aiEngine).canGenerateImages && (
         <div className="flex items-center gap-3 p-3 bg-muted/50 border border-border rounded-lg">
           <AlertCircle className="w-4 h-4 text-muted-foreground flex-shrink-0" />
           <span className="text-sm text-muted-foreground font-medium">{t('engine_no_image_support')}</span>
@@ -201,7 +191,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
       )}
 
       {isLoading && (
-        <Progress value={progress} className="h-1" />
+        <Progress value={totalPages > 0 ? (generatedPages / totalPages) * 100 : 0} className="h-1" />
       )}
     </form>
   );

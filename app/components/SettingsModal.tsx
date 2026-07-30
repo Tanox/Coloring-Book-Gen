@@ -1,3 +1,4 @@
+// File: /app/components/SettingsModal.tsx v1.6.0
 'use client';
 
 import React from 'react';
@@ -96,7 +97,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           <div className="pt-3 border-t border-border text-xs text-muted-foreground font-medium uppercase tracking-wider">
-            {t('settings_version')} v1.5.0
+            {t('settings_version')} v1.6.0
           </div>
 
           <div className="space-y-2">

@@ -1,4 +1,4 @@
-# 组件库规范 · Component Library — ColorMyWorld v1.5.0
+# 组件库规范 · Component Library — ColorMyWorld v1.6.0
 
 > 全部基于 shadcn/ui（`@base-ui/react` 实现）。基础组件位于 `app/components/ui/`，复合/业务组件位于 `app/components/`。
 

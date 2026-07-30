@@ -1,4 +1,4 @@
-# 设计系统 · Design System — ColorMyWorld v1.5.0
+# 设计系统 · Design System — ColorMyWorld v1.6.0
 
 > 极简高端（Minimal Premium）方向：单一强调色 Warm Amber + 大量留白 + 精确 4px 间距网格。
 > 本文件为**唯一事实来源（Single Source of Truth）**，代码、原型与 OpenSpec 必须与之对齐。

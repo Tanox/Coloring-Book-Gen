@@ -1,6 +1,6 @@
-// File: /app/locales/zh-tw.ts v1.5.0
+// File: /app/locales/zh-tw.ts v1.6.0
 export const zh_TW = {
-  app_title: "ColorMyWorld v1.5.0",
+  app_title: "ColorMyWorld v1.6.0",
   ai_powered_creativity: "AI 驅動的創造力",
   hero_headline_part1: "創建你自己的",
   hero_headline_part2: "著色本",
@@ -19,6 +19,7 @@ export const zh_TW = {
   form_layout_label: "佈局",
   form_include_story: "包含故事模式",
   generate_book_button: "生成著色本",
+  form_required_fields: "請填寫主題和孩子名字。",
   generating_book_button: "生成中...",
   results_gallery_placeholder: "你的著色本將顯示在這裡。",
   results_gallery_title_for: "為",
@@ -31,6 +32,8 @@ export const zh_TW = {
   chat_assistant_placeholder: "輸入訊息...",
   chat_assistant_error_message: "抱歉，遇到錯誤。",
   chat_assistant_connection_error: "連接錯誤，請重試。",
+  chat_assistant_send: "傳送",
+  chat_assistant_close: "關閉",
   footer_text: "© 2026 ColorMyWorld. 保留所有權利。",
   settings_title: "設置",
   settings_language: "語言",

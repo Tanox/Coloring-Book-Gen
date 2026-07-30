@@ -1,6 +1,6 @@
-// File: /app/locales/th.ts v1.5.0
+// File: /app/locales/th.ts v1.6.0
 export const th = {
-  app_title: "ColorMyWorld v1.5.0",
+  app_title: "ColorMyWorld v1.6.0",
   ai_powered_creativity: "ความคิดสร้างสรรค์ด้วย AI",
   hero_headline_part1: "สร้างของคุณเอง",
   hero_headline_part2: "สมุดระบายสี",

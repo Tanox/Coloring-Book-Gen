@@ -1,4 +1,4 @@
-// File: /app/components/ui/select-scroll.tsx v1.5.0
+// File: /app/components/ui/select-scroll.tsx v1.6.0
 // Scroll up/down buttons for the select dropdown. Split out of select.tsx to
 // keep individual source files focused and under 200 lines.
 "use client"
