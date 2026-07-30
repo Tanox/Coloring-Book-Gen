@@ -278,4 +278,4 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ---
 
-**Version**: 1.4.0
+**Version**: 1.5.0

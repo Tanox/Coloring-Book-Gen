@@ -7,6 +7,8 @@ export default defineConfig({
     globals: true,
     setupFiles: ['tests/setup.ts'],
     include: ['tests/**/*.test.ts'],
+    pool: 'forks',
+    poolOptions: { forks: { execArgv: ['--no-experimental-web-storage'] } },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],

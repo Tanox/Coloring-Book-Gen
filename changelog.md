@@ -1,5 +1,17 @@
 # 更新日志 (Changelog)
 
+## v1.5.0
+
+### 文档与原型整体同步（Doc & Prototype Sync）
+- **版本号统一**：全部源文件头部、OpenSpec（01~05/project）、design-system/*、README、metadata.json、package.json 与 prototype/index.html 版本号统一升级至 v1.5.0。
+- **架构文档纠错**：03_architecture.md 技术栈误写 `Next.js 15` 修正为 `Next.js 14`，与 package.json / metadata.json / README 一致。
+- **原型语言对齐**：prototype/index.html 语言菜单与 app/constants/languages.ts 对齐——修正 `zh`→`zh-CN`、`pt-br`→`pt-BR`，并覆盖全部 21 种语言；未内置译文的语种回退英文文案与标签。
+
+### 代码审查治理（2026-07-30）
+- 纳入 `app/` 全量代码审查结论（116 项：0 严重 / 1 一般 / 115 优化）。
+- 文档化治理基线：业务组件 `PascalCase`、Hooks/工具 `camelCase`；单行长度建议 ≤80 字符；安全红线重申「无 console.log/debugger、密钥不入库、AI 文本纯文本渲染」。
+- 一般问题（pdfService.ts 残留调试输出）登记为后续修复项，本版未改动业务代码。
+
 ## v1.4.0
 
 ### 多引擎 AI 网关（真实路由）

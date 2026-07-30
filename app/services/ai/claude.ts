@@ -1,4 +1,4 @@
-// File: /app/services/ai/claude.ts v1.4.0
+// File: /app/services/ai/claude.ts v1.5.0
 // Anthropic Claude client (messages API). Claude is not OpenAI-compatible, so it
 // gets its own tiny fetch wrapper.
 import { AiEngine, AiServiceResponse, ChatMessage } from '../../types';

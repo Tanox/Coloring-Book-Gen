@@ -1,4 +1,4 @@
-# 原型设计审查报告 · ColorMyWorld v1.4.0
+# 原型设计审查报告 · ColorMyWorld v1.5.0
 
 > 审查对象：`prototype/index.html`（高保真交互原型）
 > 比对基准：`design-system/MASTER.md`、`components.md`、`interaction.md` + 实际 `app/` 代码（Header / Hero / Footer / GeneratorForm / SettingsModal / ChatAssistant）
@@ -62,7 +62,7 @@
 |----|------|
 | L1 | ✅ `.fade-up` 由 250ms→200ms；hover/微交互统一 `transition-duration:200ms`（对齐 MASTER §5）|
 | L2 | ✅ 设置弹窗 `max-w-md` → `max-w-[calc(100%-2rem)]`（移动框不溢出）|
-| L3 | ✅ 页脚移除硬编码「绘梦世界」，改为 `ColorMyWorld — AI coloring book generator · Prototype v1.4.0` |
+| L3 | ✅ 页脚移除硬编码「绘梦世界」，改为 `ColorMyWorld — AI coloring book generator · Prototype v1.5.0` |
 | L4 | 标注：原型含 10/21 语言（4 全译），其余回退英文——演示局限，符合 i18n 回退策略 |
 | L5 | ✅ 主区 `space-y-12`→`space-y-16`、Hero `space-y-6`→`space-y-8` 对齐代码节奏 |
 | L6 | ✅ Hero `pt-24`→`pt-20` 对齐 `Hero.tsx` |

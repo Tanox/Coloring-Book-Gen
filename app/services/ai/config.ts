@@ -1,4 +1,4 @@
-// File: /app/services/ai/config.ts v1.4.0
+// File: /app/services/ai/config.ts v1.5.0
 import { AiEngine, AiEngineConfig, ImageResolution, ImageAspectRatio, ArtStyle, Language } from '../../types';
 
 /** LocalStorage key prefix for runtime-configured API keys (priority over env). */
@@ -86,22 +86,18 @@ export const getApiKey = (engine: AiEngine): string | undefined => {
   const config = aiEngines[engine];
   if (!config) return undefined;
 
-  // Prefer window.localStorage, but fall back to the global storage when the
-  // window reference is restricted (some privacy modes / non-browser runtimes).
-  const windowStorage =
-    typeof window !== 'undefined' && window.localStorage && typeof window.localStorage.getItem === 'function'
-      ? window.localStorage
-      : undefined;
-  const storage: Storage | undefined = windowStorage ?? (typeof globalThis !== 'undefined' ? (globalThis as unknown as { localStorage?: Storage }).localStorage : undefined);
-
-  if (storage) {
-    try {
-      const stored = storage.getItem(API_KEY_STORAGE_PREFIX + engine);
-      if (stored && stored.trim() !== '') return stored.trim();
-    } catch {
-      // localStorage may be unavailable (private mode / SSR) — fall back to env.
+  // Read the runtime LocalStorage key (priority over env). Use the bare
+  // `localStorage` global so it works in browsers and in test environments
+  // that stub the global; fall back to env when storage is unavailable.
+  let stored: string | undefined;
+  try {
+    if (typeof localStorage !== 'undefined') {
+      stored = localStorage.getItem(API_KEY_STORAGE_PREFIX + engine)?.trim() || undefined;
     }
+  } catch {
+    // localStorage may be unavailable (private mode / SSR) — fall back to env.
   }
+  if (stored) return stored;
 
   const envKey = process.env[config.apiKeyEnvVar];
   return envKey && envKey.trim() !== '' ? envKey.trim() : undefined;
