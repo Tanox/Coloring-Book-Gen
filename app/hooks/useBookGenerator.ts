@@ -103,17 +103,22 @@ export const useBookGenerator = (lang: Language) => {
         throw new Error(`Failed to generate image for page ${pageConfig.index + 1}: ${imageResponse.error ?? imageResponse.message}`);
       };
 
-      const results: ColoringBookPage[] = Array(NUMBER_OF_PAGES);
+      const results: (ColoringBookPage | undefined)[] = Array(NUMBER_OF_PAGES);
       const taskQueue = [...pageConfigs];
-      let activeCount = 0;
       let nextIndex = 0;
+      const pageErrors: string[] = [];
 
       const worker = async (): Promise<void> => {
         while (nextIndex < taskQueue.length) {
           const taskIndex = nextIndex++;
           const task = taskQueue[taskIndex];
-          const page = await generatePageImage(task);
-          results[task.index] = page;
+          try {
+            const page = await generatePageImage(task);
+            results[task.index] = page;
+          } catch (err) {
+            // 单页失败不应丢弃整本书：记录错误并继续生成其余页面
+            pageErrors.push(err instanceof Error ? err.message : 'Failed to generate a page');
+          }
           setGeneratedPages((c) => c + 1);
           newBook.pages = results.filter(Boolean) as ColoringBookPage[];
           setBook({ ...newBook });
@@ -124,8 +129,18 @@ export const useBookGenerator = (lang: Language) => {
       const workers = Array.from({ length: poolSize }, () => worker());
       await Promise.all(workers);
 
-      newBook.pages = results.filter(Boolean) as ColoringBookPage[];
-      setBook({ ...newBook });
+      // 容错：只要有一页成功就展示成品，仅在全部失败时整体报错
+      const successfulPages = results.filter(Boolean) as ColoringBookPage[];
+      newBook.pages = successfulPages;
+      if (successfulPages.length === 0) {
+        setBook(null);
+        setError(pageErrors[0] ?? 'Failed to generate any pages.');
+      } else {
+        setBook({ ...newBook });
+        if (pageErrors.length > 0) {
+          setError(`Generated ${successfulPages.length}/${NUMBER_OF_PAGES} pages. ${pageErrors[0]}`);
+        }
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
     } finally {
