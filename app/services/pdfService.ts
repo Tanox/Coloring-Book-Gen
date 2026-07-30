@@ -8,11 +8,14 @@ const NEUTRAL_STRONG: [number, number, number] = [60, 60, 60];
 const NEUTRAL_MUTED: [number, number, number] = [115, 115, 115];
 
 /** Strip filesystem-unsafe characters and cap length for the download filename. */
-const sanitizeFilename = (value: string): string =>
-  value
+export const sanitizeFilename = (value: string): string => {
+  const cleaned = (value ?? '')
+    .trim()
     .replace(/[<>:"/\\|?*]/g, '')
     .replace(/\s+/g, '-')
-    .substring(0, 100) || 'coloring-book';
+    .substring(0, 100);
+  return cleaned || 'coloring-book';
+};
 
 export const exportToPdf = async (book: ColoringBook): Promise<void> => {
   const pdf = new jsPDF({

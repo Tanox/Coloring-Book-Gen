@@ -86,9 +86,17 @@ export const getApiKey = (engine: AiEngine): string | undefined => {
   const config = aiEngines[engine];
   if (!config) return undefined;
 
-  if (typeof window !== 'undefined') {
+  // Prefer window.localStorage, but fall back to the global storage when the
+  // window reference is restricted (some privacy modes / non-browser runtimes).
+  const windowStorage =
+    typeof window !== 'undefined' && window.localStorage && typeof window.localStorage.getItem === 'function'
+      ? window.localStorage
+      : undefined;
+  const storage: Storage | undefined = windowStorage ?? (typeof globalThis !== 'undefined' ? (globalThis as unknown as { localStorage?: Storage }).localStorage : undefined);
+
+  if (storage) {
     try {
-      const stored = window.localStorage.getItem(API_KEY_STORAGE_PREFIX + engine);
+      const stored = storage.getItem(API_KEY_STORAGE_PREFIX + engine);
       if (stored && stored.trim() !== '') return stored.trim();
     } catch {
       // localStorage may be unavailable (private mode / SSR) — fall back to env.

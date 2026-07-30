@@ -51,3 +51,4 @@ Thumbs.db
 /.workbuddy
 *.txt
 .codebuddy/
+tests/

@@ -23,7 +23,7 @@ export type StoryScene = { story: string; imagePrompt: string };
 
 const MAX_INPUT_LENGTH = 200;
 
-const sanitizeInput = (input: string): string => {
+export const sanitizeInput = (input: string): string => {
   if (!input) return '';
   let cleaned = input.trim();
   cleaned = cleaned.replace(/<[^>]*>/g, '');
@@ -35,11 +35,16 @@ const sanitizeInput = (input: string): string => {
   return cleaned;
 };
 
-const parseStoryArray = (raw: string): StoryScene[] => {
+export const parseStoryArray = (raw: string): StoryScene[] => {
   let text = raw.trim();
   const fence = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (fence) text = fence[1].trim();
-  const parsed: unknown = JSON.parse(text);
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    return [];
+  }
   const arr = Array.isArray(parsed)
     ? parsed
     : Array.isArray((parsed as { scenes?: unknown[] })?.scenes)
