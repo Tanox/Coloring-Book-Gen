@@ -1,5 +1,17 @@
 # 更新日志 (Changelog)
 
+## v1.6.0
+
+### 代码审查与缺陷修复（Code Review & Fixes）
+- **修复 API 密钥失效（严重）**：`ConfigContext` 以 `colormyworld:v1:apikey:` 前缀存储运行时密钥，而 `services/ai/config.getApiKey` 以 `apikey_` 前缀读取，导致在「设置」中填写的密钥从未被生成请求使用。现已统一为 `apikey_` 前缀，运行时密钥可正确生效；既有测试 `tests/ai/config.test.ts` 已锁定该契约。
+- **增强表单鲁棒性**：`GeneratorForm` 增加主题/孩子名字必填校验（新增 `form_required_fields` 文案），空提交时拦截并提示，避免生成低质量绘本。
+
+### 重构与规范对齐
+- **拆分超长文件**：将 `GeneratorForm.tsx`（210 行）中的 `stageKey`、艺术风格选项与校验逻辑抽离至 `app/components/generatorFormHelpers.ts`，组件回归 ≤200 行。
+- **国际化补全**：补全简体/繁体中文缺失的 `chat_assistant_send`、`chat_assistant_close` 与 `form_required_fields`；其余 18 种语言缺失较新文案时由 `t()` 回退英文，切换始终正常。新增 `tests/i18n.test.ts` 与 `tests/lib/generatorFormHelpers.test.ts`。
+- **README 同步**：修正中文项目结构中遗漏的 `gateway/openaiCompatible/claude/dalle` 文件，更新引擎无关的配置说明与版本号。
+- **版本统一**：全部源文件头部、OpenSpec、design-system、prototype、metadata.json、package.json 与 README 版本号升级至 v1.6.0。
+
 ## v1.5.0
 
 ### 文档与原型整体同步（Doc & Prototype Sync）

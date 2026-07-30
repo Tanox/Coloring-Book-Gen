@@ -166,7 +166,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
 
       <Button
         type="submit"
-        disabled={isLoading || !apiKeyValid.valid || !getEngineCapabilities(aiEngine).canGenerateImages}
+        disabled={isLoading || !apiKeyValid.valid || !capabilities.canGenerateImages}
         className="w-full h-12 text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm transition-colors"
         size="lg"
       >
@@ -183,7 +183,7 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
         )}
       </Button>
 
-      {!getEngineCapabilities(aiEngine).canGenerateImages && (
+      {!capabilities.canGenerateImages && (
         <div className="flex items-center gap-3 p-3 bg-muted/50 border border-border rounded-lg">
           <AlertCircle className="w-4 h-4 text-muted-foreground flex-shrink-0" />
           <span className="text-sm text-muted-foreground font-medium">{t('engine_no_image_support')}</span>
