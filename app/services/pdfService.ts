@@ -1,4 +1,4 @@
-// File: /app/services/pdfService.ts v1.6.0
+﻿// File: /app/services/pdfService.ts v1.7.0
 import { jsPDF } from 'jspdf';
 import { ColoringBook } from '../types';
 
@@ -70,3 +70,4 @@ export const exportToPdf = async (book: ColoringBook): Promise<void> => {
 
   pdf.save(`${sanitizeFilename(book.name)}-${sanitizeFilename(book.theme)}.pdf`);
 };
+

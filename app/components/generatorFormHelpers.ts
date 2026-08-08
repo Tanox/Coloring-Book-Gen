@@ -1,4 +1,4 @@
-// File: /app/components/generatorFormHelpers.ts v1.6.0
+﻿// File: /app/components/generatorFormHelpers.ts v1.7.0
 import { ArtStyle } from '../types';
 
 export type TranslateFn = (key: string) => string;
@@ -34,3 +34,4 @@ export const buildArtStyleOptions = (t: TranslateFn): { value: ArtStyle; label: 
  */
 export const validateGeneratorForm = (theme: string, name: string, t: TranslateFn): string | null =>
   !theme.trim() || !name.trim() ? t('form_required_fields') : null;
+

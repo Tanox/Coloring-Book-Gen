@@ -1,4 +1,4 @@
-// File: /app/page.tsx v1.6.0
+﻿// File: /app/page.tsx v1.7.0
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -80,5 +80,6 @@ export default function Home() {
     </div>
   );
 }
+
 
 

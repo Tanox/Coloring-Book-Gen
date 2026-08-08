@@ -1,4 +1,4 @@
-// File: /app/components/ui/dropdown-menu-sub.tsx v1.6.0
+﻿// File: /app/components/ui/dropdown-menu-sub.tsx v1.7.0
 // Positioned content + sub-menu + checkbox/radio items for the dropdown menu.
 // Split out of dropdown-menu.tsx to keep individual source files focused and
 // under 200 lines. This module has no dependency on dropdown-menu.tsx.
@@ -168,3 +168,4 @@ export {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
 }
+

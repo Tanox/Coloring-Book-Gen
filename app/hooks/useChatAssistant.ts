@@ -1,4 +1,4 @@
-// File: /app/hooks/useChatAssistant.ts v1.6.0
+﻿// File: /app/hooks/useChatAssistant.ts v1.7.0
 import { useState } from 'react';
 import { chatWithAI } from '../services/ai';
 import { useConfig } from '../contexts/ConfigContext';
@@ -47,3 +47,4 @@ export const useChatAssistant = (language: Language, initialMessage: string) => 
     handleSend,
   };
 };
+

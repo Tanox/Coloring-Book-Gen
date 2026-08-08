@@ -1,4 +1,4 @@
-// File: /app/components/ui/switch.tsx v1.6.0
+﻿// File: /app/components/ui/switch.tsx v1.7.0
 "use client"
 
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
@@ -31,3 +31,4 @@ function Switch({
 }
 
 export { Switch }
+

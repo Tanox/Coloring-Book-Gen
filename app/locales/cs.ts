@@ -1,6 +1,6 @@
-// File: /app/locales/cs.ts v1.6.0
+// File: /app/locales/cs.ts v1.7.0
 export const cs = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "Kreativita poháněná AI",
   hero_headline_part1: "Vytvořte si vlastní",
   hero_headline_part2: "Omalovánky",
@@ -40,4 +40,8 @@ export const cs = {
   settings_version: "Verze",
   settings_close: "Zavřít",
   api_key_configured: "API klíč je nakonfigurován",
+  form_difficulty_cartoon: "Karikatura",
+  form_difficulty_realistic: "Realistická",
+  engine_no_image_support: "Tento engine nepodporuje generování obrázků. Přepněte na Gemini nebo OpenAI pro vytvoření omalovánek.",
+  settings_api_keys: "API klíče (uloženy pouze lokálně)",
 };

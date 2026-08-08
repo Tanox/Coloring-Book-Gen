@@ -1,4 +1,4 @@
-// File: /app/components/GeneratorForm.tsx v1.6.0
+﻿// File: /app/components/GeneratorForm.tsx v1.7.0
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -42,8 +42,9 @@ const GeneratorForm: React.FC<GeneratorFormProps> = ({ onGenerate, isLoading, la
     setApiKeyValid(validation);
   }, [aiEngine, keyVersion]);
 
+  const capabilities = getEngineCapabilities(config.aiEngine);
+
   useEffect(() => {
-    const capabilities = getEngineCapabilities(aiEngine);
     if (!capabilities.canGenerateImages) {
       setStoryMode(false);
     }

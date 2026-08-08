@@ -1,4 +1,4 @@
-// File: /app/components/ui/progress.tsx v1.6.0
+﻿// File: /app/components/ui/progress.tsx v1.7.0
 "use client"
 
 import { Progress as ProgressPrimitive } from "@base-ui/react/progress"
@@ -82,3 +82,4 @@ export {
   ProgressLabel,
   ProgressValue,
 }
+

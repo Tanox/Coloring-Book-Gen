@@ -1,6 +1,6 @@
-// File: /app/locales/sv.ts v1.6.0
+// File: /app/locales/sv.ts v1.7.0
 export const sv = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "AI-driven kreativitet",
   hero_headline_part1: "Skapa din egen",
   hero_headline_part2: "Målarbok",
@@ -40,4 +40,8 @@ export const sv = {
   settings_version: "Version",
   settings_close: "Stäng",
   api_key_configured: "API-nyckel konfigurerad",
+  form_difficulty_cartoon: "Tecknad",
+  form_difficulty_realistic: "Realistisk",
+  engine_no_image_support: "Den här motorn stöder inte bildgenerering. Växla till Gemini eller OpenAI för att skapa en målarbok.",
+  settings_api_keys: "API-nycklar (lagras endast lokalt)",
 };

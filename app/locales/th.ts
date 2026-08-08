@@ -1,6 +1,6 @@
-// File: /app/locales/th.ts v1.6.0
+// File: /app/locales/th.ts v1.7.0
 export const th = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "ความคิดสร้างสรรค์ด้วย AI",
   hero_headline_part1: "สร้างของคุณเอง",
   hero_headline_part2: "สมุดระบายสี",
@@ -40,4 +40,8 @@ export const th = {
   settings_version: "เวอร์ชัน",
   settings_close: "ปิด",
   api_key_configured: "คีย์ API ถูกกำหนดค่าแล้ว",
+  form_difficulty_cartoon: "การ์ตูน",
+  form_difficulty_realistic: "สมจริง",
+  engine_no_image_support: "กลไกนี้ไม่รองรับการสร้างภาพ กรุณาสลับไปใช้ Gemini หรือ OpenAI เพื่อสร้างสมุดระบายสี",
+  settings_api_keys: "คีย์ API (เก็บเฉพาะในเครื่อง)",
 };

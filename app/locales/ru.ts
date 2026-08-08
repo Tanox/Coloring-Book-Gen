@@ -1,6 +1,6 @@
-// File: /app/locales/ru.ts v1.6.0
+// File: /app/locales/ru.ts v1.7.0
 export const ru = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "Творчество с помощью ИИ",
   hero_headline_part1: "Создайте свою",
   hero_headline_part2: "Книжку-раскраску",
@@ -40,4 +40,8 @@ export const ru = {
   settings_version: "Версия",
   settings_close: "Закрыть",
   api_key_configured: "API-ключ настроен",
+  form_difficulty_cartoon: "Мультяшный",
+  form_difficulty_realistic: "Реалистичный",
+  engine_no_image_support: "Этот движок не поддерживает генерацию изображений. Переключитесь на Gemini или OpenAI, чтобы создать раскраску.",
+  settings_api_keys: "API-ключи (хранятся только локально)",
 };

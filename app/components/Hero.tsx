@@ -1,4 +1,4 @@
-// File: /app/components/Hero.tsx v1.6.0
+﻿// File: /app/components/Hero.tsx v1.7.0
 'use client';
 
 import React from 'react';
@@ -33,3 +33,4 @@ const Hero: React.FC = () => {
 };
 
 export default Hero;
+

@@ -1,4 +1,4 @@
-// File: /app/components/ui/dropdown-menu.tsx v1.6.0
+﻿// File: /app/components/ui/dropdown-menu.tsx v1.7.0
 "use client"
 
 import * as React from "react"
@@ -107,3 +107,4 @@ export {
 
 // Split modules (kept as separate files for maintainability).
 export * from "./dropdown-menu-sub"
+

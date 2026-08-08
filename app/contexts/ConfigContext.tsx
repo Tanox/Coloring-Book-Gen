@@ -1,4 +1,4 @@
-// File: /app/contexts/ConfigContext.tsx v1.6.0
+﻿// File: /app/contexts/ConfigContext.tsx v1.7.0
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
@@ -138,3 +138,4 @@ export const useConfig = () => {
   }
   return context;
 };
+

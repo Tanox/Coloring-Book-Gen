@@ -1,6 +1,6 @@
-// File: /app/locales/nl.ts v1.6.0
+// File: /app/locales/nl.ts v1.7.0
 export const nl = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "AI-aangedreven creativiteit",
   hero_headline_part1: "Maak je eigen",
   hero_headline_part2: "Kleurboek",
@@ -40,4 +40,8 @@ export const nl = {
   settings_version: "Versie",
   settings_close: "Sluiten",
   api_key_configured: "API-sleutel geconfigureerd",
+  form_difficulty_cartoon: "Cartoon",
+  form_difficulty_realistic: "Realistisch",
+  engine_no_image_support: "Deze engine ondersteunt geen beeldgeneratie. Schakel over naar Gemini of OpenAI om een kleurboek te maken.",
+  settings_api_keys: "API-sleutels (alleen lokaal opgeslagen)",
 };

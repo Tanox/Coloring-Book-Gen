@@ -1,5 +1,15 @@
 # 更新日志 (Changelog)
 
+## v1.7.0
+
+### 国际化全量本地化（i18n Coverage）
+- **修复 zh-CN 重复键缺陷**：删除 `app/locales/zh-CN.ts` 中 `form_difficulty_cartoon` / `form_difficulty_realistic` / `engine_no_image_support` / `settings_api_keys` 的重复定义（后者覆盖前者导致文案不一致）。
+- **补齐缺失翻译**：为全部 18 种语言补齐 `form_difficulty_cartoon`、`form_difficulty_realistic`、`engine_no_image_support`、`settings_api_keys`；zh-TW 补齐 `cartoon`/`realistic`/`settings_api_keys`。21 种语言现已完整覆盖 v1.7.0 全部键，切换不再回退英文。
+- **版本号单一来源**：新增 `app/lib/version.ts` 导出 `APP_VERSION`，`SettingsModal` 与 `app_title` 改为动态读取，消除硬编码版本（此前 `v1.6.0` 散落多文件）。
+
+### 版本统一
+- 全部源文件头部、OpenSpec、design-system、prototype、metadata.json、package.json 与 README 版本号升级至 v1.7.0。
+
 ## v1.6.0
 
 ### 代码审查与缺陷修复（Code Review & Fixes）

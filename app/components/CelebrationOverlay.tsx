@@ -1,4 +1,4 @@
-// File: /app/components/CelebrationOverlay.tsx v1.6.0
+﻿// File: /app/components/CelebrationOverlay.tsx v1.7.0
 'use client';
 
 import React from 'react';
@@ -74,3 +74,4 @@ const CelebrationOverlay: React.FC<CelebrationOverlayProps> = ({ show, title, su
 };
 
 export default CelebrationOverlay;
+

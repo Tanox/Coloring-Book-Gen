@@ -1,6 +1,6 @@
-// File: /app/locales/id.ts v1.6.0
+// File: /app/locales/id.ts v1.7.0
 export const id = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "Kreativitas Bertenaga AI",
   hero_headline_part1: "Buat Sendiri",
   hero_headline_part2: "Buku Mewarnai",
@@ -40,4 +40,8 @@ export const id = {
   settings_version: "Versi",
   settings_close: "Tutup",
   api_key_configured: "Kunci API dikonfigurasi",
+  form_difficulty_cartoon: "Kartun",
+  form_difficulty_realistic: "Realistis",
+  engine_no_image_support: "Mesin ini tidak mendukung pembuatan gambar. Beralih ke Gemini atau OpenAI untuk membuat buku mewarnai.",
+  settings_api_keys: "Kunci API (hanya disimpan secara lokal)",
 };

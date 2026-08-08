@@ -1,4 +1,4 @@
-# 技术架构规范：绘梦世界 (ColorMyWorld) - v1.6.0
+﻿# 技术架构规范：绘梦世界 (ColorMyWorld) - v1.7.0
 
 ## 1. 系统拓扑
 - **前端核心**：Next.js 14 (App Router) + React 18.3 + TypeScript 5.5。
@@ -118,3 +118,4 @@
 - **图像懒加载**：`LazyImage` 组件 + Intersection Observer
 - **服务端组件**：布局和静态内容走 RSC
 - **并发控制**：图像生成并发限制
+

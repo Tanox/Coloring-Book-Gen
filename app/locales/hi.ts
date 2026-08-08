@@ -1,6 +1,6 @@
-// File: /app/locales/hi.ts v1.6.0
+// File: /app/locales/hi.ts v1.7.0
 export const hi = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "AI-संचालित रचनात्मकता",
   hero_headline_part1: "अपना खुद का बनाएं",
   hero_headline_part2: "रंग भरने वाली किताब",
@@ -40,4 +40,8 @@ export const hi = {
   settings_version: "संस्करण",
   settings_close: "बंद करें",
   api_key_configured: "API कुंजि कॉन्फ़िगर की गई है",
+  form_difficulty_cartoon: "कार्टून",
+  form_difficulty_realistic: "यथार्थवादी",
+  engine_no_image_support: "यह इंजन छवि जनरेशन का समर्थन नहीं करता। कलरिंग बुक बनाने के लिए Gemini या OpenAI पर स्विच करें।",
+  settings_api_keys: "API कुंजियाँ (केवल स्थानीय रूप से संग्रहीत)",
 };

@@ -1,6 +1,6 @@
-// File: /app/locales/de.ts v1.6.0
+// File: /app/locales/de.ts v1.7.0
 export const de = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "KI-gestützte Kreativität",
   hero_headline_part1: "Erstelle dein eigenes",
   hero_headline_part2: "Malbuch",
@@ -40,4 +40,8 @@ export const de = {
   settings_version: "Version",
   settings_close: "Schließen",
   api_key_configured: "API-Schlüssel konfiguriert",
+  form_difficulty_cartoon: "Cartoon",
+  form_difficulty_realistic: "Realistisch",
+  engine_no_image_support: "Diese Engine unterstützt keine Bildgenerierung. Wechsle zu Gemini oder OpenAI, um ein Malbuch zu erstellen.",
+  settings_api_keys: "API-Schlüssel (nur lokal gespeichert)",
 };

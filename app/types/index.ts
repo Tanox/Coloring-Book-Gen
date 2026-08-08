@@ -1,4 +1,4 @@
-// File: /types/index.ts v1.6.0
+﻿// File: /types/index.ts v1.7.0
 
 export type Theme = 'light' | 'dark';
 
@@ -132,3 +132,4 @@ export interface ChatMessage {
   role: 'system' | 'user' | 'assistant' | 'model';
   content: string;
 }
+

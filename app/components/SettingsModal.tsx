@@ -1,9 +1,10 @@
-// File: /app/components/SettingsModal.tsx v1.6.0
+// File: /app/components/SettingsModal.tsx v1.7.0
 'use client';
 
 import React from 'react';
 import { Settings } from 'lucide-react';
 import { useTranslation } from '../locales/TranslationProvider';
+import { APP_VERSION } from '../lib/version';
 import { useConfig } from '../contexts/ConfigContext';
 import { Language, AiEngine, ArtStyle, ImageResolution, ImageAspectRatio } from '../types';
 import { languages } from '../constants/languages';
@@ -97,7 +98,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           <div className="pt-3 border-t border-border text-xs text-muted-foreground font-medium uppercase tracking-wider">
-            {t('settings_version')} v1.6.0
+            {t('settings_version')} v{APP_VERSION}
           </div>
 
           <div className="space-y-2">

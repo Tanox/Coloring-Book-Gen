@@ -1,6 +1,6 @@
-// File: /app/locales/ko.ts v1.6.0
+// File: /app/locales/ko.ts v1.7.0
 export const ko = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "AI 기반 창의성",
   hero_headline_part1: "나만의",
   hero_headline_part2: "색칠 공부 책 만들기",
@@ -40,4 +40,8 @@ export const ko = {
   settings_version: "버전",
   settings_close: "닫기",
   api_key_configured: "API 키가 구성되었습니다",
+  form_difficulty_cartoon: "만화",
+  form_difficulty_realistic: "사실적",
+  engine_no_image_support: "이 엔진은 이미지 생성을 지원하지 않습니다. 색칠 공부 책을 만들려면 Gemini 또는 OpenAI로 전환하세요.",
+  settings_api_keys: "API 키(로컬에만 저장)",
 };

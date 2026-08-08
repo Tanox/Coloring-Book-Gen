@@ -1,6 +1,6 @@
-// File: /app/locales/vi.ts v1.6.0
+// File: /app/locales/vi.ts v1.7.0
 export const vi = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "Sáng tạo được hỗ trợ bởi AI",
   hero_headline_part1: "Tạo riêng của bạn",
   hero_headline_part2: "Sách tô màu",
@@ -40,4 +40,8 @@ export const vi = {
   settings_version: "Phiên bản",
   settings_close: "Đóng",
   api_key_configured: "Khóa API đã được cấu hình",
+  form_difficulty_cartoon: "Hoạt hình",
+  form_difficulty_realistic: "Thực tế",
+  engine_no_image_support: "Công cụ này không hỗ trợ tạo hình ảnh. Hãy chuyển sang Gemini hoặc OpenAI để tạo sách tô màu.",
+  settings_api_keys: "Khóa API (chỉ lưu cục bộ)",
 };

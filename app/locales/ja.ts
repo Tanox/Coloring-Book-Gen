@@ -1,6 +1,6 @@
-// File: /app/locales/ja.ts v1.6.0
+// File: /app/locales/ja.ts v1.7.0
 export const ja = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "AIを活用した創造性",
   hero_headline_part1: "自分だけの",
   hero_headline_part2: "塗り絵を作る",
@@ -40,4 +40,8 @@ export const ja = {
   settings_version: "バージョン",
   settings_close: "閉じる",
   api_key_configured: "APIキーが設定されています",
+  form_difficulty_cartoon: "カートゥーン",
+  form_difficulty_realistic: "リアル",
+  engine_no_image_support: "このエンジンは画像生成に対応していません。塗り絵を作成するには Gemini または OpenAI に切り替えてください。",
+  settings_api_keys: "APIキー（ローカルにのみ保存）",
 };

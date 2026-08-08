@@ -1,4 +1,4 @@
-// File: /app/components/ui/checkbox.tsx v1.6.0
+﻿// File: /app/components/ui/checkbox.tsx v1.7.0
 "use client"
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
@@ -28,3 +28,4 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
 }
 
 export { Checkbox }
+

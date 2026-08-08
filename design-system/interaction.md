@@ -1,4 +1,4 @@
-# 交互标准 · Interaction Standards — ColorMyWorld v1.6.0
+﻿# 交互标准 · Interaction Standards — ColorMyWorld v1.7.0
 
 > 所有交互模式、反馈、错误与空状态的最小颗粒度规范。原型与代码必须一致实现。
 
@@ -123,3 +123,4 @@
 ### 7.5 i18n 微文案约定
 - `t(key)` 现已在 key 缺失时**回退英文**（`TranslationProvider`），避免裸 key 上屏。
 - 新增微文案键在 `en` 提供；`zh-CN` / `zh-TW` 已翻译，其余 18 语言自动回退英文（与 Cartoon/Realistic 现状一致）。
+

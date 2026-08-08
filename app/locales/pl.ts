@@ -1,6 +1,6 @@
-// File: /app/locales/pl.ts v1.6.0
+// File: /app/locales/pl.ts v1.7.0
 export const pl = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "Kreatywność wspierana przez AI",
   hero_headline_part1: "Stwórz własną",
   hero_headline_part2: "Kolorowankę",
@@ -40,4 +40,8 @@ export const pl = {
   settings_version: "Wersja",
   settings_close: "Zamknij",
   api_key_configured: "Klucz API skonfigurowany",
+  form_difficulty_cartoon: "Kreskówka",
+  form_difficulty_realistic: "Realistyczny",
+  engine_no_image_support: "Ten silnik nie obsługuje generowania obrazów. Przełącz na Gemini lub OpenAI, aby utworzyć kolorowankę.",
+  settings_api_keys: "Klucze API (przechowywane tylko lokalnie)",
 };

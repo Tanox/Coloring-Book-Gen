@@ -1,4 +1,4 @@
-// File: /app/components/ChatAssistant.tsx v1.6.0
+﻿// File: /app/components/ChatAssistant.tsx v1.7.0
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -144,3 +144,4 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language }) => {
 };
 
 export default ChatAssistant;
+

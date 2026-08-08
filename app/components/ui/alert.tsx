@@ -1,4 +1,4 @@
-// File: /app/components/ui/alert.tsx v1.6.0
+﻿// File: /app/components/ui/alert.tsx v1.7.0
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -75,3 +75,4 @@ function AlertAction({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 export { Alert, AlertTitle, AlertDescription, AlertAction }
+

@@ -1,6 +1,6 @@
-// File: /app/locales/tr.ts v1.6.0
+// File: /app/locales/tr.ts v1.7.0
 export const tr = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "Yapay Zeka Destekli Yaratıcılık",
   hero_headline_part1: "Kendi Kitabını Oluştur",
   hero_headline_part2: "Boyama Kitabı",
@@ -40,4 +40,8 @@ export const tr = {
   settings_version: "Versiyon",
   settings_close: "Kapat",
   api_key_configured: "API Anahtarı yapılandırıldı",
+  form_difficulty_cartoon: "Çizgi Film",
+  form_difficulty_realistic: "Gerçekçi",
+  engine_no_image_support: "Bu motor görsel oluşturmayı desteklemiyor. Boyama kitabı oluşturmak için Gemini veya OpenAI'ye geçin.",
+  settings_api_keys: "API Anahtarları (yalnızca yerel olarak saklanır)",
 };

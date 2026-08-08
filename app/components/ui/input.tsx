@@ -1,4 +1,4 @@
-// File: /app/components/ui/input.tsx v1.6.0
+﻿// File: /app/components/ui/input.tsx v1.7.0
 import * as React from "react"
 import { Input as InputPrimitive } from "@base-ui/react/input"
 
@@ -19,3 +19,4 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
 }
 
 export { Input }
+

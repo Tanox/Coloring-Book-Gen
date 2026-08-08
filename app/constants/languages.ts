@@ -1,4 +1,4 @@
-// File: /app/constants/languages.ts v1.6.0
+﻿// File: /app/constants/languages.ts v1.7.0
 import { Language } from '../types';
 
 export const languages: { code: Language; label: string }[] = [
@@ -24,3 +24,4 @@ export const languages: { code: Language; label: string }[] = [
   { code: 'tr', label: 'Türkçe' },
   { code: 'vi', label: 'Tiếng Việt' },
 ];
+

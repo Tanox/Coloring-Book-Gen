@@ -1,6 +1,6 @@
-// File: /app/locales/ar.ts v1.6.0
+// File: /app/locales/ar.ts v1.7.0
 export const ar = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "إبداع مدعوم بالذكاء الاصطناعي",
   hero_headline_part1: "اصنع بنفسك",
   hero_headline_part2: "كتاب التلوين",
@@ -40,4 +40,8 @@ export const ar = {
   settings_version: "الإصدار",
   settings_close: "إغلاق",
   api_key_configured: "مفتاح API مُعِدّ",
+  form_difficulty_cartoon: "كرتوني",
+  form_difficulty_realistic: "واقعي",
+  engine_no_image_support: "هذا المحرك لا يدعم توليد الصور. يرجى التبديل إلى Gemini أو OpenAI لإنشاء كتاب تلوين.",
+  settings_api_keys: "مفاتيح API (مخزنة محليًا فقط)",
 };

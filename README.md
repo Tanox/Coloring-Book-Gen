@@ -281,4 +281,4 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ---
 
-**Version**: 1.6.0
+**Version**: 1.7.0

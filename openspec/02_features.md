@@ -1,4 +1,4 @@
-# 功能规范：绘梦世界 (ColorMyWorld) - v1.6.0
+﻿# 功能规范：绘梦世界 (ColorMyWorld) - v1.7.0
 
 ## 1. 魔法生成流 (Magic Flow)
 
@@ -58,3 +58,4 @@
 - **支持引擎**：Gemini（图像+故事+聊天）、OpenAI（图像+故事+聊天）、DeepSeek（故事+聊天）、Claude（故事+聊天）、Doubao（故事+聊天）、Qianwen（故事+聊天）。
 - **动态能力**：根据所选 AI 引擎，自动启用/禁用相应功能选项。
 - **密钥配置**：支持通过环境变量（NEXT_PUBLIC_*_API_KEY）配置 API 密钥。
+

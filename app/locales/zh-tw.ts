@@ -1,6 +1,6 @@
-// File: /app/locales/zh-tw.ts v1.6.0
+// File: /app/locales/zh-tw.ts v1.7.0
 export const zh_TW = {
-  app_title: "ColorMyWorld v1.6.0",
+  app_title: "ColorMyWorld",
   ai_powered_creativity: "AI 驅動的創造力",
   hero_headline_part1: "創建你自己的",
   hero_headline_part2: "著色本",

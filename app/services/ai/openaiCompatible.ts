@@ -1,4 +1,4 @@
-// File: /app/services/ai/openaiCompatible.ts v1.6.0
+﻿// File: /app/services/ai/openaiCompatible.ts v1.7.0
 // Generic OpenAI-compatible chat client. Covers OpenAI, DeepSeek, Doubao and
 // Qianwen, which all expose an OpenAI-compatible `/chat/completions` endpoint.
 import { AiEngine, AiServiceResponse, ChatMessage } from '../../types';
@@ -73,3 +73,4 @@ export async function openaiChat(
     return { success: false, message: `${engine.toUpperCase()} request failed.`, error: message };
   }
 }
+

@@ -1,4 +1,4 @@
-// File: /app/components/ui/select.tsx v1.6.0
+﻿// File: /app/components/ui/select.tsx v1.7.0
 "use client"
 
 import * as React from "react"
@@ -164,3 +164,4 @@ export {
 
 // Split modules (kept as separate files for maintainability).
 export { SelectScrollUpButton, SelectScrollDownButton } from "./select-scroll"
+

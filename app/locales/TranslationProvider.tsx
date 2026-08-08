@@ -1,4 +1,4 @@
-// File: /app/locales/TranslationProvider.tsx v1.6.0
+﻿// File: /app/locales/TranslationProvider.tsx v1.7.0
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
@@ -83,3 +83,4 @@ export const useTranslation = () => {
   }
   return context;
 };
+
