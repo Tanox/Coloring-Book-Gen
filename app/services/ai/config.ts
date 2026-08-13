@@ -86,13 +86,15 @@ export const getApiKey = (engine: AiEngine): string | undefined => {
   const config = aiEngines[engine];
   if (!config) return undefined;
 
-  // Read the runtime LocalStorage key (priority over env). Use the bare
-  // `localStorage` global so it works in browsers and in test environments
-  // that stub the global; fall back to env when storage is unavailable.
+  // Read the runtime LocalStorage key (priority over env). Prefer
+  // `window.localStorage`, which is the persistent, standards-compliant store in
+  // browsers and in jsdom-based tests. The bare `localStorage` global can resolve
+  // to a non-working native shim under some runtimes, so we avoid it. Falls back
+  // to env when storage is unavailable (SSR / private mode).
   let stored: string | undefined;
   try {
-    if (typeof localStorage !== 'undefined') {
-      stored = localStorage.getItem(API_KEY_STORAGE_PREFIX + engine)?.trim() || undefined;
+    if (typeof window !== 'undefined' && window.localStorage) {
+      stored = window.localStorage.getItem(API_KEY_STORAGE_PREFIX + engine)?.trim() || undefined;
     }
   } catch {
     // localStorage may be unavailable (private mode / SSR) — fall back to env.

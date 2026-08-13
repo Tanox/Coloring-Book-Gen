@@ -1,5 +1,17 @@
 # 更新日志 (Changelog)
 
+## v1.7.1
+
+### 代码审查与缺陷修复（Code Review & Fixes）
+- **修复生成阶段误判为完成（逻辑缺陷）**：`app/components/generatorFormHelpers.ts` 的 `getStageKey` 在「0 页已生成 / 0 页总数」时 `(0,0)` 误返回 `gen_stage_finish`，现已改为仅当 `totalPages > 0 && generatedPages >= totalPages` 时才返回完成阶段，未开始时正确显示 `gen_stage_idea`。
+- **修复测试套件与实现的契约不匹配**：`tests/ai/config.test.ts` 写入的 localStorage 键使用大写引擎名（`apikey_GEMINI`），而 `config.getApiKey` 与运行时 `ConfigContext` 使用小写枚举值（`apikey_gemini`），导致 4 个用例因键大小写不匹配回退到 env 而失败。测试改用 `apikey_${engine}`（与实现一致），全部通过。
+- **修复 i18n 测试导入解析失败**：`tests/i18n.test.ts` 相对路径导入 `app/locales/en` 在根级 `tests/` 下无法被 vite 解析，改为经 `vitest.config.ts` 新增的 `@` 别名从 `@/app/locales/translations` 获取 `en` 表。
+- **修复测试环境 localStorage 不可用**：移除 `vitest.config.ts` 中 Node 26 已不支持的 `--no-experimental-web-storage` 启动参数（导致 vitest 启动失败），并在 `tests/setup.ts` 中仅在原生 `localStorage` 缺失时安装内存 mock。
+- **清理死代码与未使用声明**：删除 `app/hooks/useBookGenerator.ts` 中无效的 `newBook.pages = book?.pages ?? []` 赋值，以及未使用的 `ColoringBookPage` 导入与 `setTotalPages`。
+
+### 版本统一
+- package.json 与 metadata.json 版本号升级至 v1.7.1。
+
 ## v1.7.0
 
 ### 国际化全量本地化（i18n Coverage）

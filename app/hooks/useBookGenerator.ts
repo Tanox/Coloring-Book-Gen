@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { generateStories, generateImage, type StoryScene } from '../services/ai';
-import { ColoringBook, ColoringBookPage, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine, Language } from '../types';
+import { ColoringBook, ImageResolution, ImageAspectRatio, ArtStyle, AiEngine, Language } from '../types';
 import { validateBookInput } from '../lib/bookValidation';
 import { generateBookPages } from '../lib/pageImageGenerator';
 
@@ -13,7 +13,7 @@ export const useBookGenerator = (lang: Language) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [generatedPages, setGeneratedPages] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(NUMBER_OF_PAGES);
+  const [totalPages] = useState<number>(NUMBER_OF_PAGES);
 
   const generateBook = async (config: {
     theme: string;
@@ -69,7 +69,6 @@ export const useBookGenerator = (lang: Language) => {
         stories,
         (completed) => {
           setGeneratedPages(completed);
-          newBook.pages = book?.pages ?? [];
         },
       );
 

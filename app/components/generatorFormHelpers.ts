@@ -9,7 +9,7 @@ export type TranslateFn = (key: string) => string;
  */
 export const getStageKey = (generatedPages: number, totalPages: number): string => {
   const ratio = totalPages > 0 ? generatedPages / totalPages : 0;
-  if (generatedPages >= totalPages) return 'gen_stage_finish';
+  if (totalPages > 0 && generatedPages >= totalPages) return 'gen_stage_finish';
   if (ratio <= 0.2) return 'gen_stage_idea';
   if (ratio <= 0.6) return 'gen_stage_sketch';
   return 'gen_stage_magic';
