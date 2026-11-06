@@ -1,4 +1,4 @@
-﻿# UI/UX 设计规范：ColorMyWorld - v1.7.0
+﻿# UI/UX 设计规范：ColorMyWorld - v1.7.2
 
 > 极简高端（Minimal Premium）方向。本文件为界面规范的**索引**，完整令牌与组件细节见 `design-system/`：
 > - `design-system/MASTER.md` — 色彩 / 字体 / 间距 / 图标 / 动效（唯一事实来源）
@@ -51,7 +51,7 @@
 
 - **原型 ↔ 代码**：`prototype/index.html` 使用与 `app/globals.css` 相同的 oklch 令牌与组件形态，作为视觉回归基准。
 - **代码 ↔ 规范**：所有 UI 组件经 shadcn/ui 实现，禁止原生 `<button>`/`<input>`（已重构 `ChatAssistant`）。
-- **规范 ↔ 文档**：本文件与 `design-system/*` 同步至 v1.7.0；功能枚举（如 5 种艺术风格）与 `openspec/02_features.md`、代码三元一致。
+- **规范 ↔ 文档**：本文件与 `design-system/*` 同步至 v1.7.2；功能枚举（如 5 种艺术风格）与 `openspec/02_features.md`、代码三元一致。
 
 ## 6. 页面布局
 
@@ -77,4 +77,15 @@
 - 交互组件提供 `aria-label`，动态区域 `aria-live`。
 - 键盘可达，对话框焦点 Trap、Esc 关闭。
 - 色彩对比度符合 WCAG AA；尊重 `prefers-reduced-motion`。
+
+## 8. 页脚版本与构建标识
+
+应用页脚（`app/components/Footer.tsx`）必须展示当前版本号与构建编号，格式 `V主.次.修 · build yymmddhhmm`（示例 `V1.2.3 · build 2611051259`）。
+
+- **版本号**：取自单一来源 `package.json` 的 `version`；由 `next.config.mjs` 在构建期注入 `NEXT_PUBLIC_APP_VERSION`，`app/lib/version.ts` 统一导出 `APP_VERSION`，禁止在组件或文案中硬编码。
+- **build 编号**：10 位本地时间戳 `yymmddhhmm`（2 位年份 + 月 + 日 + 时 + 分，如 `2611051259` = 2026-11-05 12:59）；由 `next.config.mjs` 构建期注入 `NEXT_PUBLIC_BUILD_ID`，dev/build 均生效。注入缺失时页脚仅展示版本号，不展示占位符。
+- **唯一位置**：页脚是页面级版本展示的唯一位置；页眉（`Header` 等任何头部组件）不得出现版本号。设置弹窗等组件内的版本信息不属于页面级展示，不受此约束。
+- **语义化 id**：页脚容器 `id="app-footer"`，版本展示节点 `id="app-footer-version"`，便于测试定位与 ARIA 关联。
+- 页脚若原本展示「更新日期」，一律替换为 build 编号，不再要求展示更新日期。
+- 组件职责登记见 `design-system/components.md` §3 的 Footer 行。
 

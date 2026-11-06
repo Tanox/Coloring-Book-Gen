@@ -1,5 +1,5 @@
 {
-  "name": "ColorMyWorld v1.7.1",
+  "name": "ColorMyWorld v1.7.2",
   "description": "A creative tool to generate personalized children's coloring books using AI, powered by Next.js.",
   "techStack": "Next.js 14 (App Router), Tailwind CSS v4, TypeScript, Google GenAI SDK",
   "architecture": {
@@ -10,7 +10,8 @@
   "rules": [
     "Follow Semantic Versioning",
     "Use openspec/ for project documentation",
-    "Ensure all files have version headers"
+    "Ensure all files have version headers",
+    "Display APP_VERSION and build id (yymmddhhmm) in the footer only, never in the header"
   ],
   "requestFramePermissions": []
 }

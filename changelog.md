@@ -1,5 +1,16 @@
 # 更新日志 (Changelog)
 
+## v1.7.2
+
+### 页脚版本与构建标识
+- 应用页脚（`app/components/Footer.tsx`）新增版本号与 build 编号展示，格式 `V主.次.修 · build yymmddhhmm`；页脚容器补语义化 id `app-footer`，版本节点 id `app-footer-version`。
+- `next.config.mjs` 构建期注入 `NEXT_PUBLIC_APP_VERSION`（读取 `package.json` 单一来源）与 `NEXT_PUBLIC_BUILD_ID`（10 位本地时间戳 `yymmddhhmm`），dev/build 均生效；`app/lib/version.ts` 统一导出 `APP_VERSION` / `BUILD_ID`，注入缺失时页脚仅展示版本号。
+- 修复 `app/lib/version.ts` 中 `APP_VERSION` 停留在 1.7.0 的版本漂移。
+- 规范条款落入 `openspec/05_uiux.md` §8、`design-system/components.md` §3 与 `metadata.json` 的 `rules`；页眉不展示版本号。
+
+### 版本统一
+- package.json、metadata.json、README 与被改动文件头注释版本号升级至 v1.7.2。
+
 ## v1.7.1
 
 ### 代码审查与缺陷修复（Code Review & Fixes）

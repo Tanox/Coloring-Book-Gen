@@ -1,5 +1,26 @@
+import { readFileSync } from 'node:fs';
+
+// 构建期注入：版本号取自 package.json 单一来源，build 编号为 10 位本地时间戳 yymmddhhmm
+const { version } = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url), 'utf8')
+);
+
+const pad = (value) => String(value).padStart(2, '0');
+const now = new Date();
+const buildId = [
+  pad(now.getFullYear() % 100),
+  pad(now.getMonth() + 1),
+  pad(now.getDate()),
+  pad(now.getHours()),
+  pad(now.getMinutes()),
+].join('');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_APP_VERSION: version,
+    NEXT_PUBLIC_BUILD_ID: buildId,
+  },
   async headers() {
     return [
       {

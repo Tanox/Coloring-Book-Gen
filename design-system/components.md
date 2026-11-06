@@ -1,4 +1,4 @@
-﻿# 组件库规范 · Component Library — ColorMyWorld v1.7.0
+﻿# 组件库规范 · Component Library — ColorMyWorld v1.7.2
 
 > 全部基于 shadcn/ui（`@base-ui/react` 实现）。基础组件位于 `app/components/ui/`，复合/业务组件位于 `app/components/`。
 
@@ -71,7 +71,7 @@
 | SettingsModal | `SettingsModal.tsx` | 全局偏好 Dialog | `isOpen` |
 | PageSkeleton | `PageSkeleton.tsx` | shimmer 骨架占位 | `count` |
 | LazyImage | `LazyImage.tsx` | IntersectionObserver 懒加载 | `fill` + `referrerPolicy` |
-| Footer | `Footer.tsx` | 页脚版权 | — |
+| Footer | `Footer.tsx` | 页脚版权 + 版本号与 build 编号（`V主.次.修 · build yymmddhhmm`，见 `openspec/05_uiux.md` §8） | `id="app-footer"` / `id="app-footer-version"` |
 
 ---
 
